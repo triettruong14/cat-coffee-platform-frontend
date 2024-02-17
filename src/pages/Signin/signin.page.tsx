@@ -1,9 +1,14 @@
-import { GithubOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
+import {
+  ArrowLeftOutlined,
+  GithubOutlined,
+  LockOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Button, Col, Flex, Form, Input, Row, Space } from 'antd';
 import { styled } from 'styled-components';
 import background from '../../assets/saigon_background.jpeg';
 import { useAppDispatch } from '../../redux/hooks';
-import { signIn } from '../../redux/slices/user.thunks';
+import { signInThunk } from '../../redux/slices/auth/auth.thunks';
 
 const FlexContainer = styled(Flex)`
   width: 100vw;
@@ -27,8 +32,6 @@ const SignInContainer = styled(Flex)`
   }
 `;
 
-const axios = require('axios');
-
 export const SignIn = () => {
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
@@ -36,14 +39,14 @@ export const SignIn = () => {
   const handleSubmit = () => {
     const email = form.getFieldValue('email');
     const password = form.getFieldValue('password');
-    dispatch(signIn({ email, password }));
+    dispatch(signInThunk({ email, password }));
   };
 
   return (
     <>
       <FlexContainer align="start" justify="center">
         <SignInContainer vertical>
-          <Form name="signin-form" form={form}>
+          <Form name="signin-form" form={form} onFinish={handleSubmit}>
             <Flex align="center" justify="center">
               <GithubOutlined
                 style={{
@@ -96,11 +99,17 @@ export const SignIn = () => {
                 </Form.Item>
               </Col>
             </Row>
-            <Flex justify="end">
-              <Button type="link">
-                <a href="/register">Register</a>
-              </Button>
-              <Button type="primary" htmlType="submit" onClick={handleSubmit}>
+            <Flex justify="end" style={{ marginBottom: '1rem' }}>
+              <a href="/register">Register a new account</a>
+            </Flex>
+            <Flex justify="space-between">
+              <Space.Compact>
+                <Button type="link">
+                  <ArrowLeftOutlined />
+                  <a href="/"> Back to Home</a>
+                </Button>
+              </Space.Compact>
+              <Button type="primary" htmlType="submit">
                 Sign In
               </Button>
             </Flex>

@@ -3,10 +3,12 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import { SignIn } from './pages/Signin';
 import { ConfigProvider } from 'antd';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import { Register, SignIn } from './pages';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
   {
@@ -19,7 +21,7 @@ const router = createBrowserRouter([
   },
   {
     path: '/register',
-    element: <div>Register</div>,
+    element: <Register />,
   },
 ]);
 const root = ReactDOM.createRoot(
@@ -37,6 +39,7 @@ root.render(
           },
         }}
       >
+        <ToastContainer />
         <RouterProvider router={router} />
       </ConfigProvider>
     </React.StrictMode>
