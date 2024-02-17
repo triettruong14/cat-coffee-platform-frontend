@@ -1,6 +1,6 @@
 import React from 'react';
-import { AppHeader } from './components/header/Header';
-import { AppLayout } from './components/layout/Layout';
+import { AppHeader } from './components/Header';
+import { AppLayout } from './components/Layout';
 import { Home } from './pages';
 
 function App() {

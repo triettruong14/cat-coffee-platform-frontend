@@ -28,6 +28,18 @@ const Navigation = styled(Flex)`
 
 const StyledTitle = styled(Title)`
   margin: 0;
+  color: #ee4d2d !important;
+`;
+
+const SignInButton = styled(Button)`
+  background-color: #fff;
+  color: #ee4d2d;
+  border: none;
+  border: 1px solid #ee4d2d;
+  &:hover {
+    color: #ea7159;
+    border: 1px solid #ea7159;
+  }
 `;
 
 export const AppHeader = () => {
@@ -35,12 +47,12 @@ export const AppHeader = () => {
     <Header style={headerStyle}>
       <Navigation justify="space-between" align="center">
         <Space>
-          <GithubOutlined style={{ fontSize: '25px' }} />
-          <StyledTitle level={5}>Cat Coffee Platform</StyledTitle>
+          <GithubOutlined style={{ fontSize: '35px', color: '#ee4d2d' }} />
+          <StyledTitle level={4}>Cat Coffee Platform</StyledTitle>
         </Space>
-        <Button>
+        <SignInButton>
           <Link to={`signin`}>Sign in</Link>
-        </Button>
+        </SignInButton>
       </Navigation>
     </Header>
   );

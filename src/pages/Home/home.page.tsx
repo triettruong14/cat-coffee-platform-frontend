@@ -45,17 +45,18 @@ const WelcomeTitle = styled(Title)`
   color: #fff !important;
 `;
 
+//array of tags relating to cat cafes
 const mockTags = [
-  'Coffee',
-  'Cats',
-  'Cute',
-  'Funny',
-  'Memes',
-  'Coffee',
-  'Cats',
-  'Cute',
-  'Funny',
-  'Memes',
+  'Cat Cafe',
+  'Coffee Shop',
+  'Restaurant',
+  'Bar',
+  'Bakery',
+  'Tea House',
+  'Pet Store',
+  'Cat Hotel',
+  'Cat Grooming',
+  'Cat Adoption',
 ];
 
 export const Home = () => {
