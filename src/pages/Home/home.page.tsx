@@ -3,10 +3,38 @@ import Search from 'antd/es/input/Search';
 import Title from 'antd/es/typography/Title';
 import { styled } from 'styled-components';
 import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
+import background from '../../assets/saigon_background.jpeg';
+
+const BackgroundWrapper = styled(Flex)`
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url(${background});
+  height: 100vh;
+  overflow: hidden;
+  background-size: cover;
+  padding-block: 4rem;
+`;
 
 const ContentWrapper = styled(Row)`
-  width: 80%;
+  width: 90%;
+  overflow-y: hidden;
   padding-inline: 1rem;
+`;
+
+const ShopsSection = styled.div`
+  display: flex;
+  height: 692px;
+  width: 100%;
+  overflow-y: scroll;
+  padding: 1rem;
+  border-radius: 10px;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  background: #fff;
+`;
+
+const ShopsWrapper = styled(Space)`
+  justify-content: center;
+  width: 740px;
 `;
 
 const Category = styled(Button)`
@@ -14,9 +42,7 @@ const Category = styled(Button)`
 `;
 
 const WelcomeTitle = styled(Title)`
-  .ant-typography h2 {
-    margin-bottom: 0 !important;
-  }
+  color: #fff !important;
 `;
 
 const mockTags = [
@@ -35,9 +61,9 @@ const mockTags = [
 export const Home = () => {
   return (
     <>
-      <Flex justify="center">
-        <ContentWrapper gutter={16}>
-          <Col span={12}>
+      <BackgroundWrapper justify="center">
+        <ContentWrapper gutter={32} justify="center">
+          <Col span={8}>
             <Row gutter={[16, 8]}>
               <Col span={24}>
                 <WelcomeTitle level={2}>
@@ -50,19 +76,34 @@ export const Home = () => {
               <Col span={24}>
                 <Space wrap>
                   {mockTags.map((tag) => (
-                    <Category key={tag}>{tag}</Category>
+                    <Category ghost key={tag} type="default">
+                      {tag}
+                    </Category>
                   ))}
                 </Space>
               </Col>
             </Row>
           </Col>
-          <Col span={12}>
-            <Card cover={<img src={stockCoffeeShop} />}>
-              <Card.Meta description="This is a coffee shop." />
-            </Card>
+          <Col span={16}>
+            <ShopsSection>
+              <ShopsWrapper wrap align="center" size={10}>
+                {Array.from({ length: 14 }).map((_, index) => (
+                  <Card
+                    key={index}
+                    cover={
+                      <img src={stockCoffeeShop} width={100} height={120} />
+                    }
+                    size="small"
+                  >
+                    <Card.Meta description="Generic Coffee Shop" />
+                    <p>28 Sixth Avenue</p>
+                  </Card>
+                ))}
+              </ShopsWrapper>
+            </ShopsSection>
           </Col>
         </ContentWrapper>
-      </Flex>
+      </BackgroundWrapper>
     </>
   );
 };
