@@ -2,6 +2,8 @@ import { GithubOutlined, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Col, Flex, Form, Input, Row, Space } from 'antd';
 import { styled } from 'styled-components';
 import background from '../../assets/saigon_background.jpeg';
+import { useAppDispatch } from '../../redux/hooks';
+import { signIn } from '../../redux/slices/user.thunks';
 
 const FlexContainer = styled(Flex)`
   width: 100vw;
@@ -25,12 +27,23 @@ const SignInContainer = styled(Flex)`
   }
 `;
 
+const axios = require('axios');
+
 export const SignIn = () => {
+  const dispatch = useAppDispatch();
+  const [form] = Form.useForm();
+
+  const handleSubmit = () => {
+    const email = form.getFieldValue('email');
+    const password = form.getFieldValue('password');
+    dispatch(signIn({ email, password }));
+  };
+
   return (
     <>
       <FlexContainer align="start" justify="center">
         <SignInContainer vertical>
-          <Form name="signin-form">
+          <Form name="signin-form" form={form}>
             <Flex align="center" justify="center">
               <GithubOutlined
                 style={{
@@ -87,7 +100,7 @@ export const SignIn = () => {
               <Button type="link">
                 <a href="/register">Register</a>
               </Button>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" onClick={handleSubmit}>
                 Sign In
               </Button>
             </Flex>
