@@ -9,6 +9,8 @@ import { store } from './redux/store';
 import { Register, Search, SignIn } from './pages';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AppLayout } from './components/Layout';
+import { AppHeader } from './components/Header';
 
 const router = createBrowserRouter([
   {
@@ -25,7 +27,11 @@ const router = createBrowserRouter([
   },
   {
     path: '/search',
-    element: <Search />,
+    element: (
+      <AppLayout header={<AppHeader />}>
+        <Search />
+      </AppLayout>
+    ),
   },
 ]);
 const root = ReactDOM.createRoot(

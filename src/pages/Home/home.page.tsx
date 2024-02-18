@@ -54,20 +54,6 @@ const WelcomeTitle = styled(Title)`
   color: #fff !important;
 `;
 
-//array of tags relating to cat cafes
-const mockTags = [
-  'Cat Cafe',
-  'Coffee Shop',
-  'Restaurant',
-  'Bar',
-  'Bakery',
-  'Tea House',
-  'Pet Store',
-  'Cat Hotel',
-  'Cat Grooming',
-  'Cat Adoption',
-];
-
 export const Home = () => {
   const debounce = useDebounce(400);
   const navigate = useNavigate();
