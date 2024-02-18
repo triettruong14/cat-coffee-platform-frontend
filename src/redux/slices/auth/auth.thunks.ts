@@ -6,8 +6,7 @@ export const signInThunk = createAsyncThunk(
   async ({ email, password }: { email: string; password: string }) => {
     try {
       const response = await axios.post(
-        'http://localhost:5193/api/Account/login',
-        { email, password },
+        `http://localhost:5193/api/Account/login?email=${email}&password=${password}`,
       );
       console.log('response.data', response.data);
       return response.data;

@@ -4,6 +4,8 @@ import Title from 'antd/es/typography/Title';
 import { styled } from 'styled-components';
 import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
 import background from '../../assets/saigon_background.jpeg';
+import { useDebounce } from '../../hooks';
+import { useNavigate } from 'react-router-dom';
 
 const BackgroundWrapper = styled(Flex)`
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
@@ -60,6 +62,15 @@ const mockTags = [
 ];
 
 export const Home = () => {
+  const debounce = useDebounce(400);
+  const navigate = useNavigate();
+
+  const handleOnSearch = (value: string) => {
+    debounce(() => {
+      navigate(`/search?search=${value}`);
+    });
+  };
+
   return (
     <>
       <BackgroundWrapper justify="center">
@@ -72,7 +83,7 @@ export const Home = () => {
                 </WelcomeTitle>
               </Col>
               <Col span={24}>
-                <Search size="large" />
+                <Search size="large" allowClear onSearch={handleOnSearch} />
               </Col>
               <Col span={24}>
                 <Space wrap>
