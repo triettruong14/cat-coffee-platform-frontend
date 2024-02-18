@@ -74,7 +74,6 @@ export const Home = () => {
 
   useEffect(() => {
     if (isLoadingGetCatTypes) {
-      console.log('loading');
     }
   }, [isLoadingGetCatTypes]);
 

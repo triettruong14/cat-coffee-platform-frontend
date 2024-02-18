@@ -2,9 +2,7 @@ import { Layout as AntDLayout } from 'antd';
 
 const { Content } = AntDLayout;
 
-const layoutStyle: React.CSSProperties = {
-  backgroundColor: '#fff',
-};
+const layoutStyle: React.CSSProperties = {};
 
 interface AppLayoutProps {
   header?: React.ReactNode;

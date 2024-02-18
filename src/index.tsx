@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
-import { Register, Search, SignIn } from './pages';
+import { CoffeeShopDetail, Register, Search, SignIn } from './pages';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppLayout } from './components/Layout';
@@ -30,6 +30,14 @@ const router = createBrowserRouter([
     element: (
       <AppLayout header={<AppHeader />}>
         <Search />
+      </AppLayout>
+    ),
+  },
+  {
+    path: '/coffee-shop/:id',
+    element: (
+      <AppLayout header={<AppHeader />}>
+        <CoffeeShopDetail />
       </AppLayout>
     ),
   },
