@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { searchCoffeeShopThunk } from './coffee.thunks';
+import { searchCoffeeShopByNameThunk } from './coffeeShop.thunks';
 
-interface CoffeeShopState {
+export interface CoffeeShopState {
   searchResults?: any[];
   error?: string;
 }
@@ -10,22 +10,25 @@ const initialState: CoffeeShopState = {
   searchResults: [],
 };
 
-export const coffeeShopSlice = createSlice({
+const coffeeShopSlice = createSlice({
   name: 'coffeeShop',
   initialState,
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(searchCoffeeShopThunk.pending, (state, action) => {
+      .addCase(searchCoffeeShopByNameThunk.pending, (state, action) => {
         state.searchResults = [];
       })
-      .addCase(searchCoffeeShopThunk.fulfilled, (state, action) => {
+      .addCase(searchCoffeeShopByNameThunk.fulfilled, (state, action) => {
         state.searchResults = action.payload;
       })
-      .addCase(searchCoffeeShopThunk.rejected, (state, action) => {
+      .addCase(searchCoffeeShopByNameThunk.rejected, (state, action) => {
         const { error } = action;
         state.searchResults = [];
         state.error = error.message;
       });
   },
 });
+
+export const coffeeShopReducer = coffeeShopSlice.reducer;
+export const {} = coffeeShopSlice.actions;
