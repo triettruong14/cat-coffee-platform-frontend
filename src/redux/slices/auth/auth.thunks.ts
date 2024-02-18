@@ -31,7 +31,6 @@ export const signInThunk = createAsyncThunk(
 export const registerThunk = createAsyncThunk(
   'auth/register',
   async ({
-    roleId,
     username,
     phone,
     address,
@@ -39,9 +38,14 @@ export const registerThunk = createAsyncThunk(
     email,
     password,
   }: RegisterPayload) => {
-    const formattedDateOfBirth = dayjs(dateOfBirth).format('DD/MM/YYYY');
+    const formattedDateOfBirth = null;
+
+    if (dateOfBirth) {
+      const formattedDateOfBirth = dayjs(dateOfBirth).format('DD/MM/YYYY');
+    }
+
     const response = await axios.post(
-      `http://localhost:5193/api/Account/create,${username},${email},${password},${phone},${address},${formattedDateOfBirth}`,
+      `http://localhost:5193/api/Account/create${username !== undefined && username !== null ? `,${username}` : ''}${email !== undefined && email !== null ? `,${email}` : ''}${password !== undefined && password !== null ? `,${password}` : ''}${phone !== undefined && phone !== null ? `,${phone}` : ''}${address !== undefined && address !== null ? `,${address}` : ''}${formattedDateOfBirth !== undefined && formattedDateOfBirth !== null ? `,${formattedDateOfBirth}` : ''}`,
     );
     console.log('response.data', response.data);
     return response.data;
