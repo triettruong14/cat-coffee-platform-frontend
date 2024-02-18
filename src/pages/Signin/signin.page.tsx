@@ -5,9 +5,11 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { Button, Col, Flex, Form, Input, Row, Space } from 'antd';
+import { useEffect } from 'react';
 import { styled } from 'styled-components';
 import background from '../../assets/saigon_background.jpeg';
-import { useAppDispatch } from '../../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { selectSignInStatus } from '../../redux/slices';
 import { signInThunk } from '../../redux/slices/auth/auth.thunks';
 
 const FlexContainer = styled(Flex)`
@@ -35,12 +37,19 @@ const SignInContainer = styled(Flex)`
 export const SignIn = () => {
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
+  const isSignInSuccess = useAppSelector(selectSignInStatus);
 
   const handleSubmit = () => {
     const email = form.getFieldValue('email');
     const password = form.getFieldValue('password');
     dispatch(signInThunk({ email, password }));
   };
+
+  useEffect(() => {
+    if (isSignInSuccess) {
+      window.location.href = '/';
+    }
+  }, [isSignInSuccess]);
 
   return (
     <>

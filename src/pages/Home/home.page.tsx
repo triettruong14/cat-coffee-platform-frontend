@@ -1,4 +1,4 @@
-import { Button, Card, Col, Flex, Row, Space, Tag } from 'antd';
+import { Button, Card, Col, Flex, Row, Skeleton, Space, Tag } from 'antd';
 import Search from 'antd/es/input/Search';
 import Title from 'antd/es/typography/Title';
 import { styled } from 'styled-components';
@@ -6,6 +6,13 @@ import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
 import background from '../../assets/saigon_background.jpeg';
 import { useDebounce } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
+import { Suspense, useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {
+  getCatTypesThunk,
+  selectCatTypes,
+  selectIsLoadingGetCatTypes,
+} from '../../redux';
 
 const BackgroundWrapper = styled(Flex)`
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
@@ -64,12 +71,26 @@ const mockTags = [
 export const Home = () => {
   const debounce = useDebounce(400);
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
+  const isLoadingGetCatTypes = useAppSelector(selectIsLoadingGetCatTypes);
+  const catTypes = useAppSelector(selectCatTypes);
 
   const handleOnSearch = (value: string) => {
     debounce(() => {
       navigate(`/search?search=${value}`);
     });
   };
+
+  useEffect(() => {
+    dispatch(getCatTypesThunk());
+  }, []);
+
+  useEffect(() => {
+    if (isLoadingGetCatTypes) {
+      console.log('loading');
+    }
+  }, [isLoadingGetCatTypes]);
 
   return (
     <>
@@ -87,12 +108,16 @@ export const Home = () => {
               </Col>
               <Col span={24}>
                 <Space wrap>
-                  {mockTags.map((tag) => (
-                    <Category ghost key={tag} type="default">
-                      {tag}
-                    </Category>
-                  ))}
-                </Space>
+                  {isLoadingGetCatTypes ? (
+                    <Skeleton active />
+                  ) : (
+                    catTypes.map((cat) => (
+                      <Category ghost key={cat.catTypeId} type="default">
+                        {cat.catTypeName}
+                      </Category>
+                    ))
+                  )}
+                </Space>{' '}
               </Col>
             </Row>
           </Col>

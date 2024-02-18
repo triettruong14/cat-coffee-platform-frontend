@@ -1,5 +1,16 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+import dayjs from 'dayjs';
+
+interface RegisterPayload {
+  roleId: string;
+  username: string;
+  phone: string;
+  address: string;
+  dateOfBirth: string;
+  email: string;
+  password: string;
+}
 
 export const signInThunk = createAsyncThunk(
   'auth/signIn',
@@ -19,10 +30,18 @@ export const signInThunk = createAsyncThunk(
 
 export const registerThunk = createAsyncThunk(
   'auth/register',
-  async ({ email, password }: { email: string; password: string }) => {
+  async ({
+    roleId,
+    username,
+    phone,
+    address,
+    dateOfBirth,
+    email,
+    password,
+  }: RegisterPayload) => {
+    const formattedDateOfBirth = dayjs(dateOfBirth).format('DD/MM/YYYY');
     const response = await axios.post(
-      'http://localhost:5193/api/Account/register',
-      { email, password },
+      `http://localhost:5193/api/Account/create?roleId=${roleId}&username=${username}&phone=${phone}&address=${address}&dob=${formattedDateOfBirth}&email=${email}&password=${password}`,
     );
     console.log('response.data', response.data);
     return response.data;

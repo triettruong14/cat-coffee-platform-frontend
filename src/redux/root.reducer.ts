@@ -1,6 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import { authReducer } from './slices/auth/authSlice';
+import { authReducer, catReducer } from './slices/';
 
 export const rootReducers = combineReducers({
-  authReducer: authReducer,
+  auth: authReducer,
+  catReducer: catReducer,
 });

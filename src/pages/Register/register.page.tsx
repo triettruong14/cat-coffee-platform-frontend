@@ -1,5 +1,13 @@
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import { Button, Flex, Form, Input, notification, Space } from 'antd';
+import {
+  Button,
+  DatePicker,
+  Flex,
+  Form,
+  Input,
+  notification,
+  Space,
+} from 'antd';
 import Title from 'antd/es/typography/Title';
 import styled from 'styled-components';
 import background from '../../assets/saigon_background.jpeg';
@@ -17,7 +25,7 @@ const FlexContainer = styled(Flex)`
 const RegisterContainer = styled(Flex)`
   padding: 2rem;
   width: 40%;
-  margin-top: 10rem;
+  margin-top: 2rem;
   border: 1px solid #000;
   border-radius: 10px;
   background: #fff;
@@ -35,6 +43,7 @@ export const Register = () => {
   const handleOnFinish = (values: any) => {
     try {
       dispatch(registerThunk(values));
+      console.log('values', values);
     } catch (error: any) {}
   };
 
@@ -43,7 +52,37 @@ export const Register = () => {
       <FlexContainer align="start" justify="center">
         <RegisterContainer vertical>
           <Title level={2}>Register</Title>
-          <Form name="register" form={form} onFinish={handleOnFinish}>
+          <Form
+            name="register"
+            form={form}
+            onFinish={handleOnFinish}
+            layout="vertical"
+          >
+            <Form.Item
+              label="Username"
+              name="username"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your username!',
+                },
+              ]}
+            >
+              <Input placeholder="Username" />
+            </Form.Item>
+            <Form.Item label="Phone Number" name="phone">
+              <Input placeholder="Phone Number" />
+            </Form.Item>
+            <Form.Item name="address" label="Address">
+              <Input placeholder="Address" />
+            </Form.Item>
+            <Form.Item name="dateOfBirth" label="Date of Birth">
+              <DatePicker
+                placeholder="Date of Birth"
+                style={{ width: '100%' }}
+                format="DD/MM/YYYY"
+              />
+            </Form.Item>
             <Form.Item
               name="email"
               rules={[
@@ -56,11 +95,13 @@ export const Register = () => {
                   message: 'The input is not valid E-mail!',
                 },
               ]}
+              label="Email"
             >
               <Input placeholder="Email" />
             </Form.Item>
             <Form.Item
               name="password"
+              label="Password"
               rules={[
                 {
                   required: true,
@@ -72,6 +113,7 @@ export const Register = () => {
             </Form.Item>
             <Form.Item
               name="confirm"
+              label="Confirm Password"
               dependencies={['password']}
               hasFeedback
               rules={[

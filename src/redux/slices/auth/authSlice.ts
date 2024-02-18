@@ -4,6 +4,8 @@ import { registerThunk, signInThunk } from './auth.thunks';
 
 const initialState = {
   isLoading: false,
+  signInSuccess: false,
+  user: null,
 };
 
 const authSlice = createSlice({
@@ -17,8 +19,9 @@ const authSlice = createSlice({
       })
       .addCase(signInThunk.fulfilled, (state, action) => {
         const { payload } = action;
-        console.log('payload', payload);
         state.isLoading = false;
+        state.user = payload;
+        state.signInSuccess = true;
       })
       .addCase(signInThunk.rejected, (state, action) => {
         state.isLoading = false;
