@@ -45,7 +45,7 @@ export const registerThunk = createAsyncThunk(
     }
 
     const response = await axios.post(
-      `http://localhost:5193/api/Account/create${username !== undefined && username !== null ? `,${username}` : ''}${email !== undefined && email !== null ? `,${email}` : ''}${password !== undefined && password !== null ? `,${password}` : ''}${phone !== undefined && phone !== null ? `,${phone}` : ''}${address !== undefined && address !== null ? `,${address}` : ''}${formattedDateOfBirth !== undefined && formattedDateOfBirth !== null ? `,${formattedDateOfBirth}` : ''}`,
+      `http://localhost:5193/api/account/create${username !== undefined && username !== null && username !== '' ? `,${username}` : ''}${email !== undefined && email !== null && email !== '' ? `,${email}` : ''}${password !== undefined && password !== null && password !== '' ? `,${password}` : ''}${phone !== undefined && phone !== null && phone !== '' ? `,${phone}` : ''}${address !== undefined && address !== null && address !== '' ? `,${address}` : ''}${formattedDateOfBirth !== undefined && formattedDateOfBirth !== null && formattedDateOfBirth !== '' ? `,${formattedDateOfBirth}` : ''}`,
     );
     console.log('response.data', response.data);
     return response.data;
