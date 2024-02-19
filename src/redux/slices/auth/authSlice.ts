@@ -56,6 +56,7 @@ const authSlice = createSlice({
         console.log('payload', payload);
         state.isLoading = false;
         state.account = payload;
+        state.signInSuccess = true;
       })
       .addCase(registerThunk.rejected, (state, action) => {
         const { error } = action;

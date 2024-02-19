@@ -12,6 +12,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AppLayout } from './components/Layout';
 import { AppHeader } from './components/Header';
 import { SignInSuccess } from './components/SignInSuccess';
+import { Protected } from './components/ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -49,9 +50,11 @@ const router = createBrowserRouter([
   {
     path: 'signin-success',
     element: (
-      <AppLayout header={<AppHeader />}>
-        <SignInSuccess />
-      </AppLayout>
+      <Protected>
+        <AppLayout header={<AppHeader />}>
+          <SignInSuccess />
+        </AppLayout>
+      </Protected>
     ),
   },
 ]);
