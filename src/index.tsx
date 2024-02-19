@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider, Routes } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';

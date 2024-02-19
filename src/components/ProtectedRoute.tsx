@@ -14,5 +14,5 @@ export const Protected = ({
     return <Navigate to="/signin" />;
   }
 
-  return <Route {...rest}>{children}</Route>;
+  return <>{children}</>;
 };
