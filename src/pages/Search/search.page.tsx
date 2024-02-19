@@ -136,44 +136,25 @@ export const mockCoffeeShops = [
 
 export const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [results, setResults] = useState(mockCoffeeShops);
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get('search') || '',
   );
-  const [isLoading, setIsLoading] = useState(false);
+  const isLoading = useAppSelector(selectSearchResults);
+  const results = useAppSelector(selectSearchResults);
 
-  // const results = useAppSelector(selectSearchResults);
-  //
   const dispatch = useAppDispatch();
   const debounce = useDebounce(400);
 
   useEffect(() => {
-    if (searchTerm) {
-      handleOnSearch(searchTerm);
+    if (searchTerm !== '') {
+      dispatch(searchCoffeeShopByNameThunk(searchTerm));
     }
-    // if (search) {
-    //   dispatch(searchCoffeeShopByNameThunk(search));
-    // }
   }, []);
 
   const handleOnSearch = (value: string) => {
     debounce(() => {
-      setIsLoading(true);
-      setTimeout(() => {
-        if (value === '') {
-          setResults(mockCoffeeShops);
-          setIsLoading(false);
-          return;
-        }
-
-        setResults(
-          mockCoffeeShops.filter((shop) =>
-            shop.name.toLowerCase().includes(value.toLowerCase()),
-          ),
-        );
-        setSearchParams({ search: value });
-        setIsLoading(false);
-      }, 1000);
+      dispatch(searchCoffeeShopByNameThunk(value));
+      setSearchParams({ search: value });
     });
   };
 
@@ -199,22 +180,22 @@ export const Search = () => {
             <>
               <h2>Found {results?.length} results</h2>
               <Flex wrap="wrap" gap={15}>
-                {results.map((shop) => (
-                  <Flex key={shop.id}>
+                {results?.map((shop) => (
+                  <Flex key={shop.shopId}>
                     <Card
                       cover={
                         <img src={stockCoffeeShop} width={50} height={25} />
                       }
                     >
                       <Link
-                        to={`/coffee-shop/${shop.id}`}
+                        to={`/coffee-shop/${shop.shopId}`}
                         style={{ color: '#000' }}
                       >
                         <Space direction="vertical">
-                          <h3>{shop.name}</h3>
+                          <h3>{shop.shopName}</h3>
                           <p>{shop.address}</p>
                           <p>
-                            Open from {shop.startTime} to {shop.endTime}
+                            Open from {shop.startDate} to {shop.endDate}
                           </p>
                         </Space>
                       </Link>

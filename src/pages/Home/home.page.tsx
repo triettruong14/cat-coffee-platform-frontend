@@ -1,4 +1,4 @@
-import { Button, Card, Col, Flex, Row, Skeleton, Space, Tag } from 'antd';
+import { Button, Card, Col, Flex, Row, Skeleton, Space, Spin, Tag } from 'antd';
 import Search from 'antd/es/input/Search';
 import Title from 'antd/es/typography/Title';
 import { styled } from 'styled-components';
@@ -9,8 +9,12 @@ import { useNavigate } from 'react-router-dom';
 import { Suspense, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
+  getAllCoffeeShopsThunk,
   getCatTypesThunk,
+  mockGetAllCoffeeShops,
   selectCatTypes,
+  selectCoffeeShops,
+  selectIsLoadingGetAll,
   selectIsLoadingGetCatTypes,
 } from '../../redux';
 
@@ -59,6 +63,9 @@ export const Home = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
+  const isLoadingGetAll = useAppSelector(selectIsLoadingGetAll);
+  const coffeeShops = useAppSelector(selectCoffeeShops);
+
   const isLoadingGetCatTypes = useAppSelector(selectIsLoadingGetCatTypes);
   const catTypes = useAppSelector(selectCatTypes);
 
@@ -70,12 +77,8 @@ export const Home = () => {
 
   useEffect(() => {
     dispatch(getCatTypesThunk());
+    dispatch(getAllCoffeeShopsThunk());
   }, []);
-
-  useEffect(() => {
-    if (isLoadingGetCatTypes) {
-    }
-  }, [isLoadingGetCatTypes]);
 
   return (
     <>
@@ -94,7 +97,7 @@ export const Home = () => {
               <Col span={24}>
                 <Space wrap>
                   {isLoadingGetCatTypes ? (
-                    <Skeleton active />
+                    <Spin />
                   ) : (
                     catTypes.map((cat) => (
                       <Category ghost key={cat.catTypeId} type="default">
@@ -109,18 +112,22 @@ export const Home = () => {
           <Col span={16}>
             <ShopsSection>
               <ShopsWrapper wrap align="center" size={10}>
-                {Array.from({ length: 14 }).map((_, index) => (
-                  <Card
-                    key={index}
-                    cover={
-                      <img src={stockCoffeeShop} width={100} height={120} />
-                    }
-                    size="small"
-                  >
-                    <Card.Meta description="Generic Coffee Shop" />
-                    <p>28 Sixth Avenue</p>
-                  </Card>
-                ))}
+                {isLoadingGetAll ? (
+                  <Spin size="large" />
+                ) : (
+                  coffeeShops?.map((shop) => (
+                    <Card
+                      key={shop.shopId}
+                      cover={
+                        <img src={stockCoffeeShop} width={100} height={120} />
+                      }
+                      size="small"
+                    >
+                      <Card.Meta description={shop.shopName} />
+                      <p>{shop.address}</p>
+                    </Card>
+                  ))
+                )}
               </ShopsWrapper>
             </ShopsSection>
           </Col>

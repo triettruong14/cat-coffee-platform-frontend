@@ -9,6 +9,7 @@ export const Protected = ({
   children: React.ReactNode;
 }) => {
   const isLoggedIn = useAppSelector(selectSignInStatus);
+  console.log('isLoggedIn', isLoggedIn);
 
   if (!isLoggedIn) {
     return <Navigate to="/signin" />;

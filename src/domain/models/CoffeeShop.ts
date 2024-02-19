@@ -1,55 +1,41 @@
+export interface CoffeeShopProps {
+  shopId?: number;
+  accountId?: number;
+  shopName?: string;
+  startDate?: string;
+  endDate?: string;
+  address?: string;
+  status?: string;
+}
+
 export class CoffeeShop {
-  private _shopId: number;
-  private _accountId: number;
-  private _shopName: string;
-  private _startDate: string;
-  private _endDate: string;
-  private _address: string;
-  private _status: string;
+  constructor(private readonly props: CoffeeShopProps) {}
 
-  constructor(
-    shopId: number,
-    accountId: number,
-    shopName: string,
-    startDate: string,
-    endDate: string,
-    address: string,
-    status: string,
-  ) {
-    this._shopId = shopId;
-    this._accountId = accountId;
-    this._shopName = shopName;
-    this._startDate = startDate;
-    this._endDate = endDate;
-    this._address = address;
-    this._status = status;
+  get shopId(): number | undefined {
+    return this.props.shopId;
   }
 
-  get shopId(): number {
-    return this._shopId;
+  get accountId(): number | undefined {
+    return this.props.accountId;
   }
 
-  get accountId(): number {
-    return this._accountId;
+  get shopName(): string | undefined {
+    return this.props.shopName;
   }
 
-  get shopName(): string {
-    return this._shopName;
+  get startDate(): string | undefined {
+    return this.props.startDate;
   }
 
-  get startDate(): string {
-    return this._startDate;
+  get endDate(): string | undefined {
+    return this.props.endDate;
   }
 
-  get endDate(): string {
-    return this._endDate;
+  get address(): string | undefined {
+    return this.props.address;
   }
 
-  get address(): string {
-    return this._address;
-  }
-
-  get status(): string {
-    return this._status;
+  get status(): string | undefined {
+    return this.props.status;
   }
 }
