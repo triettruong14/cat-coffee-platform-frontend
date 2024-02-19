@@ -1,17 +1,33 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
+import { Account } from '../../../domain/models';
 import { registerThunk, signInThunk } from './auth.thunks';
 
-const initialState = {
+interface AuthState {
+  isLoading: boolean;
+  signInSuccess: boolean;
+  account: Account | null;
+}
+
+const initialState: AuthState = {
   isLoading: false,
   signInSuccess: false,
-  user: null,
+  account: null,
 };
 
 const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
+  reducers: {
+    logOut: (state) => {
+      state.account = null;
+      state.signInSuccess = false;
+    },
+    mockSignIn: (state, action) => {
+      state.account = action.payload;
+      state.signInSuccess = true;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(signInThunk.pending, (state) => {
@@ -20,7 +36,7 @@ const authSlice = createSlice({
       .addCase(signInThunk.fulfilled, (state, action) => {
         const { payload } = action;
         state.isLoading = false;
-        state.user = payload;
+        state.account = payload;
         state.signInSuccess = true;
       })
       .addCase(signInThunk.rejected, (state, action) => {
@@ -45,4 +61,4 @@ const authSlice = createSlice({
 });
 
 export const authReducer = authSlice.reducer;
-export const {} = authSlice.actions;
+export const { logOut, mockSignIn } = authSlice.actions;

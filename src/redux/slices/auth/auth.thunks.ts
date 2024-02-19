@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import dayjs from 'dayjs';
+import { Account } from '../../../domain/models';
 
 interface RegisterPayload {
   roleId: string;
@@ -50,9 +51,21 @@ export const registerThunk = createAsyncThunk(
         username,
         email,
         password,
+        phone,
+        dob: formattedDateOfBirth,
+        address,
       },
     );
     console.log('response.data', response.data);
-    return response.data;
+
+    const account = new Account({
+      username,
+      email,
+      password,
+      phone,
+      dob: formattedDateOfBirth || '',
+      address,
+    });
+    return account;
   },
 );

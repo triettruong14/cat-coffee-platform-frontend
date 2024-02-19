@@ -6,7 +6,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { ConfigProvider } from 'antd';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
-import { CoffeeShopDetail, Register, Search, SignIn } from './pages';
+import { CoffeeShopDetail, Home, Register, Search, SignIn } from './pages';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppLayout } from './components/Layout';
@@ -16,7 +16,11 @@ import { SignInSuccess } from './components/SignInSuccess';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: (
+      <AppLayout header={<AppHeader />}>
+        <Home />
+      </AppLayout>
+    ),
   },
   {
     path: '/signin',
@@ -44,7 +48,11 @@ const router = createBrowserRouter([
   },
   {
     path: 'signin-success',
-    element: <SignInSuccess />,
+    element: (
+      <AppLayout header={<AppHeader />}>
+        <SignInSuccess />
+      </AppLayout>
+    ),
   },
 ]);
 const root = ReactDOM.createRoot(

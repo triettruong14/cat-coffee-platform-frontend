@@ -10,7 +10,9 @@ import {
 import { GithubOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import Title from 'antd/es/typography/Title';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { logOut, selectSignInStatus, selectUser } from '../redux';
 
 const { Header } = AntDLayout;
 
@@ -53,7 +55,16 @@ const RegisterButton = styled(SignInButton)`
   }
 `;
 
-export const AppHeader = () => {
+const LogOutButton = styled(SignInButton)``;
+
+interface HeaderProps {}
+
+export const AppHeader = ({}: HeaderProps) => {
+  const loggedIn = useAppSelector(selectSignInStatus);
+  const account = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   return (
     <Header style={headerStyle}>
       <Navigation justify="space-between" align="center">
@@ -64,12 +75,28 @@ export const AppHeader = () => {
           </Space>
         </Link>
         <Space>
-          <RegisterButton type="link">
-            <Link to={`register`}>Register</Link>
-          </RegisterButton>
-          <SignInButton>
-            <Link to={`signin`}>Sign in</Link>
-          </SignInButton>
+          {loggedIn ? (
+            <Space>
+              <p>Welcome back, {account && account.username}!</p>
+              <LogOutButton
+                onClick={() => {
+                  dispatch(logOut());
+                  navigate('/signin');
+                }}
+              >
+                Log Out
+              </LogOutButton>
+            </Space>
+          ) : (
+            <>
+              <RegisterButton type="link">
+                <Link to={`/register`}>Register</Link>
+              </RegisterButton>
+              <SignInButton>
+                <Link to={`/signin`}>Sign in</Link>
+              </SignInButton>
+            </>
+          )}
         </Space>
       </Navigation>
     </Header>
