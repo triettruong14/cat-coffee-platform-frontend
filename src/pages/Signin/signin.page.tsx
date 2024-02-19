@@ -6,6 +6,7 @@ import {
 } from '@ant-design/icons';
 import { Button, Col, Flex, Form, Input, Row, Space } from 'antd';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import background from '../../assets/saigon_background.jpeg';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -36,6 +37,7 @@ const SignInContainer = styled(Flex)`
 
 export const SignIn = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [form] = Form.useForm();
   const isSignInSuccess = useAppSelector(selectSignInStatus);
 
@@ -47,7 +49,7 @@ export const SignIn = () => {
 
   useEffect(() => {
     if (isSignInSuccess) {
-      window.location.href = '/';
+      navigate('/signin-success');
     }
   }, [isSignInSuccess]);
 

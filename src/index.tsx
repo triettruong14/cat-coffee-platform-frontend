@@ -11,6 +11,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { AppLayout } from './components/Layout';
 import { AppHeader } from './components/Header';
+import { SignInSuccess } from './components/SignInSuccess';
 
 const router = createBrowserRouter([
   {
@@ -40,6 +41,10 @@ const router = createBrowserRouter([
         <CoffeeShopDetail />
       </AppLayout>
     ),
+  },
+  {
+    path: 'signin-success',
+    element: <SignInSuccess />,
   },
 ]);
 const root = ReactDOM.createRoot(
