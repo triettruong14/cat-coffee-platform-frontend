@@ -9,8 +9,10 @@ import {
   Space,
 } from 'antd';
 import Title from 'antd/es/typography/Title';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import background from '../../assets/saigon_background.jpeg';
+import { mockRegister } from '../../redux';
 import { useAppDispatch } from '../../redux/hooks';
 import { registerThunk } from '../../redux/slices/auth/auth.thunks';
 
@@ -39,11 +41,13 @@ const RegisterContainer = styled(Flex)`
 export const Register = () => {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const handleOnFinish = (values: any) => {
     try {
       dispatch(registerThunk(values));
       console.log('values', values);
+      navigate('/');
     } catch (error: any) {}
   };
 

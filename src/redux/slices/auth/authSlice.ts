@@ -27,6 +27,10 @@ const authSlice = createSlice({
       state.account = action.payload;
       state.signInSuccess = true;
     },
+    mockRegister: (state, action) => {
+      state.account = action.payload;
+      state.signInSuccess = true;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -51,6 +55,7 @@ const authSlice = createSlice({
         const { payload } = action;
         console.log('payload', payload);
         state.isLoading = false;
+        state.account = payload;
       })
       .addCase(registerThunk.rejected, (state, action) => {
         const { error } = action;
@@ -61,4 +66,4 @@ const authSlice = createSlice({
 });
 
 export const authReducer = authSlice.reducer;
-export const { logOut, mockSignIn } = authSlice.actions;
+export const { logOut, mockSignIn, mockRegister } = authSlice.actions;
