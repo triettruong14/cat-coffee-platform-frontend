@@ -19,6 +19,10 @@ const headerStyle: React.CSSProperties = {
   display: 'flex',
   justifyContent: 'center',
   alignItems: 'center',
+  position: 'sticky',
+  top: 0,
+  zIndex: 1,
+  width: '100%',
 };
 
 const Navigation = styled(Flex)`
