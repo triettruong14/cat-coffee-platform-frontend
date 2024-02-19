@@ -1,12 +1,16 @@
+import { Card, Flex, Input, Space, Spin } from 'antd';
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { Link, useSearchParams } from 'react-router-dom';
-import { searchCoffeeShopByNameThunk, selectSearchResults } from '../../redux';
 import styled from 'styled-components';
 import background from '../../assets/saigon_background.jpeg';
 import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
-import { Card, Flex, Input, Space, Spin } from 'antd';
 import { useDebounce } from '../../hooks';
+import {
+  searchCoffeeShopByNameThunk,
+  selectIsLoadingSearch,
+  selectSearchResults,
+} from '../../redux';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const BackgroundWrapper = styled(Flex)`
   background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
@@ -139,7 +143,7 @@ export const Search = () => {
   const [searchTerm, setSearchTerm] = useState(
     searchParams.get('search') || '',
   );
-  const isLoading = useAppSelector(selectSearchResults);
+  const isLoading = useAppSelector(selectIsLoadingSearch);
   const results = useAppSelector(selectSearchResults);
 
   const dispatch = useAppDispatch();
@@ -147,6 +151,7 @@ export const Search = () => {
 
   useEffect(() => {
     if (searchTerm !== '') {
+      console.log('searchTerm', searchTerm);
       dispatch(searchCoffeeShopByNameThunk(searchTerm));
     }
   }, []);

@@ -46,10 +46,12 @@ const coffeeShopSlice = createSlice({
       .addCase(searchCoffeeShopByNameThunk.fulfilled, (state, action) => {
         const { payload } = action;
 
+        const coffeeShops: CoffeeShop[] = [];
         payload.forEach((shop: CoffeeShopApiResponse) => {
           const { shopId, accountId, shopName, startTime, endTime } = shop;
           const formattedStartDate = dayjs(startTime).format('DD/MM/YYYY');
           const formattedEndDate = dayjs(endTime).format('DD/MM/YYYY');
+
           const coffeeShop = new CoffeeShop({
             shopId,
             accountId,
@@ -57,9 +59,10 @@ const coffeeShopSlice = createSlice({
             startDate: formattedStartDate,
             endDate: formattedEndDate,
           });
-          state.searchResults?.push(coffeeShop);
-          state.isLoadingSearch = false;
+          coffeeShops.push(coffeeShop);
         });
+        state.searchResults = coffeeShops;
+        state.isLoadingSearch = false;
       })
       .addCase(searchCoffeeShopByNameThunk.rejected, (state, action) => {
         const { error } = action;
@@ -76,10 +79,12 @@ const coffeeShopSlice = createSlice({
       .addCase(getAllCoffeeShopsThunk.fulfilled, (state, action) => {
         const { payload } = action;
 
+        const coffeeShops: CoffeeShop[] = [];
         payload.forEach((shop: CoffeeShopApiResponse) => {
           const { shopId, accountId, shopName, startTime, endTime } = shop;
           const formattedStartDate = dayjs(startTime).format('DD/MM/YYYY');
           const formattedEndDate = dayjs(endTime).format('DD/MM/YYYY');
+
           const coffeeShop = new CoffeeShop({
             shopId,
             accountId,
@@ -87,8 +92,9 @@ const coffeeShopSlice = createSlice({
             startDate: formattedStartDate,
             endDate: formattedEndDate,
           });
-          state.coffeeShops?.push(coffeeShop);
+          coffeeShops.push(coffeeShop);
         });
+        state.coffeeShops = coffeeShops;
         state.isLoadingGetAll = false;
       })
       .addCase(getAllCoffeeShopsThunk.rejected, (state, action) => {
