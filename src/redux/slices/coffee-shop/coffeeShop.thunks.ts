@@ -38,8 +38,9 @@ export const getCoffeeShopCatFoodThunk = createAsyncThunk(
 export const getCoffeeShopCatsThunk = createAsyncThunk(
   'coffeeShop/getCats',
   async (shopId: string) => {
+    console.log('shopId', shopId);
     const response = await axios.get<Cat[]>(
-      `http://localhost:5193/api/ShopCoffeeCat/GetCats, ${shopId.toString()}`,
+      `http://localhost:5193/api/Cat/getCat, ${shopId.toString()}`,
     );
     return response.data;
   },

@@ -137,8 +137,6 @@ export const CoffeeShopDetail = () => {
 
   useEffect(() => {
     if (coffeeShops?.length !== 0) {
-      console.log('current id', id);
-      console.log('current coffeeShops', coffeeShops);
       setSelectedCoffeeShop(coffeeShops?.find((shop) => shop.shopId == id));
     }
   }, [coffeeShops]);
@@ -222,11 +220,9 @@ export const CoffeeShopDetail = () => {
 
   useEffect(() => {
     renderMenuItem('drinks');
-    console.log('selectedCoffeeShop', selectedCoffeeShop);
     if (selectedCoffeeShop) {
-      debugger;
-      dispatch(getCoffeeShopCatFoodThunk(selectedCoffeeShop?.shopId || ''));
-      dispatch(getCoffeeShopCatsThunk(selectedCoffeeShop?.shopId || ''));
+      dispatch(getCoffeeShopCatFoodThunk(selectedCoffeeShop.shopId || ''));
+      dispatch(getCoffeeShopCatsThunk(selectedCoffeeShop.shopId || ''));
     }
   }, [selectedCoffeeShop]);
 
