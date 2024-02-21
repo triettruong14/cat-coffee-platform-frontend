@@ -217,8 +217,10 @@ export const CoffeeShopDetail = () => {
 
   useEffect(() => {
     renderMenuItem('drinks');
-    dispatch(getCoffeeShopCatFoodThunk(selectedCoffeeShop?.shopId || ''));
-    dispatch(getCoffeeShopCatsThunk(selectedCoffeeShop?.shopId || ''));
+    if (selectedCoffeeShop) {
+      dispatch(getCoffeeShopCatFoodThunk(selectedCoffeeShop?.shopId || ''));
+      dispatch(getCoffeeShopCatsThunk(selectedCoffeeShop?.shopId || ''));
+    }
   }, [selectedCoffeeShop]);
 
   return (
