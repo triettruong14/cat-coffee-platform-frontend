@@ -1,6 +1,6 @@
 export interface CoffeeShopProps {
-  shopId?: number;
-  accountId?: number;
+  shopId?: string;
+  accountId?: string;
   shopName?: string;
   startDate?: string;
   endDate?: string;
@@ -11,11 +11,11 @@ export interface CoffeeShopProps {
 export class CoffeeShop {
   constructor(private readonly props: CoffeeShopProps) {}
 
-  get shopId(): number | undefined {
+  get shopId(): string | undefined {
     return this.props.shopId;
   }
 
-  get accountId(): number | undefined {
+  get accountId(): string | undefined {
     return this.props.accountId;
   }
 

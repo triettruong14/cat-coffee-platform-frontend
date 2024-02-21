@@ -8,8 +8,8 @@ import {
 } from './coffeeShop.thunks';
 
 export interface CoffeeShopApiResponse {
-  shopId: number;
-  accountId: number;
+  shopId: string;
+  accountId: string;
   shopName: string;
   startTime: string;
   endTime: string;
@@ -20,6 +20,8 @@ export interface CatFood {
   catFoodName: string;
   catFoodPrice: number;
 }
+
+export interface Drink {}
 
 export interface CoffeeShopState {
   coffeeShops?: CoffeeShop[];
@@ -33,6 +35,7 @@ export interface CoffeeShopState {
 const initialState: CoffeeShopState = {
   searchResults: [],
   coffeeShops: [],
+  selectedCoffeeShopCatFood: [],
   isLoadingSearch: false,
   isLoadingGetAll: false,
 };
@@ -116,7 +119,9 @@ const coffeeShopSlice = createSlice({
       })
       .addCase(getCoffeeShopCatFoodThunk.fulfilled, (state, action) => {
         const { payload } = action;
-        state.selectedCoffeeShopCatFood = payload;
+        const catFoods: CatFood[] = payload;
+
+        state.selectedCoffeeShopCatFood = catFoods;
       })
       .addCase(getCoffeeShopCatFoodThunk.rejected, (state, action) => {
         const { error } = action;

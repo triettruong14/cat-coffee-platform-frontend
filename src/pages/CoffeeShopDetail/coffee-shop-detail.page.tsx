@@ -29,6 +29,7 @@ import {
 import { useDispatch } from 'react-redux';
 import {
   getCoffeeShopCatFoodThunk,
+  selectCoffeeShops,
   selectSelectedCoffeeShopCatFood,
 } from '../../redux';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -118,19 +119,24 @@ export const CoffeeShopDetail = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [coffeeShop, setCoffeeShop] = useState(
-    mockCoffeeShops.at(parseInt(id as string) - 1),
+  const [selectedCoffeeShop, setSelectedCoffeeShop] = useState(
+    coffeeShops?.find((shop) => shop.shopId === id),
   );
   const [menuItems, setMenuItems] = useState<React.ReactNode>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
 
-  const catFood = useAppSelector(selectSelectedCoffeeShopCatFood);
+  const coffeeShops = useAppSelector(selectCoffeeShops);
+  const catFoods = useAppSelector(selectSelectedCoffeeShopCatFood);
 
   const onClick: MenuProps['onClick'] = (e) => {
     const { key } = e;
     renderMenuItem(key as 'drinks' | 'cats' | 'cat-food');
   };
+
+  useEffect(() => {
+    setSelectedCoffeeShop(coffeeShops?.find((shop) => shop.shopId === id));
+  }, [coffeeShops]);
 
   const renderMenuItem = (key: 'drinks' | 'cats' | 'cat-food') => {
     switch (key) {
@@ -156,16 +162,19 @@ export const CoffeeShopDetail = () => {
       case 'cats':
         setMenuItems([
           <Item justify="space-between" key={0}>
-            <Flex gap={20}>
-              <img
-                src={stockCat}
-                style={{
-                  width: '60px',
-                  height: '60px',
-                }}
-              />
-              <MenuItemLabel>Tiny</MenuItemLabel>
-            </Flex>
+            {catFoods?.map((catFood) => (
+              <Flex gap={20} key={catFood.catFoodId}>
+                <img
+                  src={stockCat}
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                  }}
+                />
+                <MenuItemLabel>{catFood.catFoodName}</MenuItemLabel>
+                <MenuItemLabel>{catFood.catFoodPrice}</MenuItemLabel>
+              </Flex>
+            ))}
           </Item>,
         ]);
         break;
@@ -195,8 +204,8 @@ export const CoffeeShopDetail = () => {
 
   useEffect(() => {
     renderMenuItem('drinks');
-    dispatch(getCoffeeShopCatFoodThunk(coffeeShop?.id || ''));
-  }, []);
+    dispatch(getCoffeeShopCatFoodThunk(selectedCoffeeShop?.shopId || ''));
+  }, [selectedCoffeeShop]);
 
   return (
     <>
@@ -220,18 +229,19 @@ export const CoffeeShopDetail = () => {
           <ShopInfo>
             <div style={{ marginLeft: '5rem' }}>
               <Divider />
-              <h1>{coffeeShop?.name}</h1>
-              <ShopDetailText>{coffeeShop?.address}</ShopDetailText>
+              <h1>{selectedCoffeeShop?.shopName}</h1>
+              <ShopDetailText>{selectedCoffeeShop?.address}</ShopDetailText>
               <Divider />
               <ShopDetailText>
-                Hours: {coffeeShop?.startTime} - {coffeeShop?.endTime}
+                Hours: {selectedCoffeeShop?.startDate} -{' '}
+                {selectedCoffeeShop?.startDate}
               </ShopDetailText>
               <Button type="primary" onClick={() => setIsModalOpen(true)}>
                 Start Booking <CalendarOutlined />
               </Button>
               <Modal
                 open={isModalOpen}
-                title={`Booking for ${coffeeShop?.name}`}
+                title={`Booking for ${selectedCoffeeShop?.shopName}`}
                 onCancel={() => setIsModalOpen(false)}
               >
                 <Form form={form} layout="horizontal" style={{ width: '100%' }}>
