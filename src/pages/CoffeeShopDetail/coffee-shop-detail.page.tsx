@@ -222,7 +222,9 @@ export const CoffeeShopDetail = () => {
 
   useEffect(() => {
     renderMenuItem('drinks');
+    console.log('selectedCoffeeShop', selectedCoffeeShop);
     if (selectedCoffeeShop) {
+      debugger;
       dispatch(getCoffeeShopCatFoodThunk(selectedCoffeeShop?.shopId || ''));
       dispatch(getCoffeeShopCatsThunk(selectedCoffeeShop?.shopId || ''));
     }
