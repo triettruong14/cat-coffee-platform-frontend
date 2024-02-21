@@ -139,7 +139,7 @@ export const CoffeeShopDetail = () => {
     if (coffeeShops?.length !== 0) {
       console.log('current id', id);
       console.log('current coffeeShops', coffeeShops);
-      setSelectedCoffeeShop(coffeeShops?.find((shop) => shop.shopId === id));
+      setSelectedCoffeeShop(coffeeShops?.find((shop) => shop.shopId == id));
     }
   }, [coffeeShops]);
 
