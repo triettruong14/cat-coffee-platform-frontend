@@ -4,6 +4,7 @@ import { CoffeeShop, CoffeeShopProps } from '../../../domain/models';
 import {
   getAllCoffeeShopsThunk,
   getCoffeeShopCatFoodThunk,
+  getCoffeeShopCatsThunk,
   searchCoffeeShopByNameThunk,
 } from './coffeeShop.thunks';
 
@@ -21,6 +22,14 @@ export interface CatFood {
   catFoodPrice: number;
 }
 
+export interface Cat {
+  catId: string;
+  catTypeId: string;
+  areaId: string;
+  shopId: string;
+  catName: string;
+}
+
 export interface Drink {}
 
 export interface CoffeeShopState {
@@ -28,7 +37,10 @@ export interface CoffeeShopState {
   searchResults?: CoffeeShop[];
   isLoadingSearch: boolean;
   isLoadingGetAll: boolean;
+  isLoadingGetCats: boolean;
+  isLoadingGetCatFood: boolean;
   selectedCoffeeShopCatFood?: CatFood[];
+  selectedCoffeeShopCats?: Cat[];
   error?: string;
 }
 
@@ -36,6 +48,9 @@ const initialState: CoffeeShopState = {
   searchResults: [],
   coffeeShops: [],
   selectedCoffeeShopCatFood: [],
+  selectedCoffeeShopCats: [],
+  isLoadingGetCats: false,
+  isLoadingGetCatFood: false,
   isLoadingSearch: false,
   isLoadingGetAll: false,
 };
@@ -126,6 +141,23 @@ const coffeeShopSlice = createSlice({
       .addCase(getCoffeeShopCatFoodThunk.rejected, (state, action) => {
         const { error } = action;
         state.error = error.message;
+      });
+
+    builder
+      .addCase(getCoffeeShopCatsThunk.pending, (state, action) => {
+        state.selectedCoffeeShopCatFood = [];
+        state.isLoadingGetCats = true;
+      })
+      .addCase(getCoffeeShopCatsThunk.fulfilled, (state, action) => {
+        const { payload } = action;
+        const cats: Cat[] = payload;
+        state.selectedCoffeeShopCats = cats;
+        state.isLoadingGetCats = false;
+      })
+      .addCase(getCoffeeShopCatsThunk.rejected, (state, action) => {
+        const { error } = action;
+        state.error = error.message;
+        state.isLoadingGetCats = false;
       });
   },
 });

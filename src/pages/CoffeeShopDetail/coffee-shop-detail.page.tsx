@@ -11,28 +11,24 @@ import {
   Modal,
   Row,
   Space,
-  Tag,
 } from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { mockCoffeeShops } from '../Search';
 import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
 import stockSmoothie from '../../assets/stock_chocolate_chip_smoothie.jpeg';
 import stockCat from '../../assets/stock_scottish_cat.jpeg';
 import stockCatFood from '../../assets/stock_cat_food.png';
-import {
-  ArrowLeftOutlined,
-  ArrowRightOutlined,
-  CalendarOutlined,
-} from '@ant-design/icons';
-import { useDispatch } from 'react-redux';
+import { ArrowLeftOutlined, CalendarOutlined } from '@ant-design/icons';
 import {
   getCoffeeShopCatFoodThunk,
+  getCoffeeShopCatsThunk,
   selectCoffeeShops,
   selectSelectedCoffeeShopCatFood,
+  selectSelectedCoffeeShopCats,
 } from '../../redux';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { CoffeeShop } from '../../domain/models';
 
 const BackgroundWrapper = styled(Flex)`
   background: #f2f2f2;
@@ -119,15 +115,14 @@ export const CoffeeShopDetail = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const [selectedCoffeeShop, setSelectedCoffeeShop] = useState(
-    coffeeShops?.find((shop) => shop.shopId === id),
-  );
+  const coffeeShops = useAppSelector(selectCoffeeShops);
+  const [selectedCoffeeShop, setSelectedCoffeeShop] = useState<CoffeeShop>();
   const [menuItems, setMenuItems] = useState<React.ReactNode>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
 
-  const coffeeShops = useAppSelector(selectCoffeeShops);
   const catFoods = useAppSelector(selectSelectedCoffeeShopCatFood);
+  const cats = useAppSelector(selectSelectedCoffeeShopCats);
 
   const onClick: MenuProps['onClick'] = (e) => {
     const { key } = e;
@@ -160,10 +155,10 @@ export const CoffeeShopDetail = () => {
         ]);
         break;
       case 'cats':
-        setMenuItems([
-          <Item justify="space-between" key={0}>
-            {catFoods?.map((catFood) => (
-              <Flex gap={20} key={catFood.catFoodId}>
+        setMenuItems(
+          cats?.map((cat) => (
+            <Item justify="space-between" key={0}>
+              <Flex gap={20} key={cat.catId}>
                 <img
                   src={stockCat}
                   style={{
@@ -171,31 +166,32 @@ export const CoffeeShopDetail = () => {
                     height: '60px',
                   }}
                 />
-                <MenuItemLabel>{catFood.catFoodName}</MenuItemLabel>
-                <MenuItemLabel>{catFood.catFoodPrice}</MenuItemLabel>
+                <MenuItemLabel>{cat.catName}</MenuItemLabel>
               </Flex>
-            ))}
-          </Item>,
-        ]);
+            </Item>
+          )),
+        );
         break;
       case 'cat-food':
-        setMenuItems([
-          <Item justify="space-between" key={0}>
-            <Flex gap={20}>
-              <img
-                src={stockCatFood}
-                style={{
-                  width: '60px',
-                  height: '60px',
-                }}
-              />
-              <MenuItemLabel>Whiskas</MenuItemLabel>
-            </Flex>
-            <PriceLabel>
-              23,000<CurrencyLabel>đ</CurrencyLabel>
-            </PriceLabel>
-          </Item>,
-        ]);
+        setMenuItems(
+          catFoods?.map((catFood) => (
+            <Item justify="space-between" key={0}>
+              <Flex gap={20}>
+                <img
+                  src={stockCatFood}
+                  style={{
+                    width: '60px',
+                    height: '60px',
+                  }}
+                />
+                <MenuItemLabel>Whiskas</MenuItemLabel>
+              </Flex>
+              <PriceLabel>
+                23,000<CurrencyLabel>đ</CurrencyLabel>
+              </PriceLabel>
+            </Item>
+          )),
+        );
         break;
       default:
         return null;
@@ -205,6 +201,7 @@ export const CoffeeShopDetail = () => {
   useEffect(() => {
     renderMenuItem('drinks');
     dispatch(getCoffeeShopCatFoodThunk(selectedCoffeeShop?.shopId || ''));
+    dispatch(getCoffeeShopCatsThunk(selectedCoffeeShop?.shopId || ''));
   }, [selectedCoffeeShop]);
 
   return (

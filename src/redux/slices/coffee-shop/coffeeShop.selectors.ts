@@ -14,3 +14,6 @@ export const selectIsLoadingGetAll = (state: RootState) =>
 
 export const selectSelectedCoffeeShopCatFood = (state: RootState) =>
   state.coffeeShop.selectedCoffeeShopCatFood;
+
+export const selectSelectedCoffeeShopCats = (state: RootState) =>
+  state.coffeeShop.selectedCoffeeShopCats;
