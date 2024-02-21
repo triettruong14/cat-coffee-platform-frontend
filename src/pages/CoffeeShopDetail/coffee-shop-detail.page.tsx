@@ -227,7 +227,7 @@ export const CoffeeShopDetail = () => {
   }, [selectedCoffeeShop]);
 
   useEffect(() => {
-    if (coffeeShops) {
+    if (coffeeShops.length === 0) {
       dispatch(getAllCoffeeShopsThunk());
     }
   }, []);
