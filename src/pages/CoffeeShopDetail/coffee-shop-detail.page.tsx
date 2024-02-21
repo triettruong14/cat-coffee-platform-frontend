@@ -135,8 +135,11 @@ export const CoffeeShopDetail = () => {
   };
 
   useEffect(() => {
-    setSelectedCoffeeShop(coffeeShops?.find((shop) => shop.shopId === id));
-  }, [coffeeShops]);
+    if (coffeeShops?.length !== 0) {
+      console.log('current id', id);
+      setSelectedCoffeeShop(coffeeShops?.find((shop) => shop.shopId === id));
+    }
+  }, [coffeeShops?.length]);
 
   const renderMenuItem = useCallback(
     (key: 'drinks' | 'cats' | 'cat-food') => {
