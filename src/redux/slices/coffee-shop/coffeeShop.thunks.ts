@@ -1,6 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { CoffeeShopApiResponse } from './coffeShopSlice';
+import { CatFood, CoffeeShopApiResponse } from './coffeShopSlice';
 
 export const searchCoffeeShopByNameThunk = createAsyncThunk(
   'coffeeShop/searchShopByName',
@@ -18,6 +18,18 @@ export const getAllCoffeeShopsThunk = createAsyncThunk(
   async () => {
     const response = await axios.get<CoffeeShopApiResponse[]>(
       'http://localhost:5193/api/ShopCoffeeCat/GetAll',
+    );
+    return response.data;
+  },
+);
+
+export const getCoffeeShopCatFoodThunk = createAsyncThunk(
+  'coffeeShop/getCatFood',
+  async (shopId: string) => {
+    const params = new URLSearchParams({ shopId });
+    const response = await axios.get<CatFood[]>(
+      'http://localhost:5193/api/ShopCoffeeCat/GetCatFood',
+      { params },
     );
     return response.data;
   },

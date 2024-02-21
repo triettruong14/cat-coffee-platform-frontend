@@ -1,4 +1,18 @@
-import { Button, Divider, Flex, Menu, MenuProps, Space, Tag } from 'antd';
+import {
+  Button,
+  Col,
+  DatePicker,
+  Divider,
+  Flex,
+  Form,
+  Input,
+  Menu,
+  MenuProps,
+  Modal,
+  Row,
+  Space,
+  Tag,
+} from 'antd';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
@@ -7,7 +21,17 @@ import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
 import stockSmoothie from '../../assets/stock_chocolate_chip_smoothie.jpeg';
 import stockCat from '../../assets/stock_scottish_cat.jpeg';
 import stockCatFood from '../../assets/stock_cat_food.png';
-import { ArrowLeftOutlined } from '@ant-design/icons';
+import {
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  CalendarOutlined,
+} from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
+import {
+  getCoffeeShopCatFoodThunk,
+  selectSelectedCoffeeShopCatFood,
+} from '../../redux';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const BackgroundWrapper = styled(Flex)`
   background: #f2f2f2;
@@ -91,11 +115,17 @@ const CurrencyLabel = styled.span`
 
 export const CoffeeShopDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+
   const [coffeeShop, setCoffeeShop] = useState(
     mockCoffeeShops.at(parseInt(id as string) - 1),
   );
   const [menuItems, setMenuItems] = useState<React.ReactNode>([]);
-  const navigate = useNavigate();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [form] = Form.useForm();
+
+  const catFood = useAppSelector(selectSelectedCoffeeShopCatFood);
 
   const onClick: MenuProps['onClick'] = (e) => {
     const { key } = e;
@@ -165,6 +195,7 @@ export const CoffeeShopDetail = () => {
 
   useEffect(() => {
     renderMenuItem('drinks');
+    dispatch(getCoffeeShopCatFoodThunk(coffeeShop?.id || ''));
   }, []);
 
   return (
@@ -195,6 +226,37 @@ export const CoffeeShopDetail = () => {
               <ShopDetailText>
                 Hours: {coffeeShop?.startTime} - {coffeeShop?.endTime}
               </ShopDetailText>
+              <Button type="primary" onClick={() => setIsModalOpen(true)}>
+                Start Booking <CalendarOutlined />
+              </Button>
+              <Modal
+                open={isModalOpen}
+                title={`Booking for ${coffeeShop?.name}`}
+                onCancel={() => setIsModalOpen(false)}
+              >
+                <Form form={form} layout="horizontal" style={{ width: '100%' }}>
+                  <Row>
+                    <Col span={6}>
+                      <label style={{ textAlign: 'right' }}>For </label>
+                    </Col>
+                    <Col flex="auto">
+                      <Form.Item name="customerName">
+                        <Input placeholder="Please enter who we will be reserving the table for" />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col span={6}>
+                      <label style={{ textAlign: 'right' }}>Reserve date</label>
+                    </Col>
+                    <Col flex="auto">
+                      <Form.Item name="bookDate">
+                        <DatePicker />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Form>
+              </Modal>
             </div>
           </ShopInfo>
         </ShopOverviewSection>

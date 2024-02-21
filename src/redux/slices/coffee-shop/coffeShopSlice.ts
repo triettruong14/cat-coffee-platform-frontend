@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { CoffeeShop, CoffeeShopProps } from '../../../domain/models';
 import {
   getAllCoffeeShopsThunk,
+  getCoffeeShopCatFoodThunk,
   searchCoffeeShopByNameThunk,
 } from './coffeeShop.thunks';
 
@@ -14,11 +15,18 @@ export interface CoffeeShopApiResponse {
   endTime: string;
 }
 
+export interface CatFood {
+  catFoodId: number;
+  catFoodName: string;
+  catFoodPrice: number;
+}
+
 export interface CoffeeShopState {
   coffeeShops?: CoffeeShop[];
   searchResults?: CoffeeShop[];
   isLoadingSearch: boolean;
   isLoadingGetAll: boolean;
+  selectedCoffeeShopCatFood?: CatFood[];
   error?: string;
 }
 
@@ -33,13 +41,11 @@ const coffeeShopSlice = createSlice({
   name: 'coffeeShop',
   initialState,
   reducers: {
-    mockGetAllCoffeeShops: (state) => {
-      state.isLoadingGetAll = true;
-    },
+    mockGetAllCoffeeShops: (state) => {},
   },
   extraReducers(builder) {
     builder
-      .addCase(searchCoffeeShopByNameThunk.pending, (state, action) => {
+      .addCase(searchCoffeeShopByNameThunk.pending, (state) => {
         state.searchResults = [];
         state.isLoadingSearch = true;
       })
@@ -61,7 +67,8 @@ const coffeeShopSlice = createSlice({
           });
           coffeeShops.push(coffeeShop);
         });
-        state.searchResults = coffeeShops;
+        debugger;
+        state.searchResults = [...coffeeShops];
         state.isLoadingSearch = false;
       })
       .addCase(searchCoffeeShopByNameThunk.rejected, (state, action) => {
@@ -102,6 +109,19 @@ const coffeeShopSlice = createSlice({
         state.coffeeShops = [];
         state.error = error.message;
         state.isLoadingGetAll = false;
+      });
+
+    builder
+      .addCase(getCoffeeShopCatFoodThunk.pending, (state, action) => {
+        state.selectedCoffeeShopCatFood = [];
+      })
+      .addCase(getCoffeeShopCatFoodThunk.fulfilled, (state, action) => {
+        const { payload } = action;
+        state.selectedCoffeeShopCatFood = payload;
+      })
+      .addCase(getCoffeeShopCatFoodThunk.rejected, (state, action) => {
+        const { error } = action;
+        state.error = error.message;
       });
   },
 });
