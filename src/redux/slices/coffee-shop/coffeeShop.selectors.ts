@@ -17,3 +17,9 @@ export const selectSelectedCoffeeShopCatFood = (state: RootState) =>
 
 export const selectSelectedCoffeeShopCats = (state: RootState) =>
   state.coffeeShop.selectedCoffeeShopCats;
+
+export const selectLoadingGetCats = (state: RootState) =>
+  state.coffeeShop.isLoadingGetCats;
+
+export const selectLoadingGetCatFood = (state: RootState) =>
+  state.coffeeShop.isLoadingGetCatFood;
