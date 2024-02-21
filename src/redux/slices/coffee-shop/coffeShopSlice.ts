@@ -67,7 +67,6 @@ const coffeeShopSlice = createSlice({
           });
           coffeeShops.push(coffeeShop);
         });
-        debugger;
         state.searchResults = [...coffeeShops];
         state.isLoadingSearch = false;
       })
