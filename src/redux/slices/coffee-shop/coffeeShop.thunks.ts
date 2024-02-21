@@ -39,7 +39,7 @@ export const getCoffeeShopCatsThunk = createAsyncThunk(
   'coffeeShop/getCats',
   async (shopId: string) => {
     const response = await axios.get<Cat[]>(
-      `http://localhost:5193/api/ShopCoffeeCat/GetCats, ${shopId}`,
+      `http://localhost:5193/api/ShopCoffeeCat/GetCats, ${shopId.toString()}`,
     );
     return response.data;
   },
