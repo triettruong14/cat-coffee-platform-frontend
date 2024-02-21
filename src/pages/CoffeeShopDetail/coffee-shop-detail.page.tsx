@@ -12,7 +12,7 @@ import {
   Row,
   Space,
 } from 'antd';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
@@ -133,70 +133,75 @@ export const CoffeeShopDetail = () => {
     setSelectedCoffeeShop(coffeeShops?.find((shop) => shop.shopId === id));
   }, [coffeeShops]);
 
-  const renderMenuItem = (key: 'drinks' | 'cats' | 'cat-food') => {
-    switch (key) {
-      case 'drinks':
-        setMenuItems([
-          <Item justify="space-between" key={0}>
-            <Flex gap={20}>
-              <img
-                src={stockSmoothie}
-                style={{
-                  width: '60px',
-                  height: '60px',
-                }}
-              />
-              <MenuItemLabel>Chocolate Chip Cookie Smoothie</MenuItemLabel>
-            </Flex>
-            <PriceLabel>
-              45,000<CurrencyLabel>đ</CurrencyLabel>
-            </PriceLabel>
-          </Item>,
-        ]);
-        break;
-      case 'cats':
-        setMenuItems(
-          cats?.map((cat) => (
-            <Item justify="space-between" key={0}>
-              <Flex gap={20} key={cat.catId}>
-                <img
-                  src={stockCat}
-                  style={{
-                    width: '60px',
-                    height: '60px',
-                  }}
-                />
-                <MenuItemLabel>{cat.catName}</MenuItemLabel>
-              </Flex>
-            </Item>
-          )),
-        );
-        break;
-      case 'cat-food':
-        setMenuItems(
-          catFoods?.map((catFood) => (
+  const renderMenuItem = useCallback(
+    (key: 'drinks' | 'cats' | 'cat-food') => {
+      switch (key) {
+        case 'drinks':
+          setMenuItems([
             <Item justify="space-between" key={0}>
               <Flex gap={20}>
                 <img
-                  src={stockCatFood}
+                  src={stockSmoothie}
                   style={{
                     width: '60px',
                     height: '60px',
                   }}
                 />
-                <MenuItemLabel>Whiskas</MenuItemLabel>
+                <MenuItemLabel>Chocolate Chip Cookie Smoothie</MenuItemLabel>
               </Flex>
               <PriceLabel>
-                23,000<CurrencyLabel>đ</CurrencyLabel>
+                45,000<CurrencyLabel>đ</CurrencyLabel>
               </PriceLabel>
-            </Item>
-          )),
-        );
-        break;
-      default:
-        return null;
-    }
-  };
+            </Item>,
+          ]);
+          break;
+        case 'cats':
+          setMenuItems(
+            cats &&
+              cats?.map((cat) => (
+                <Item justify="space-between" key={0}>
+                  <Flex gap={20} key={cat.catId}>
+                    <img
+                      src={stockCat}
+                      style={{
+                        width: '60px',
+                        height: '60px',
+                      }}
+                    />
+                    <MenuItemLabel>{cat.catName}</MenuItemLabel>
+                  </Flex>
+                </Item>
+              )),
+          );
+          break;
+        case 'cat-food':
+          setMenuItems(
+            catFoods &&
+              catFoods?.map((catFood) => (
+                <Item justify="space-between" key={0}>
+                  <Flex gap={20}>
+                    <img
+                      src={stockCatFood}
+                      style={{
+                        width: '60px',
+                        height: '60px',
+                      }}
+                    />
+                    <MenuItemLabel>Whiskas</MenuItemLabel>
+                  </Flex>
+                  <PriceLabel>
+                    23,000<CurrencyLabel>đ</CurrencyLabel>
+                  </PriceLabel>
+                </Item>
+              )),
+          );
+          break;
+        default:
+          return null;
+      }
+    },
+    [catFoods, cats],
+  );
 
   useEffect(() => {
     renderMenuItem('drinks');
