@@ -22,6 +22,7 @@ import stockCat from '../../assets/stock_scottish_cat.jpeg';
 import stockCatFood from '../../assets/stock_cat_food.png';
 import { ArrowLeftOutlined, CalendarOutlined } from '@ant-design/icons';
 import {
+  getAllCoffeeShopsThunk,
   getCoffeeShopCatFoodThunk,
   getCoffeeShopCatsThunk,
   selectCoffeeShops,
@@ -137,9 +138,10 @@ export const CoffeeShopDetail = () => {
   useEffect(() => {
     if (coffeeShops?.length !== 0) {
       console.log('current id', id);
+      console.log('current coffeeShops', coffeeShops);
       setSelectedCoffeeShop(coffeeShops?.find((shop) => shop.shopId === id));
     }
-  }, [coffeeShops?.length]);
+  }, [coffeeShops]);
 
   const renderMenuItem = useCallback(
     (key: 'drinks' | 'cats' | 'cat-food') => {
@@ -215,7 +217,7 @@ export const CoffeeShopDetail = () => {
           return null;
       }
     },
-    [catFoods, cats, isLoadingGetCatFood, isLoadingGetCats],
+    [catFoods, cats, isLoadingGetCatFood, isLoadingGetCats, coffeeShops],
   );
 
   useEffect(() => {
@@ -225,6 +227,12 @@ export const CoffeeShopDetail = () => {
       dispatch(getCoffeeShopCatsThunk(selectedCoffeeShop?.shopId || ''));
     }
   }, [selectedCoffeeShop]);
+
+  useEffect(() => {
+    if (coffeeShops) {
+      dispatch(getAllCoffeeShopsThunk());
+    }
+  }, []);
 
   return (
     <>
