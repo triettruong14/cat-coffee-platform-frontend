@@ -131,16 +131,19 @@ const coffeeShopSlice = createSlice({
     builder
       .addCase(getCoffeeShopCatFoodThunk.pending, (state, action) => {
         state.selectedCoffeeShopCatFood = [];
+        state.isLoadingGetCatFood = true;
       })
       .addCase(getCoffeeShopCatFoodThunk.fulfilled, (state, action) => {
         const { payload } = action;
         const catFoods: CatFood[] = payload;
 
         state.selectedCoffeeShopCatFood = catFoods;
+        state.isLoadingGetCatFood = false;
       })
       .addCase(getCoffeeShopCatFoodThunk.rejected, (state, action) => {
         const { error } = action;
         state.error = error.message;
+        state.isLoadingGetCatFood = false;
       });
 
     builder
