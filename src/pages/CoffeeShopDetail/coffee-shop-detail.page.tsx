@@ -11,6 +11,7 @@ import {
   Modal,
   Row,
   Space,
+  Spin,
 } from 'antd';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -24,6 +25,8 @@ import {
   getCoffeeShopCatFoodThunk,
   getCoffeeShopCatsThunk,
   selectCoffeeShops,
+  selectLoadingGetCatFood,
+  selectLoadingGetCats,
   selectSelectedCoffeeShopCatFood,
   selectSelectedCoffeeShopCats,
 } from '../../redux';
@@ -122,7 +125,9 @@ export const CoffeeShopDetail = () => {
   const [form] = Form.useForm();
 
   const catFoods = useAppSelector(selectSelectedCoffeeShopCatFood);
+  const isLoadingGetCatFood = useAppSelector(selectLoadingGetCatFood);
   const cats = useAppSelector(selectSelectedCoffeeShopCats);
+  const isLoadingGetCats = useAppSelector(selectLoadingGetCats);
 
   const onClick: MenuProps['onClick'] = (e) => {
     const { key } = e;
@@ -157,7 +162,9 @@ export const CoffeeShopDetail = () => {
           break;
         case 'cats':
           setMenuItems(
-            cats &&
+            isLoadingGetCats ? (
+              <Spin />
+            ) : (
               cats?.map((cat) => (
                 <Item justify="space-between" key={0}>
                   <Flex gap={20} key={cat.catId}>
@@ -171,14 +178,17 @@ export const CoffeeShopDetail = () => {
                     <MenuItemLabel>{cat.catName}</MenuItemLabel>
                   </Flex>
                 </Item>
-              )),
+              ))
+            ),
           );
           break;
         case 'cat-food':
           setMenuItems(
-            catFoods &&
+            isLoadingGetCatFood ? (
+              <Spin />
+            ) : (
               catFoods?.map((catFood) => (
-                <Item justify="space-between" key={0}>
+                <Item justify="space-between" key={catFood.catFoodId}>
                   <Flex gap={20}>
                     <img
                       src={stockCatFood}
@@ -187,20 +197,22 @@ export const CoffeeShopDetail = () => {
                         height: '60px',
                       }}
                     />
-                    <MenuItemLabel>Whiskas</MenuItemLabel>
+                    <MenuItemLabel>{catFood.catFoodName}</MenuItemLabel>
                   </Flex>
                   <PriceLabel>
-                    23,000<CurrencyLabel>đ</CurrencyLabel>
+                    {catFood.catFoodPrice}
+                    <CurrencyLabel>đ</CurrencyLabel>
                   </PriceLabel>
                 </Item>
-              )),
+              ))
+            ),
           );
           break;
         default:
           return null;
       }
     },
-    [catFoods, cats],
+    [catFoods, cats, isLoadingGetCatFood, isLoadingGetCats],
   );
 
   useEffect(() => {
