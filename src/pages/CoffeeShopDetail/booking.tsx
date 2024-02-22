@@ -13,7 +13,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
 
   const slotOptions = useMemo(() => {
     return slots.map((slot) => ({
-      label: slot.startDate + ' - ' + slot.endDate,
+      label: slot.startTime + ' - ' + slot.startTime,
       value: slot.slotId,
     }));
   }, []);

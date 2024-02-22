@@ -36,8 +36,8 @@ export interface Cat {
 
 export interface Slot {
   slotId: string;
-  startDate: string;
-  endDate: string;
+  startTime: string;
+  endTime: string;
 }
 
 export interface Table {

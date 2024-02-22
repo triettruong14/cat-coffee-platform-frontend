@@ -81,6 +81,7 @@ export const getTableByShopIdThunk = createAsyncThunk(
     const response = await axios.get<Table[]>(
       `http://localhost:5193/api/TableBooking, ${shopId.toString()}`,
     );
+    console.log('table response', response.data);
     return response.data;
   },
 );
