@@ -47,7 +47,7 @@ export const Register = () => {
     try {
       dispatch(registerThunk(values));
       console.log('values', values);
-      navigate('/signin-success');
+      navigate('/');
     } catch (error: any) {}
   };
 

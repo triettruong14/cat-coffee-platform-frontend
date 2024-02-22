@@ -96,7 +96,7 @@ export const bookTableThunk = createAsyncThunk(
   'coffeeShop/bookTable',
   async ({ total, accountId, tableId, slotId }: BookingRequest) => {
     const response = await axios.post(
-      `http://localhost:5193/api/TableBooking`,
+      `http://localhost:5193/api/Booking/create`,
       {
         bookingDate: moment().format('MM/DD/YYYY'),
         total,

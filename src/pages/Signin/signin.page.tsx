@@ -57,7 +57,7 @@ export const SignIn = () => {
 
   useEffect(() => {
     if (isSignInSuccess) {
-      navigate('/signin-success');
+      navigate('/');
     }
   }, [isSignInSuccess]);
 
