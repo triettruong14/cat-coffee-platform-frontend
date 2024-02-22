@@ -45,7 +45,7 @@ export const Register = () => {
 
   const handleOnFinish = (values: any) => {
     try {
-      dispatch(mockRegister(values));
+      dispatch(registerThunk(values));
       console.log('values', values);
       navigate('/signin-success');
     } catch (error: any) {}

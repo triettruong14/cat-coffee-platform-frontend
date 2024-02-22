@@ -47,6 +47,7 @@ export const SignIn = () => {
     const password = form.getFieldValue('password');
     dispatch(signInThunk({ email, password }));
     const props: AccountProps = {
+      id: '123',
       username: 'Triet Truong',
       email,
       password,

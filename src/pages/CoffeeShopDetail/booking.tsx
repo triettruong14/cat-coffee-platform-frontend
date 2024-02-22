@@ -39,7 +39,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
           <label style={{ textAlign: 'right' }}>Select Table: </label>
         </Col>
         <Col flex="auto">
-          <Form.Item name="tableName">
+          <Form.Item name="tableId">
             <Select options={tableOptions} placeholder="Select your table" />
           </Form.Item>
         </Col>
@@ -49,7 +49,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
           <label style={{ textAlign: 'right' }}>Select slot: </label>
         </Col>
         <Col flex="auto">
-          <Form.Item name="slot">
+          <Form.Item name="slotId">
             <Select options={slotOptions} placeholder="Select your time slot" />
           </Form.Item>
         </Col>

@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { toast } from 'react-toastify';
 import { CoffeeShop, CoffeeShopProps } from '../../../domain/models';
 import {
+  bookTableThunk,
   getAllCoffeeShopsThunk,
   getCoffeeShopCatFoodThunk,
   getCoffeeShopCatsThunk,
@@ -101,6 +102,36 @@ const coffeeShopSlice = createSlice({
         shop?.shopName?.toLowerCase().includes(payload.toLowerCase()),
       );
       state.isLoadingSearch = false;
+    },
+    mockGetTables: (state) => {
+      const mockTables = [
+        {
+          tableId: '1',
+          tableName: 'Table 1',
+          status: true,
+        },
+        {
+          tableId: '2',
+          tableName: 'Table 2',
+          status: true,
+        },
+      ];
+      state.selectedCoffeeShopTables = mockTables;
+    },
+    mockGetSlots: (state) => {
+      const mockSlots = [
+        {
+          slotId: '1',
+          startDate: '8:00',
+          endDate: '9:00',
+        },
+        {
+          slotId: '2',
+          startDate: '9:00',
+          endDate: '10:00',
+        },
+      ];
+      state.slots = mockSlots;
     },
   },
   extraReducers(builder) {
@@ -230,9 +261,23 @@ const coffeeShopSlice = createSlice({
         const { error } = action;
         toast.error(error.message);
       });
+
+    builder
+      .addCase(bookTableThunk.pending, (state) => {})
+      .addCase(bookTableThunk.fulfilled, (state) => {
+        toast.success('Booking successful');
+      })
+      .addCase(bookTableThunk.rejected, (state, action) => {
+        const { error } = action;
+        toast.error(error.message);
+      });
   },
 });
 
 export const coffeeShopReducer = coffeeShopSlice.reducer;
-export const { mockGetAllCoffeeShops, mockSearchCoffeeShopByName } =
-  coffeeShopSlice.actions;
+export const {
+  mockGetAllCoffeeShops,
+  mockSearchCoffeeShopByName,
+  mockGetSlots,
+  mockGetTables,
+} = coffeeShopSlice.actions;

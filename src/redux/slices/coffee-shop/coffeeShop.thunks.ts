@@ -7,6 +7,7 @@ import {
   Slot,
   Table,
 } from './coffeShopSlice';
+import moment from 'moment';
 
 export const searchCoffeeShopByNameThunk = createAsyncThunk(
   'coffeeShop/searchShopByName',
@@ -79,6 +80,30 @@ export const getTableByShopIdThunk = createAsyncThunk(
   async (shopId: string) => {
     const response = await axios.get<Table[]>(
       `http://localhost:5193/api/TableBooking, ${shopId.toString()}`,
+    );
+    return response.data;
+  },
+);
+
+interface BookingRequest {
+  total: number;
+  accountId: string;
+  tableId: string;
+  slotId: string;
+}
+
+export const bookTableThunk = createAsyncThunk(
+  'coffeeShop/bookTable',
+  async ({ total, accountId, tableId, slotId }: BookingRequest) => {
+    const response = await axios.post(
+      `http://localhost:5193/api/TableBooking`,
+      {
+        bookingDate: moment().format('MM/DD/YYYY'),
+        total,
+        accountId,
+        tableId,
+        slotId,
+      },
     );
     return response.data;
   },

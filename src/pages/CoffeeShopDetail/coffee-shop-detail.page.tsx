@@ -1,15 +1,11 @@
 import {
   Button,
-  Col,
-  DatePicker,
   Divider,
   Flex,
   Form,
-  Input,
   Menu,
   MenuProps,
   Modal,
-  Row,
   Space,
   Spin,
 } from 'antd';
@@ -26,15 +22,18 @@ import {
   LoginOutlined,
 } from '@ant-design/icons';
 import {
+  bookTableThunk,
   getAllCoffeeShopsThunk,
   getCoffeeShopCatFoodThunk,
   getCoffeeShopCatsThunk,
+  getTableByShopIdThunk,
   selectCoffeeShops,
   selectLoadingGetCatFood,
   selectLoadingGetCats,
   selectSelectedCoffeeShopCatFood,
   selectSelectedCoffeeShopCats,
   selectSignInStatus,
+  selectUser,
 } from '../../redux';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { CoffeeShop } from '../../domain/models';
@@ -136,6 +135,7 @@ export const CoffeeShopDetail = () => {
   const cats = useAppSelector(selectSelectedCoffeeShopCats);
   const isLoadingGetCats = useAppSelector(selectLoadingGetCats);
   const isSignedIn = useAppSelector(selectSignInStatus);
+  const account = useAppSelector(selectUser);
 
   const onClick: MenuProps['onClick'] = (e) => {
     const { key } = e;
@@ -237,12 +237,16 @@ export const CoffeeShopDetail = () => {
     if (!coffeeShops) {
       dispatch(getAllCoffeeShopsThunk());
     }
+
+    if (id) {
+      dispatch(getTableByShopIdThunk(id));
+    }
   }, []);
 
   const handleOnSubmit = () => {
     form.validateFields();
     const values = form.getFieldsValue();
-    console.log(values);
+    dispatch(bookTableThunk({ ...values, accountId: account?.id, total: 0 }));
   };
 
   return (
