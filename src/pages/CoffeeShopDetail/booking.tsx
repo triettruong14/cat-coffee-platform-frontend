@@ -13,7 +13,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
 
   const slotOptions = useMemo(() => {
     return slots.map((slot) => ({
-      label: slot.startTime + ' - ' + slot.startTime,
+      label: slot.startTime + ' - ' + slot.endTime,
       value: slot.slotId,
     }));
   }, []);
@@ -22,7 +22,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
     () =>
       tables?.map((table) => ({
         label: table.tableName,
-        value: table.tableId,
+        value: table.tableName,
       })),
     [tables],
   );
@@ -39,7 +39,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
           <label style={{ textAlign: 'right' }}>Select Table: </label>
         </Col>
         <Col flex="auto">
-          <Form.Item name="tableId">
+          <Form.Item name="tableName">
             <Select options={tableOptions} placeholder="Select your table" />
           </Form.Item>
         </Col>

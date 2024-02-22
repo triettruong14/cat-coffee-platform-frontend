@@ -42,8 +42,9 @@ export interface Slot {
 
 export interface Table {
   tableId: string;
+  shopId: string;
+  areaId: string;
   tableName: string;
-  status: boolean;
 }
 
 export interface Drink {}
@@ -55,6 +56,7 @@ export interface CoffeeShopState {
   isLoadingGetAll: boolean;
   isLoadingGetCats: boolean;
   isLoadingGetCatFood: boolean;
+  isLoadingBooking: boolean;
   selectedCoffeeShopCatFood?: CatFood[];
   selectedCoffeeShopCats?: Cat[];
   selectedCoffeeShopTables?: Table[];
@@ -73,6 +75,7 @@ const initialState: CoffeeShopState = {
   isLoadingGetCatFood: false,
   isLoadingSearch: false,
   isLoadingGetAll: false,
+  isLoadingBooking: false,
 };
 
 const coffeeShopSlice = createSlice({
@@ -104,19 +107,19 @@ const coffeeShopSlice = createSlice({
       state.isLoadingSearch = false;
     },
     mockGetTables: (state) => {
-      const mockTables = [
-        {
-          tableId: '1',
-          tableName: 'Table 1',
-          status: true,
-        },
-        {
-          tableId: '2',
-          tableName: 'Table 2',
-          status: true,
-        },
-      ];
-      state.selectedCoffeeShopTables = mockTables;
+      // const mockTables = [
+      //   {
+      //     tableId: '1',
+      //     tableName: 'Table 1',
+      //     status: true,
+      //   },
+      //   {
+      //     tableId: '2',
+      //     tableName: 'Table 2',
+      //     status: true,
+      //   },
+      // ];
+      // state.selectedCoffeeShopTables = mockTables;
     },
     mockGetSlots: (state) => {
       const mockSlots = [
@@ -263,13 +266,17 @@ const coffeeShopSlice = createSlice({
       });
 
     builder
-      .addCase(bookTableThunk.pending, (state) => {})
+      .addCase(bookTableThunk.pending, (state) => {
+        state.isLoadingBooking = true;
+      })
       .addCase(bookTableThunk.fulfilled, (state) => {
         toast.success('Booking successful');
+        state.isLoadingBooking = false;
       })
       .addCase(bookTableThunk.rejected, (state, action) => {
         const { error } = action;
         toast.error(error.message);
+        state.isLoadingBooking = false;
       });
   },
 });

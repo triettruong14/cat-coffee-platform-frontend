@@ -79,7 +79,7 @@ export const getTableByShopIdThunk = createAsyncThunk(
   'coffeeShop/getTableByShopId',
   async (shopId: string) => {
     const response = await axios.get<Table[]>(
-      `http://localhost:5193/api/TableBooking, ${shopId.toString()}`,
+      `http://localhost:5193/api/ShopCoffeeCat/${shopId.toString()}`,
     );
     console.log('table response', response.data);
     return response.data;
@@ -89,20 +89,20 @@ export const getTableByShopIdThunk = createAsyncThunk(
 interface BookingRequest {
   total: number;
   accountId: string;
-  tableId: string;
+  tableName: string;
   slotId: string;
 }
 
 export const bookTableThunk = createAsyncThunk(
   'coffeeShop/bookTable',
-  async ({ total, accountId, tableId, slotId }: BookingRequest) => {
+  async ({ total, accountId, tableName, slotId }: BookingRequest) => {
     const response = await axios.post(
       `http://localhost:5193/api/Booking/create`,
       {
         bookingDate: moment().format('DD/MM/YYYY'),
         total,
         accountId,
-        tableId,
+        tableName,
         slotId,
       },
     );

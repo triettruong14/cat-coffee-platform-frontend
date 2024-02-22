@@ -28,3 +28,6 @@ export const selectSlots = (state: RootState) => state.coffeeShop.slots;
 
 export const selectSelectedCoffeeShopTables = (state: RootState) =>
   state.coffeeShop.selectedCoffeeShopTables;
+
+export const selectIsLoadingBooking = (state: RootState) =>
+  state.coffeeShop.isLoadingBooking;

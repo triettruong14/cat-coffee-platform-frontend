@@ -28,6 +28,7 @@ import {
   getCoffeeShopCatsThunk,
   getTableByShopIdThunk,
   selectCoffeeShops,
+  selectIsLoadingBooking,
   selectLoadingGetCatFood,
   selectLoadingGetCats,
   selectSelectedCoffeeShopCatFood,
@@ -136,6 +137,7 @@ export const CoffeeShopDetail = () => {
   const isLoadingGetCats = useAppSelector(selectLoadingGetCats);
   const isSignedIn = useAppSelector(selectSignInStatus);
   const account = useAppSelector(selectUser);
+  const isLoadingBooking = useAppSelector(selectIsLoadingBooking);
 
   const onClick: MenuProps['onClick'] = (e) => {
     const { key } = e;
@@ -292,6 +294,7 @@ export const CoffeeShopDetail = () => {
                     title={`Booking for ${selectedCoffeeShop?.shopName}`}
                     onCancel={() => setIsModalOpen(false)}
                     onOk={handleOnSubmit}
+                    confirmLoading={isLoadingBooking}
                   >
                     <BookingForm form={form} handleOnSubmit={handleOnSubmit} />
                   </Modal>
