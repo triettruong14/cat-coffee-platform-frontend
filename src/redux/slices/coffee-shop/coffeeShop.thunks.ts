@@ -103,7 +103,7 @@ export const bookTableThunk = createAsyncThunk(
         bookingDate: moment().format('DD/MM/YYYY'),
         total,
         accountId,
-        shopId,
+        shopId: parseInt(shopId),
         tableName,
         slotId,
       },
