@@ -79,7 +79,7 @@ export const getTableByShopIdThunk = createAsyncThunk(
   'coffeeShop/getTableByShopId',
   async (shopId: string) => {
     const response = await axios.get<Table[]>(
-      `http://localhost:5193/api/ShopCoffeeCat/${shopId.toString()}`,
+      `http://localhost:5193/api/Table/${shopId.toString()}`,
     );
     console.log('table response', response.data);
     return response.data;

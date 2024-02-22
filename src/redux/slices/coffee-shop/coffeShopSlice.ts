@@ -149,15 +149,13 @@ const coffeeShopSlice = createSlice({
         const coffeeShops: CoffeeShop[] = [];
         payload.forEach((shop: CoffeeShopApiResponse) => {
           const { shopId, accountId, shopName, startTime, endTime } = shop;
-          const formattedStartDate = dayjs(startTime).format('DD/MM/YYYY');
-          const formattedEndDate = dayjs(endTime).format('DD/MM/YYYY');
 
           const coffeeShop = new CoffeeShop({
             shopId,
             accountId,
             shopName,
-            startDate: formattedStartDate,
-            endDate: formattedEndDate,
+            startDate: startTime,
+            endDate: endTime,
           });
           coffeeShops.push(coffeeShop);
         });

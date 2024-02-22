@@ -139,7 +139,6 @@ export const CoffeeShopDetail = () => {
   const isSignedIn = useAppSelector(selectSignInStatus);
   const account = useAppSelector(selectUser);
   const isLoadingBooking = useAppSelector(selectIsLoadingBooking);
-  const tables = useAppSelector(selectSelectedCoffeeShopTables);
 
   const onClick: MenuProps['onClick'] = (e) => {
     const { key } = e;
