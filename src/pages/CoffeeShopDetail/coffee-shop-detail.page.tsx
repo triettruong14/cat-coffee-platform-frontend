@@ -20,7 +20,11 @@ import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
 import stockSmoothie from '../../assets/stock_chocolate_chip_smoothie.jpeg';
 import stockCat from '../../assets/stock_scottish_cat.jpeg';
 import stockCatFood from '../../assets/stock_cat_food.png';
-import { ArrowLeftOutlined, CalendarOutlined } from '@ant-design/icons';
+import {
+  ArrowLeftOutlined,
+  CalendarOutlined,
+  LoginOutlined,
+} from '@ant-design/icons';
 import {
   getAllCoffeeShopsThunk,
   getCoffeeShopCatFoodThunk,
@@ -30,9 +34,11 @@ import {
   selectLoadingGetCats,
   selectSelectedCoffeeShopCatFood,
   selectSelectedCoffeeShopCats,
+  selectSignInStatus,
 } from '../../redux';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { CoffeeShop } from '../../domain/models';
+import { BookingForm } from './booking';
 
 const BackgroundWrapper = styled(Flex)`
   background: #f2f2f2;
@@ -129,6 +135,7 @@ export const CoffeeShopDetail = () => {
   const isLoadingGetCatFood = useAppSelector(selectLoadingGetCatFood);
   const cats = useAppSelector(selectSelectedCoffeeShopCats);
   const isLoadingGetCats = useAppSelector(selectLoadingGetCats);
+  const isSignedIn = useAppSelector(selectSignInStatus);
 
   const onClick: MenuProps['onClick'] = (e) => {
     const { key } = e;
@@ -232,6 +239,12 @@ export const CoffeeShopDetail = () => {
     }
   }, []);
 
+  const handleOnSubmit = () => {
+    form.validateFields();
+    const values = form.getFieldsValue();
+    console.log(values);
+  };
+
   return (
     <>
       <Flex style={{ width: '100%', background: '#fff' }} justify="center">
@@ -259,39 +272,27 @@ export const CoffeeShopDetail = () => {
               <Divider />
               <ShopDetailText>
                 Hours: {selectedCoffeeShop?.startDate} -{' '}
-                {selectedCoffeeShop?.startDate}
+                {selectedCoffeeShop?.endDate}
               </ShopDetailText>
-              <Button type="primary" onClick={() => setIsModalOpen(true)}>
-                Start Booking <CalendarOutlined />
-              </Button>
-              <Modal
-                open={isModalOpen}
-                title={`Booking for ${selectedCoffeeShop?.shopName}`}
-                onCancel={() => setIsModalOpen(false)}
-              >
-                <Form form={form} layout="horizontal" style={{ width: '100%' }}>
-                  <Row>
-                    <Col span={6}>
-                      <label style={{ textAlign: 'right' }}>For </label>
-                    </Col>
-                    <Col flex="auto">
-                      <Form.Item name="customerName">
-                        <Input placeholder="Please enter who we will be reserving the table for" />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                  <Row>
-                    <Col span={6}>
-                      <label style={{ textAlign: 'right' }}>Reserve date</label>
-                    </Col>
-                    <Col flex="auto">
-                      <Form.Item name="bookDate">
-                        <DatePicker />
-                      </Form.Item>
-                    </Col>
-                  </Row>
-                </Form>
-              </Modal>
+              {!isSignedIn ? (
+                <Button>
+                  Sign in to start Booking <LoginOutlined />
+                </Button>
+              ) : (
+                <>
+                  <Button type="primary" onClick={() => setIsModalOpen(true)}>
+                    Start Booking <CalendarOutlined />
+                  </Button>
+                  <Modal
+                    open={isModalOpen}
+                    title={`Booking for ${selectedCoffeeShop?.shopName}`}
+                    onCancel={() => setIsModalOpen(false)}
+                    onOk={handleOnSubmit}
+                  >
+                    <BookingForm form={form} handleOnSubmit={handleOnSubmit} />
+                  </Modal>
+                </>
+              )}
             </div>
           </ShopInfo>
         </ShopOverviewSection>

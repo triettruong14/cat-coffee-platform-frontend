@@ -6,6 +6,7 @@ import background from '../../assets/saigon_background.jpeg';
 import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
 import { useDebounce } from '../../hooks';
 import {
+  mockSearchCoffeeShopByName,
   searchCoffeeShopByNameThunk,
   selectIsLoadingSearch,
   selectSearchResults,
@@ -151,8 +152,7 @@ export const Search = () => {
 
   useEffect(() => {
     if (searchTerm !== '') {
-      console.log('searchTerm', searchTerm);
-      dispatch(searchCoffeeShopByNameThunk(searchTerm));
+      dispatch(mockSearchCoffeeShopByName(searchTerm));
     }
   }, []);
 

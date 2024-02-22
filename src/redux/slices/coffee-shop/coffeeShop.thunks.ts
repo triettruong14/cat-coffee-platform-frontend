@@ -1,6 +1,12 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { Cat, CatFood, CoffeeShopApiResponse } from './coffeShopSlice';
+import {
+  Cat,
+  CatFood,
+  CoffeeShopApiResponse,
+  Slot,
+  Table,
+} from './coffeShopSlice';
 
 export const searchCoffeeShopByNameThunk = createAsyncThunk(
   'coffeeShop/searchShopByName',
@@ -53,6 +59,26 @@ export const getCoffeeShopDrinksThunk = createAsyncThunk(
     const response = await axios.get<CatFood[]>(
       'http://localhost:5193/api/ShopCoffeeCat/GetDrinks',
       { params },
+    );
+    return response.data;
+  },
+);
+
+export const getSlotsThunk = createAsyncThunk(
+  'coffeeShop/getSlots',
+  async () => {
+    const response = await axios.get<Slot[]>(
+      `http://localhost:5193/api/SlotBooking`,
+    );
+    return response.data;
+  },
+);
+
+export const getTableByShopIdThunk = createAsyncThunk(
+  'coffeeShop/getTableByShopId',
+  async (shopId: string) => {
+    const response = await axios.get<Table[]>(
+      `http://localhost:5193/api/TableBooking, ${shopId.toString()}`,
     );
     return response.data;
   },

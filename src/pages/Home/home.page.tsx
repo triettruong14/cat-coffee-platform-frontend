@@ -11,6 +11,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
   getAllCoffeeShopsThunk,
   getCatTypesThunk,
+  getSlotsThunk,
   mockGetAllCoffeeShops,
   selectCatTypes,
   selectCoffeeShops,
@@ -78,6 +79,7 @@ export const Home = () => {
   useEffect(() => {
     dispatch(getCatTypesThunk());
     dispatch(getAllCoffeeShopsThunk());
+    dispatch(getSlotsThunk());
   }, []);
 
   return (
