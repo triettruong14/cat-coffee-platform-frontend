@@ -40,7 +40,14 @@ const authSlice = createSlice({
       .addCase(signInThunk.fulfilled, (state, action) => {
         const { payload } = action;
         state.isLoading = false;
-        state.account = payload;
+
+        const account = new Account({
+          ...payload,
+          id: payload.accountId,
+          username: payload.userName,
+        });
+
+        state.account = account;
         state.signInSuccess = true;
       })
       .addCase(signInThunk.rejected, (state, action) => {
@@ -55,7 +62,7 @@ const authSlice = createSlice({
         const { payload } = action;
         console.log('payload', payload);
         state.isLoading = false;
-        state.account = payload;
+
         state.signInSuccess = true;
       })
       .addCase(registerThunk.rejected, (state, action) => {
