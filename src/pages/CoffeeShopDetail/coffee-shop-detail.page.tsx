@@ -33,6 +33,7 @@ import {
   selectLoadingGetCats,
   selectSelectedCoffeeShopCatFood,
   selectSelectedCoffeeShopCats,
+  selectSelectedCoffeeShopTables,
   selectSignInStatus,
   selectUser,
 } from '../../redux';
@@ -138,6 +139,7 @@ export const CoffeeShopDetail = () => {
   const isSignedIn = useAppSelector(selectSignInStatus);
   const account = useAppSelector(selectUser);
   const isLoadingBooking = useAppSelector(selectIsLoadingBooking);
+  const tables = useAppSelector(selectSelectedCoffeeShopTables);
 
   const onClick: MenuProps['onClick'] = (e) => {
     const { key } = e;
@@ -248,7 +250,14 @@ export const CoffeeShopDetail = () => {
   const handleOnSubmit = () => {
     form.validateFields();
     const values = form.getFieldsValue();
-    dispatch(bookTableThunk({ ...values, accountId: account?.id, total: 0 }));
+    dispatch(
+      bookTableThunk({
+        ...values,
+        tableName: values.tableName,
+        accountId: account?.id,
+        total: 0,
+      }),
+    );
   };
 
   return (
