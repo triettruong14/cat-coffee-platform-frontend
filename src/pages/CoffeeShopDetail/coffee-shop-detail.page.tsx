@@ -254,7 +254,7 @@ export const CoffeeShopDetail = () => {
         ...values,
         tableName: values.tableName,
         accountId: account?.id,
-        shopId: selectedCoffeeShop?.shopId,
+        shopId: id,
         total: 0,
       }),
     );
