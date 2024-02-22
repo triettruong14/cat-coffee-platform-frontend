@@ -45,13 +45,13 @@ export const SignIn = () => {
   const handleSubmit = () => {
     const email = form.getFieldValue('email');
     const password = form.getFieldValue('password');
-    // dispatch(signInThunk({ email, password }));
+    dispatch(signInThunk({ email, password }));
     const props: AccountProps = {
       username: 'Triet Truong',
       email,
       password,
     };
-    dispatch(mockSignIn(new Account(props)));
+    // dispatch(mockSignIn(new Account(props)));
   };
 
   useEffect(() => {

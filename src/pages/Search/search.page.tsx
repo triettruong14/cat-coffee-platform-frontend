@@ -152,7 +152,7 @@ export const Search = () => {
 
   useEffect(() => {
     if (searchTerm !== '') {
-      dispatch(mockSearchCoffeeShopByName(searchTerm));
+      dispatch(searchCoffeeShopByNameThunk(searchTerm));
     }
   }, []);
 
