@@ -22,7 +22,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
     () =>
       tables?.map((table) => ({
         label: table.tableName,
-        value: table.tableName,
+        value: table.tableId,
       })),
     [tables],
   );

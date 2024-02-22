@@ -252,7 +252,6 @@ export const CoffeeShopDetail = () => {
     dispatch(
       bookTableThunk({
         ...values,
-        tableName: values.tableName,
         accountId: account?.id,
         shopId: id,
         total: 0,

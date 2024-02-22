@@ -90,13 +90,13 @@ interface BookingRequest {
   total: number;
   accountId: string;
   shopId: string;
-  tableName: string;
+  tableId: string;
   slotId: string;
 }
 
 export const bookTableThunk = createAsyncThunk(
   'coffeeShop/bookTable',
-  async ({ total, accountId, shopId, tableName, slotId }: BookingRequest) => {
+  async ({ total, accountId, shopId, tableId, slotId }: BookingRequest) => {
     const response = await axios.post(
       `http://localhost:5193/api/Booking/create`,
       {
@@ -104,7 +104,7 @@ export const bookTableThunk = createAsyncThunk(
         total,
         accountId,
         shopId: parseInt(shopId),
-        tableName,
+        tableId,
         slotId,
       },
     );
