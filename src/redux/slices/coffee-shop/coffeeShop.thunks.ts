@@ -99,7 +99,7 @@ export const bookTableThunk = createAsyncThunk(
     const response = await axios.post(
       `http://localhost:5193/api/Booking/create`,
       {
-        bookingDate: moment().format('MM/DD/YYYY'),
+        bookingDate: moment().format('DD/MM/YYYY'),
         total,
         accountId,
         tableId,

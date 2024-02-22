@@ -122,13 +122,13 @@ const coffeeShopSlice = createSlice({
       const mockSlots = [
         {
           slotId: '1',
-          startDate: '8:00',
-          endDate: '9:00',
+          startTime: '8:00',
+          endTime: '9:00',
         },
         {
           slotId: '2',
-          startDate: '9:00',
-          endDate: '10:00',
+          startTime: '9:00',
+          endTime: '10:00',
         },
       ];
       state.slots = mockSlots;
