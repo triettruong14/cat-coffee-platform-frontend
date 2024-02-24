@@ -47,6 +47,17 @@ export interface Table {
   tableName: string;
 }
 
+export interface Booking {
+  bookingId?: number;
+  shopId: number;
+  bookingDate: string;
+  total: number;
+  accountId?: number;
+  tableId: number;
+  slotId: number;
+  status: boolean;
+}
+
 export interface Drink {}
 
 export interface CoffeeShopState {

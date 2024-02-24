@@ -1,12 +1,4 @@
-import {
-  Button,
-  Col,
-  Flex,
-  Layout as AntDLayout,
-  Menu,
-  Row,
-  Space,
-} from 'antd';
+import { Button, Flex, Layout as AntDLayout, Space } from 'antd';
 import { GithubOutlined } from '@ant-design/icons';
 import styled from 'styled-components';
 import Title from 'antd/es/typography/Title';
@@ -57,6 +49,8 @@ const RegisterButton = styled(SignInButton)`
 
 const LogOutButton = styled(SignInButton)``;
 
+const BookingHistoryButton = styled(SignInButton)``;
+
 interface HeaderProps {}
 
 export const AppHeader = ({}: HeaderProps) => {
@@ -78,6 +72,9 @@ export const AppHeader = ({}: HeaderProps) => {
           {loggedIn ? (
             <Space>
               <p>Welcome back, {account && account.username}!</p>
+              <BookingHistoryButton type="link">
+                <Link to="/booking-history">Booking History</Link>
+              </BookingHistoryButton>
               <LogOutButton
                 onClick={() => {
                   dispatch(logOut());

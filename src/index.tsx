@@ -13,6 +13,7 @@ import { AppLayout } from './components/Layout';
 import { AppHeader } from './components/Header';
 import { SignInSuccess } from './components/SignInSuccess';
 import { Protected } from './components/ProtectedRoute';
+import { BookingHistory } from './pages/BookingHistory/booking-history.page';
 
 const router = createBrowserRouter([
   {
@@ -53,6 +54,16 @@ const router = createBrowserRouter([
       <Protected>
         <AppLayout header={<AppHeader />}>
           <SignInSuccess />
+        </AppLayout>
+      </Protected>
+    ),
+  },
+  {
+    path: '/booking-history',
+    element: (
+      <Protected>
+        <AppLayout header={<AppHeader />}>
+          <BookingHistory />
         </AppLayout>
       </Protected>
     ),
