@@ -11,13 +11,14 @@ import {
 import Title from 'antd/es/typography/Title';
 import dayjs from 'dayjs';
 import moment from 'moment';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import {
   Booking,
   getBookingByAccountIdThunk,
   selectBookingHistory,
+  selectSlots,
   selectUser,
 } from '../../redux';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -33,7 +34,7 @@ const Container = styled.div`
 
 const HistoryContainer = styled.div`
   width: 80%;
-  height: 50%;
+  max-height: 550px;
   background: #fff;
   padding: 1rem;
 `;
@@ -42,31 +43,89 @@ const PageTitle = styled(Title)`
   padding-block: 2.5rem;
 `;
 
-const columns: TableProps<Booking>['columns'] = [
+const TableWrapper = styled.div`
+  height: 450px;
+  width: 100%;
+  overflow-y: scroll;
+`;
+
+const mockData: Booking[] = [
   {
-    title: 'Shop',
-    dataIndex: 'shopName',
-    key: 'shopName',
+    shopName: 'Starbucks',
+    bookingDate: '01/01/2021',
+    total: 100,
+    tableName: 'shop1',
+    slotId: 1,
   },
   {
-    title: 'Booking Date',
-    dataIndex: 'bookingDate',
-    key: 'bookingDate',
+    shopName: 'Starbucks',
+    bookingDate: '01/01/2021',
+    total: 100,
+    tableName: 'shop1',
+    slotId: 1,
   },
   {
-    title: 'Total',
-    dataIndex: 'total',
-    key: 'total',
+    shopName: 'Starbucks',
+    bookingDate: '01/01/2021',
+    total: 100,
+    tableName: 'shop1',
+    slotId: 1,
   },
   {
-    title: 'Table number',
-    dataIndex: 'tableId',
-    key: 'tableId',
+    shopName: 'Starbucks',
+    bookingDate: '01/01/2021',
+    total: 100,
+    tableName: 'shop1',
+    slotId: 1,
   },
   {
-    title: 'Time slot',
-    dataIndex: 'slotId',
-    key: 'slotId',
+    shopName: 'Starbucks',
+    bookingDate: '01/01/2021',
+    total: 100,
+    tableName: 'shop1',
+    slotId: 1,
+  },
+  {
+    shopName: 'Starbucks',
+    bookingDate: '01/01/2021',
+    total: 100,
+    tableName: 'shop1',
+    slotId: 1,
+  },
+  {
+    shopName: 'Starbucks',
+    bookingDate: '01/01/2021',
+    total: 100,
+    tableName: 'shop1',
+    slotId: 1,
+  },
+  {
+    shopName: 'Starbucks',
+    bookingDate: '01/01/2021',
+    total: 100,
+    tableName: 'shop1',
+    slotId: 1,
+  },
+  {
+    shopName: 'Starbucks',
+    bookingDate: '01/01/2021',
+    total: 100,
+    tableName: 'shop1',
+    slotId: 1,
+  },
+  {
+    shopName: 'Starbucks',
+    bookingDate: '01/01/2021',
+    total: 100,
+    tableName: 'shop1',
+    slotId: 1,
+  },
+  {
+    shopName: 'Starbucks',
+    bookingDate: '01/01/2021',
+    total: 100,
+    tableName: 'shop1',
+    slotId: 1,
   },
 ];
 
@@ -75,8 +134,9 @@ export const BookingHistory = () => {
 
   const bookings = useAppSelector(selectBookingHistory);
   const user = useAppSelector(selectUser);
+  const slots = useAppSelector(selectSlots);
 
-  const [data, setData] = useState(bookings);
+  const [data, setData] = useState<Booking[] | undefined>(mockData);
   const [startDate, setStartDate] = useState<string | null>(null);
   const [endDate, setEndDate] = useState<string | null>(null);
 
@@ -98,6 +158,46 @@ export const BookingHistory = () => {
     setEndDate(null);
     setData(bookings);
   };
+
+  const columns: TableProps<Booking>['columns'] = useMemo(
+    () => [
+      {
+        title: 'Shop',
+        dataIndex: 'shopName',
+        key: 'shopName',
+      },
+      {
+        title: 'Booking Date',
+        dataIndex: 'bookingDate',
+        key: 'bookingDate',
+      },
+      {
+        title: 'Total',
+        dataIndex: 'total',
+        key: 'total',
+      },
+      {
+        title: 'Table Name',
+        dataIndex: 'tableName',
+        key: 'tableName',
+      },
+      {
+        title: 'Time slot',
+        dataIndex: 'slotId',
+        key: 'slotId',
+        render: (slotId) => {
+          const foundSlot = slots.find((slot) => slot.slotId === slotId);
+
+          return (
+            <span>
+              {foundSlot?.startTime} - {foundSlot?.endTime}
+            </span>
+          );
+        },
+      },
+    ],
+    [slots],
+  );
 
   useEffect(() => {
     if (user) {
@@ -151,7 +251,13 @@ export const BookingHistory = () => {
           <Col span={24}>
             <Row>
               <Col span={24}>
-                <Table columns={columns} dataSource={data} />
+                <TableWrapper>
+                  <Table
+                    columns={columns}
+                    dataSource={data}
+                    style={{ height: '100%' }}
+                  />
+                </TableWrapper>
               </Col>
             </Row>
           </Col>

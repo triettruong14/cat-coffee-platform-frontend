@@ -50,13 +50,13 @@ export interface Table {
 
 export interface Booking {
   bookingId?: number;
-  shopName: number;
+  shopName: string;
   bookingDate: string;
   total: number;
   accountId?: number;
-  tableId: number;
+  tableName: string;
   slotId: number;
-  status: boolean;
+  status?: boolean;
 }
 
 export interface Drink {}
