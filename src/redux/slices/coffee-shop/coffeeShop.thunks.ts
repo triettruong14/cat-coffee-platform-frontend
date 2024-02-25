@@ -116,8 +116,10 @@ export const bookTableThunk = createAsyncThunk(
 export const getBookingByAccountIdThunk = createAsyncThunk(
   'coffeeShop/getBookingByAccountId',
   async (accountId: string) => {
+    const params = new URLSearchParams({ accountId });
     const response = await axios.get<Booking[]>(
-      `http://localhost:5193/api/Booking/GetBooking,${accountId}`,
+      `http://localhost:5193/api/Booking/GetBooking`,
+      { params },
     );
     return response.data;
   },
