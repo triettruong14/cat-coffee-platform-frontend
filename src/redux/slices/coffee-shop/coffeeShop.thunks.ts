@@ -1,6 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import {
+  Booking,
   Cat,
   CatFood,
   CoffeeShopApiResponse,
@@ -107,6 +108,16 @@ export const bookTableThunk = createAsyncThunk(
         tableId,
         slotId,
       },
+    );
+    return response.data;
+  },
+);
+
+export const getBookingByAccountIdThunk = createAsyncThunk(
+  'coffeeShop/getBookingByAccountId',
+  async (accountId: string) => {
+    const response = await axios.get<Booking[]>(
+      `http://localhost:5193/api/Booking/GetBooking,${accountId}`,
     );
     return response.data;
   },

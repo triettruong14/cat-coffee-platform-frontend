@@ -31,3 +31,9 @@ export const selectSelectedCoffeeShopTables = (state: RootState) =>
 
 export const selectIsLoadingBooking = (state: RootState) =>
   state.coffeeShop.isLoadingBooking;
+
+export const selectBookingHistory = (state: RootState) =>
+  state.coffeeShop.bookingHistory;
+
+export const selectIsLoadingBookingHistory = (state: RootState) =>
+  state.coffeeShop.isLoadingBookingHistory;

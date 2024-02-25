@@ -11,9 +11,16 @@ import {
 import Title from 'antd/es/typography/Title';
 import dayjs from 'dayjs';
 import moment from 'moment';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import { Booking } from '../../redux';
+import {
+  Booking,
+  getBookingByAccountIdThunk,
+  selectBookingHistory,
+  selectUser,
+} from '../../redux';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const Container = styled.div`
   display: flex;
@@ -26,7 +33,7 @@ const Container = styled.div`
 
 const HistoryContainer = styled.div`
   width: 80%;
-  height: 500px;
+  height: 50%;
   background: #fff;
   padding: 1rem;
 `;
@@ -34,44 +41,12 @@ const HistoryContainer = styled.div`
 const PageTitle = styled(Title)`
   padding-block: 2.5rem;
 `;
-const bookings: Booking[] = [
-  {
-    bookingId: 1,
-    shopId: 1,
-    bookingDate: '01/01/2024',
-    total: 100,
-    accountId: 1,
-    tableId: 1,
-    slotId: 1,
-    status: true,
-  },
-  {
-    bookingId: 2,
-    shopId: 2,
-    bookingDate: '02/01/2024',
-    total: 200,
-    accountId: 2,
-    tableId: 2,
-    slotId: 2,
-    status: false,
-  },
-  {
-    bookingId: 3,
-    shopId: 3,
-    bookingDate: '03/01/2024',
-    total: 300,
-    accountId: 3,
-    tableId: 3,
-    slotId: 3,
-    status: true,
-  },
-];
 
 const columns: TableProps<Booking>['columns'] = [
   {
     title: 'Shop',
-    dataIndex: 'shopId',
-    key: 'shopId',
+    dataIndex: 'shopName',
+    key: 'shopName',
   },
   {
     title: 'Booking Date',
@@ -93,20 +68,14 @@ const columns: TableProps<Booking>['columns'] = [
     dataIndex: 'slotId',
     key: 'slotId',
   },
-  {
-    title: 'Status',
-    dataIndex: 'status',
-    key: 'status',
-    render: (status: boolean) => (status ? 'Confirmed' : 'Cancelled'),
-  },
-];
-
-const statusOptions = [
-  { label: 'Confirmed', value: true },
-  { label: 'Cancelled', value: false },
 ];
 
 export const BookingHistory = () => {
+  const dispatch = useAppDispatch();
+
+  const bookings = useAppSelector(selectBookingHistory);
+  const user = useAppSelector(selectUser);
+
   const [data, setData] = useState(bookings);
   const [startDate, setStartDate] = useState<string | null>(null);
   const [endDate, setEndDate] = useState<string | null>(null);
@@ -115,7 +84,7 @@ export const BookingHistory = () => {
     let filteredData = bookings;
 
     if (startDate && endDate) {
-      filteredData = filteredData.filter((record) => {
+      filteredData = filteredData?.filter((record) => {
         const recordDate = moment(record.bookingDate, 'DD/MM/YYYY');
         return recordDate.isBetween(startDate, endDate, 'day', '[]');
       });
@@ -130,6 +99,12 @@ export const BookingHistory = () => {
     setData(bookings);
   };
 
+  useEffect(() => {
+    if (user) {
+      dispatch(getBookingByAccountIdThunk((user.id as any).toString()));
+    }
+  }, []);
+
   return (
     <Container>
       <PageTitle level={2}>Booking History</PageTitle>
@@ -137,13 +112,6 @@ export const BookingHistory = () => {
         <Row gutter={[16, 16]}>
           <Col span={24}>
             <Row gutter={16} justify="center" align="middle">
-              <Col span={5}>
-                <span>Status</span>
-                <Select
-                  style={{ width: '78%', marginLeft: '5px' }}
-                  options={statusOptions}
-                />
-              </Col>
               <Col span={5}>
                 <span>From</span>
                 <DatePicker

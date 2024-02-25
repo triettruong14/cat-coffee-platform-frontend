@@ -5,6 +5,7 @@ import { CoffeeShop, CoffeeShopProps } from '../../../domain/models';
 import {
   bookTableThunk,
   getAllCoffeeShopsThunk,
+  getBookingByAccountIdThunk,
   getCoffeeShopCatFoodThunk,
   getCoffeeShopCatsThunk,
   getSlotsThunk,
@@ -49,7 +50,7 @@ export interface Table {
 
 export interface Booking {
   bookingId?: number;
-  shopId: number;
+  shopName: number;
   bookingDate: string;
   total: number;
   accountId?: number;
@@ -68,9 +69,11 @@ export interface CoffeeShopState {
   isLoadingGetCats: boolean;
   isLoadingGetCatFood: boolean;
   isLoadingBooking: boolean;
+  isLoadingBookingHistory: boolean;
   selectedCoffeeShopCatFood?: CatFood[];
   selectedCoffeeShopCats?: Cat[];
   selectedCoffeeShopTables?: Table[];
+  bookingHistory?: Booking[];
   slots: Slot[];
   error?: string;
 }
@@ -79,6 +82,7 @@ const initialState: CoffeeShopState = {
   searchResults: [],
   coffeeShops: [],
   slots: [],
+  bookingHistory: [],
   selectedCoffeeShopCatFood: [],
   selectedCoffeeShopCats: [],
   selectedCoffeeShopTables: [],
@@ -87,6 +91,7 @@ const initialState: CoffeeShopState = {
   isLoadingSearch: false,
   isLoadingGetAll: false,
   isLoadingBooking: false,
+  isLoadingBookingHistory: false,
 };
 
 const coffeeShopSlice = createSlice({
@@ -286,6 +291,22 @@ const coffeeShopSlice = createSlice({
         const { error } = action;
         toast.error(error.message);
         state.isLoadingBooking = false;
+      });
+
+    builder
+      .addCase(getBookingByAccountIdThunk.pending, (state) => {
+        state.bookingHistory = [];
+        state.isLoadingBookingHistory = true;
+      })
+      .addCase(getBookingByAccountIdThunk.fulfilled, (state, action) => {
+        const { payload } = action;
+        state.bookingHistory = payload;
+        state.isLoadingBookingHistory = false;
+      })
+      .addCase(getBookingByAccountIdThunk.rejected, (state, action) => {
+        const { error } = action;
+        toast.error(error.message);
+        state.isLoadingBookingHistory = false;
       });
   },
 });

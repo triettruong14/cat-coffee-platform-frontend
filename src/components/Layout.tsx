@@ -13,7 +13,7 @@ export const AppLayout = ({ children, header }: AppLayoutProps) => {
   return (
     <AntDLayout style={layoutStyle}>
       {header}
-      <Content style={{ height: '100%' }}>{children}</Content>
+      <Content style={{ height: 'calc(100vh - 64px)' }}>{children}</Content>
     </AntDLayout>
   );
 };
