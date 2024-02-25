@@ -105,6 +105,10 @@ export const BookingHistory = () => {
     }
   }, []);
 
+  useEffect(() => {
+    setData(bookings);
+  }, [bookings]);
+
   return (
     <Container>
       <PageTitle level={2}>Booking History</PageTitle>
