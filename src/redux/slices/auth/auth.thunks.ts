@@ -39,10 +39,10 @@ export const registerThunk = createAsyncThunk(
     email,
     password,
   }: RegisterPayload) => {
-    const formattedDateOfBirth = null;
+    let formattedDateOfBirth = null;
 
     if (dateOfBirth) {
-      const formattedDateOfBirth = dayjs(dateOfBirth).format('DD/MM/YYYY');
+      formattedDateOfBirth = dayjs(dateOfBirth).format('DD-MM-YYYY');
     }
 
     const response = await axios.post(
