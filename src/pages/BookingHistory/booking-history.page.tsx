@@ -170,6 +170,10 @@ export const BookingHistory = () => {
         title: 'Booking Date',
         dataIndex: 'bookingDate',
         key: 'bookingDate',
+        render: (bookingDate) => {
+          //format bookingDate from YYYY-MM-DD to DD/MM/YYYY
+          return moment(bookingDate, 'YYYY-MM-DD').format('DD/MM/YYYY');
+        },
       },
       {
         title: 'Total',
