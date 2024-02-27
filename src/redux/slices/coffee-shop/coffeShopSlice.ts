@@ -359,7 +359,7 @@ const coffeeShopSlice = createSlice({
       })
       .addCase(getShopIdByAccountEmailThunk.fulfilled, (state, action) => {
         const { payload } = action;
-        state.currentShopId = payload;
+        state.currentShopId = payload.shopId as any;
       })
       .addCase(getShopIdByAccountEmailThunk.rejected, (state, action) => {
         const { error } = action;
