@@ -36,6 +36,16 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
     >
       <Row>
         <Col span={6}>
+          <label style={{ textAlign: 'right' }}>Select Date: </label>
+        </Col>
+        <Col flex="auto">
+          <Form.Item name="bookingDate">
+            <DatePicker format="DD-MM-YYYY" style={{ width: '100%' }} />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={6}>
           <label style={{ textAlign: 'right' }}>Select Table: </label>
         </Col>
         <Col flex="auto">

@@ -93,6 +93,7 @@ export const getTableByShopIdThunk = createAsyncThunk(
 );
 
 interface BookingRequest {
+  bookingDate: string;
   total: number;
   accountId: string;
   shopId: string;
@@ -102,11 +103,18 @@ interface BookingRequest {
 
 export const bookTableThunk = createAsyncThunk(
   'coffeeShop/bookTable',
-  async ({ total, accountId, shopId, tableId, slotId }: BookingRequest) => {
+  async ({
+    total,
+    accountId,
+    shopId,
+    tableId,
+    slotId,
+    bookingDate,
+  }: BookingRequest) => {
     const response = await axios.post(
       `http://localhost:5193/api/Booking/CreateBooking`,
       {
-        bookingDate: moment().format('DD/MM/YYYY'),
+        bookingDate: bookingDate,
         total,
         accountId,
         shopId: parseInt(shopId),
@@ -137,6 +145,16 @@ export const getShopIdByAccountEmailThunk = createAsyncThunk(
       {
         params,
       },
+    );
+    return response.data;
+  },
+);
+
+export const getCatTypeById = createAsyncThunk(
+  'coffeeShop/getCatTypeById',
+  async (id: string) => {
+    const response = await axios.get<CatType>(
+      `http://localhost:5193/api/CatType/${id}`,
     );
     return response.data;
   },

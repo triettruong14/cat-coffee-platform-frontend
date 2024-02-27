@@ -10,10 +10,13 @@ import {
   Cat,
   CatFood,
   Drink,
+  getCatTypesThunk,
   getCoffeeShopCatFoodThunk,
   getCoffeeShopCatsThunk,
   getCoffeeShopDrinksThunk,
+  selectCatTypes,
   selectCurrentShopId,
+  selectIsLoadingGetCatTypes,
   selectLoadingGetCatFood,
   selectLoadingGetCats,
   selectLoadingGetDrinks,
@@ -114,10 +117,12 @@ export const Staff = () => {
   const catFood = useAppSelector(selectSelectedCoffeeShopCatFood);
   const drinks = useAppSelector(selectSelectedCoffeeShopDrinks);
   const currentShopId = useAppSelector(selectCurrentShopId);
+  const catTypes = useAppSelector(selectCatTypes);
 
   const isLoadingGetCats = useAppSelector(selectLoadingGetCats);
   const isLoadingGetCatFood = useAppSelector(selectLoadingGetCatFood);
   const isLoadingGetDrinks = useAppSelector(selectLoadingGetDrinks);
+  const isLoadingCatTypes = useAppSelector(selectIsLoadingGetCatTypes);
 
   const onClick: MenuProps['onClick'] = ({ key }) => {
     renderSelectedContent(key as 'drinks' | 'cats');
@@ -174,9 +179,19 @@ export const Staff = () => {
         key: 'name',
       },
       {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: 'Cat Type',
+        dataIndex: 'catType',
+        key: 'catType',
+        render: (text, record) => (
+          <span>
+            {
+              catTypes.find(
+                (type) =>
+                  record.catTypeId == (type.catTypeId as unknown as string),
+              )?.catTypeName
+            }
+          </span>
+        ),
       },
       {
         title: 'Action',
@@ -188,7 +203,7 @@ export const Staff = () => {
         ),
       },
     ],
-    [],
+    [catTypes.length],
   );
 
   const DrinksTable = () => (
@@ -295,6 +310,9 @@ export const Staff = () => {
 
   useEffect(() => {
     renderSelectedContent('cats');
+    if (!catTypes) {
+      dispatch(getCatTypesThunk());
+    }
   }, []);
 
   useEffect(() => {
