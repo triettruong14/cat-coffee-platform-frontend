@@ -6,6 +6,7 @@ import {
   bookTableThunk,
   getAllCoffeeShopsThunk,
   getBookingByAccountIdThunk,
+  getCatTypeById,
   getCoffeeShopCatFoodThunk,
   getCoffeeShopCatsThunk,
   getCoffeeShopDrinksThunk,
@@ -74,10 +75,18 @@ export interface Drink {
   price: number;
 }
 
+export interface CatType {
+  catTypeId: number;
+  catTypeName: string;
+  status: boolean;
+}
+
 export interface CoffeeShopState {
   currentShopId?: number;
   coffeeShops?: CoffeeShop[];
   searchResults?: CoffeeShop[];
+  catTypes: CatType[];
+  isLoadingCatTypes: boolean;
   isLoadingSearch: boolean;
   isLoadingGetAll: boolean;
   isLoadingGetCats: boolean;
@@ -98,6 +107,7 @@ const initialState: CoffeeShopState = {
   searchResults: [],
   coffeeShops: [],
   slots: [],
+  catTypes: [],
   bookingHistory: [],
   selectedCoffeeShopCatFood: [],
   selectedCoffeeShopCats: [],
@@ -109,6 +119,7 @@ const initialState: CoffeeShopState = {
   isLoadingGetAll: false,
   isLoadingBooking: false,
   isLoadingBookingHistory: false,
+  isLoadingCatTypes: false,
 };
 
 const coffeeShopSlice = createSlice({
@@ -351,6 +362,22 @@ const coffeeShopSlice = createSlice({
       })
       .addCase(getShopIdByAccountEmailThunk.rejected, (state, action) => {
         const { error } = action;
+        toast.error(error.message);
+      });
+
+    builder
+      .addCase(getCatTypeById.pending, (state) => {
+        state.catTypes = [];
+        state.isLoadingCatTypes = true;
+      })
+      .addCase(getCatTypeById.fulfilled, (state, action) => {
+        const { payload } = action;
+        state.catTypes.push(payload);
+        state.isLoadingCatTypes = false;
+      })
+      .addCase(getCatTypeById.rejected, (state, action) => {
+        const { error } = action;
+        state.isLoadingCatTypes = false;
         toast.error(error.message);
       });
   },
