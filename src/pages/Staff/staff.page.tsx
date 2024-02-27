@@ -110,7 +110,7 @@ const Wrapper = styled.div`
 export const Staff = () => {
   const dispatch = useAppDispatch();
 
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(false);
   const [selectedContent, setSelectedContent] = useState<React.ReactNode>();
 
   const cats = useAppSelector(selectSelectedCoffeeShopCats);
