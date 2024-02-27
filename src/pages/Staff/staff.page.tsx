@@ -9,6 +9,7 @@ import { AppHeader } from '../../components/Header';
 import {
   Cat,
   CatFood,
+  deleteCatById,
   Drink,
   getCatTypesThunk,
   getCoffeeShopCatFoodThunk,
@@ -151,7 +152,7 @@ export const Staff = () => {
       <Table
         bordered
         dataSource={cats}
-        loading={isLoadingGetCats}
+        loading={isLoadingGetCats || isLoadingCatTypes}
         columns={catsColumn}
       />
     </>
@@ -198,7 +199,9 @@ export const Staff = () => {
         key: 'action',
         render: (text, record) => (
           <a>
-            <DeleteOutlined />
+            <DeleteOutlined
+              onClick={() => dispatch(deleteCatById(record.catId))}
+            />
           </a>
         ),
       },

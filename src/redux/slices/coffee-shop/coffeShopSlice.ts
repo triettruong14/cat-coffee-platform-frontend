@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { CoffeeShop, CoffeeShopProps } from '../../../domain/models';
 import {
   bookTableThunk,
+  deleteCatById,
   getAllCoffeeShopsThunk,
   getBookingByAccountIdThunk,
   getCatTypeById,
@@ -378,6 +379,18 @@ const coffeeShopSlice = createSlice({
       .addCase(getCatTypeById.rejected, (state, action) => {
         const { error } = action;
         state.isLoadingCatTypes = false;
+        toast.error(error.message);
+      });
+
+    // <--------- DELETE --------->
+
+    builder
+      .addCase(deleteCatById.pending, (state) => {})
+      .addCase(deleteCatById.fulfilled, (state) => {
+        toast.success('Delete cat successful');
+      })
+      .addCase(deleteCatById.rejected, (state, action) => {
+        const { error } = action;
         toast.error(error.message);
       });
   },

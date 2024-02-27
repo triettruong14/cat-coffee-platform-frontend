@@ -160,3 +160,15 @@ export const getCatTypeById = createAsyncThunk(
     return response.data;
   },
 );
+
+// DELETE
+
+export const deleteCatById = createAsyncThunk(
+  'coffeeShop/deleteCatById',
+  async (id: string) => {
+    const response = await axios.delete(
+      `http://localhost:5193/api/Cat/DeleteCat/${id}`,
+    );
+    return response.data;
+  },
+);
