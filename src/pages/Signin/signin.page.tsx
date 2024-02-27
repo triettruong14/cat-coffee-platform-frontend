@@ -9,9 +9,9 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import background from '../../assets/saigon_background.jpeg';
-import { Account, AccountProps } from '../../domain/models';
+import { Account, AccountProps, AccountRole } from '../../domain/models';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { mockSignIn, selectSignInStatus } from '../../redux/slices';
+import { mockSignIn, selectSignInStatus, selectUser } from '../../redux/slices';
 import { signInThunk } from '../../redux/slices/auth/auth.thunks';
 
 const FlexContainer = styled(Flex)`
@@ -41,6 +41,7 @@ export const SignIn = () => {
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const isSignInSuccess = useAppSelector(selectSignInStatus);
+  const account = useAppSelector(selectUser);
 
   const handleSubmit = () => {
     const email = form.getFieldValue('email');
@@ -57,7 +58,11 @@ export const SignIn = () => {
 
   useEffect(() => {
     if (isSignInSuccess) {
-      navigate('/');
+      if (account?.roleId === AccountRole.STAFF) {
+        navigate('/staff');
+      } else {
+        navigate('/');
+      }
     }
   }, [isSignInSuccess]);
 

@@ -1,6 +1,13 @@
+export enum AccountRole {
+  SHOP_MANAGER = 1,
+  CUSTOMER = 2,
+  ADMIN = 3,
+  STAFF = 4,
+}
+
 export interface AccountProps {
   id?: string;
-  roleId?: string;
+  roleId?: AccountRole;
   username: string;
   phone?: string;
   address?: string;

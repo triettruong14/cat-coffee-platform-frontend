@@ -29,6 +29,12 @@ export const selectSlots = (state: RootState) => state.coffeeShop.slots;
 export const selectSelectedCoffeeShopTables = (state: RootState) =>
   state.coffeeShop.selectedCoffeeShopTables;
 
+export const selectSelectedCoffeeShopDrinks = (state: RootState) =>
+  state.coffeeShop.selectedCoffeeShopDrinks;
+
+export const selectLoadingGetDrinks = (state: RootState) =>
+  state.coffeeShop.isLoadingGetDrinks;
+
 export const selectIsLoadingBooking = (state: RootState) =>
   state.coffeeShop.isLoadingBooking;
 
@@ -37,3 +43,6 @@ export const selectBookingHistory = (state: RootState) =>
 
 export const selectIsLoadingBookingHistory = (state: RootState) =>
   state.coffeeShop.isLoadingBookingHistory;
+
+export const selectCurrentShopId = (state: RootState) =>
+  state.coffeeShop.currentShopId;

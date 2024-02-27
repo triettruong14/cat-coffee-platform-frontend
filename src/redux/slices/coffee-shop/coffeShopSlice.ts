@@ -8,6 +8,8 @@ import {
   getBookingByAccountIdThunk,
   getCoffeeShopCatFoodThunk,
   getCoffeeShopCatsThunk,
+  getCoffeeShopDrinksThunk,
+  getShopIdByAccountEmailThunk,
   getSlotsThunk,
   getTableByShopIdThunk,
   searchCoffeeShopByNameThunk,
@@ -64,9 +66,16 @@ export interface Booking {
   status?: boolean;
 }
 
-export interface Drink {}
+export interface Drink {
+  drinkId: number;
+  drinkName: string;
+  shopId: number;
+  imageDrink: string;
+  price: number;
+}
 
 export interface CoffeeShopState {
+  currentShopId?: number;
   coffeeShops?: CoffeeShop[];
   searchResults?: CoffeeShop[];
   isLoadingSearch: boolean;
@@ -75,9 +84,11 @@ export interface CoffeeShopState {
   isLoadingGetCatFood: boolean;
   isLoadingBooking: boolean;
   isLoadingBookingHistory: boolean;
+  isLoadingGetDrinks: boolean;
   selectedCoffeeShopCatFood?: CatFood[];
   selectedCoffeeShopCats?: Cat[];
   selectedCoffeeShopTables?: Table[];
+  selectedCoffeeShopDrinks?: Drink[];
   bookingHistory?: Booking[];
   slots: Slot[];
   error?: string;
@@ -93,6 +104,7 @@ const initialState: CoffeeShopState = {
   selectedCoffeeShopTables: [],
   isLoadingGetCats: false,
   isLoadingGetCatFood: false,
+  isLoadingGetDrinks: false,
   isLoadingSearch: false,
   isLoadingGetAll: false,
   isLoadingBooking: false,
@@ -257,6 +269,23 @@ const coffeeShopSlice = createSlice({
       });
 
     builder
+      .addCase(getCoffeeShopDrinksThunk.pending, (state, action) => {
+        state.selectedCoffeeShopDrinks = [];
+        state.isLoadingGetDrinks = true;
+      })
+      .addCase(getCoffeeShopDrinksThunk.fulfilled, (state, action) => {
+        const { payload } = action;
+        const drinks: Drink[] = payload;
+        state.selectedCoffeeShopDrinks = drinks;
+        state.isLoadingGetDrinks = false;
+      })
+      .addCase(getCoffeeShopDrinksThunk.rejected, (state, action) => {
+        const { error } = action;
+        toast.error(error.message);
+        state.isLoadingGetDrinks = false;
+      });
+
+    builder
       .addCase(getSlotsThunk.pending, (state, action) => {
         state.slots = [];
       })
@@ -277,7 +306,7 @@ const coffeeShopSlice = createSlice({
         const { payload } = action;
         state.selectedCoffeeShopTables = payload;
       })
-      .addCase(getTableByShopIdThunk.rejected, (state, action) => {
+      .addCase(getTableByShopIdThunk.rejected, function (state, action): void {
         const { error } = action;
         toast.error(error.message);
       });
@@ -310,6 +339,19 @@ const coffeeShopSlice = createSlice({
         const { error } = action;
         toast.error(error.message);
         state.isLoadingBookingHistory = false;
+      });
+
+    builder
+      .addCase(getShopIdByAccountEmailThunk.pending, (state) => {
+        state.currentShopId = undefined;
+      })
+      .addCase(getShopIdByAccountEmailThunk.fulfilled, (state, action) => {
+        const { payload } = action;
+        state.currentShopId = payload;
+      })
+      .addCase(getShopIdByAccountEmailThunk.rejected, (state, action) => {
+        const { error } = action;
+        toast.error(error.message);
       });
   },
 });

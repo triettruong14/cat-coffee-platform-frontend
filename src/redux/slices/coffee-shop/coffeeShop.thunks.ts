@@ -5,6 +5,7 @@ import {
   Cat,
   CatFood,
   CoffeeShopApiResponse,
+  Drink,
   Slot,
   Table,
 } from './coffeShopSlice';
@@ -62,8 +63,8 @@ export const getCoffeeShopDrinksThunk = createAsyncThunk(
   'coffeeShop/getDrinks',
   async (shopId: string) => {
     const params = new URLSearchParams({ shopId });
-    const response = await axios.get<CatFood[]>(
-      'http://localhost:5193/api/ShopCoffeeCat/GetDrinks',
+    const response = await axios.get<Drink[]>(
+      'http://localhost:5193/api/Drink/getByShopId',
       { params },
     );
     return response.data;
@@ -122,6 +123,20 @@ export const getBookingByAccountIdThunk = createAsyncThunk(
   async (accountId: string) => {
     const response = await axios.get<Booking[]>(
       `http://localhost:5193/api/Booking/GetBoking,${accountId.toString()}`,
+    );
+    return response.data;
+  },
+);
+
+export const getShopIdByAccountEmailThunk = createAsyncThunk(
+  'coffeeShop/getShopIdByAccountEmail',
+  async (email: string) => {
+    const params = new URLSearchParams({ email });
+    const response = await axios.get<number>(
+      `http://localhost:5193/api/ShopCoffeeCat/getShopByEmail`,
+      {
+        params,
+      },
     );
     return response.data;
   },

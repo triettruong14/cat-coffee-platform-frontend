@@ -14,6 +14,7 @@ import { AppHeader } from './components/Header';
 import { SignInSuccess } from './components/SignInSuccess';
 import { Protected } from './components/ProtectedRoute';
 import { BookingHistory } from './pages/BookingHistory/booking-history.page';
+import { Staff } from './pages/Staff/staff.page';
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,14 @@ const router = createBrowserRouter([
         <AppLayout header={<AppHeader />}>
           <BookingHistory />
         </AppLayout>
+      </Protected>
+    ),
+  },
+  {
+    path: '/staff',
+    element: (
+      <Protected>
+        <Staff />
       </Protected>
     ),
   },

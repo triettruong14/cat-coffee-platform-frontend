@@ -26,6 +26,7 @@ import {
   getAllCoffeeShopsThunk,
   getCoffeeShopCatFoodThunk,
   getCoffeeShopCatsThunk,
+  getCoffeeShopDrinksThunk,
   getTableByShopIdThunk,
   selectCoffeeShops,
   selectIsLoadingBooking,
@@ -233,6 +234,7 @@ export const CoffeeShopDetail = () => {
     if (selectedCoffeeShop) {
       dispatch(getCoffeeShopCatFoodThunk(selectedCoffeeShop.shopId || ''));
       dispatch(getCoffeeShopCatsThunk(selectedCoffeeShop.shopId || ''));
+      dispatch(getCoffeeShopDrinksThunk(selectedCoffeeShop.shopId || ''));
     }
   }, [selectedCoffeeShop]);
 
