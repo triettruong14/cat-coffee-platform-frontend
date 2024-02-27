@@ -15,6 +15,7 @@ import {
   getCoffeeShopCatFoodThunk,
   getCoffeeShopCatsThunk,
   getCoffeeShopDrinksThunk,
+  getShopIdByAccountEmailThunk,
   selectCatTypes,
   selectCurrentShopId,
   selectIsLoadingGetCatTypes,
@@ -24,6 +25,7 @@ import {
   selectSelectedCoffeeShopCatFood,
   selectSelectedCoffeeShopCats,
   selectSelectedCoffeeShopDrinks,
+  selectUser,
 } from '../../redux';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
@@ -119,6 +121,7 @@ export const Staff = () => {
   const drinks = useAppSelector(selectSelectedCoffeeShopDrinks);
   const currentShopId = useAppSelector(selectCurrentShopId);
   const catTypes = useAppSelector(selectCatTypes);
+  const user = useAppSelector(selectUser);
 
   const isLoadingGetCats = useAppSelector(selectLoadingGetCats);
   const isLoadingGetCatFood = useAppSelector(selectLoadingGetCatFood);
@@ -316,6 +319,7 @@ export const Staff = () => {
     if (!catTypes) {
       dispatch(getCatTypesThunk());
     }
+    dispatch(getShopIdByAccountEmailThunk(user?.email as string));
   }, []);
 
   useEffect(() => {
