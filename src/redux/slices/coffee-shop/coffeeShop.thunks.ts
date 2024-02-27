@@ -141,7 +141,7 @@ export const getShopIdByAccountEmailThunk = createAsyncThunk(
   'coffeeShop/getShopIdByAccountEmail',
   async (email: string) => {
     const params = new URLSearchParams({ email });
-    const response = await axios.get<number>(
+    const response = await axios.get<any>(
       `http://localhost:5193/api/ShopCoffeeCat/getShopByEmail`,
       {
         params,

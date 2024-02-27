@@ -132,23 +132,6 @@ export const Staff = () => {
     renderSelectedContent(key as 'drinks' | 'cats');
   };
 
-  const renderSelectedContent = useCallback(
-    (key: 'drinks' | 'cats' | 'cat-food') => {
-      switch (key) {
-        case 'cats':
-          setSelectedContent(<CatsTable />);
-          break;
-        case 'drinks':
-          setSelectedContent(<DrinksTable />);
-          break;
-        case 'cat-food':
-          setSelectedContent(<CatFoodTable />);
-          break;
-      }
-    },
-    [selectedContent],
-  );
-
   const CatsTable = () => (
     <>
       <h2>Cats</h2>
@@ -260,7 +243,7 @@ export const Staff = () => {
         ),
       },
     ],
-    [],
+    [drinks],
   );
 
   const CatFoodTable = () => (
@@ -311,7 +294,24 @@ export const Staff = () => {
         ),
       },
     ],
-    [],
+    [catFood],
+  );
+
+  const renderSelectedContent = useCallback(
+    (key: 'drinks' | 'cats' | 'cat-food') => {
+      switch (key) {
+        case 'cats':
+          setSelectedContent(<CatsTable />);
+          break;
+        case 'drinks':
+          setSelectedContent(<DrinksTable />);
+          break;
+        case 'cat-food':
+          setSelectedContent(<CatFoodTable />);
+          break;
+      }
+    },
+    [CatsTable, DrinksTable, CatFoodTable],
   );
 
   useEffect(() => {
