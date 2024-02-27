@@ -201,7 +201,7 @@ export const CoffeeShopDetail = () => {
               <Spin />
             ) : (
               catFoods?.map((catFood) => (
-                <Item justify="space-between" key={catFood.catFoodId}>
+                <Item justify="space-between" key={catFood.foodCatId}>
                   <Flex gap={20}>
                     <img
                       src={stockCatFood}
@@ -210,10 +210,10 @@ export const CoffeeShopDetail = () => {
                         height: '60px',
                       }}
                     />
-                    <MenuItemLabel>{catFood.catFoodName}</MenuItemLabel>
+                    <MenuItemLabel>{catFood.foodCatName}</MenuItemLabel>
                   </Flex>
                   <PriceLabel>
-                    {catFood.catFoodPrice}
+                    {catFood.foodPrice}
                     <CurrencyLabel>đ</CurrencyLabel>
                   </PriceLabel>
                 </Item>

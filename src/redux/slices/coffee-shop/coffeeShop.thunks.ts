@@ -34,9 +34,9 @@ export const getAllCoffeeShopsThunk = createAsyncThunk(
 export const getCoffeeShopCatFoodThunk = createAsyncThunk(
   'coffeeShop/getCatFood',
   async (shopId: string) => {
-    const params = new URLSearchParams({ shopId });
+    const params = new URLSearchParams({ id: shopId });
     const response = await axios.get<CatFood[]>(
-      'http://localhost:5193/api/ShopCoffeeCat/GetCatFood',
+      'http://localhost:5193/api/FoodForCat/GetByShopId',
       { params },
     );
     return response.data;
@@ -47,8 +47,12 @@ export const getCoffeeShopCatsThunk = createAsyncThunk(
   'coffeeShop/getCats',
   async (shopId: string) => {
     console.log('shopId', shopId);
+    const params = new URLSearchParams({ shopId });
     const response = await axios.get<Cat[]>(
-      `http://localhost:5193/api/Cat/getCat, ${shopId.toString()}`,
+      `http://localhost:5193/api/Cat/getCatByShop`,
+      {
+        params,
+      },
     );
     return response.data;
   },

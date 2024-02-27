@@ -22,17 +22,22 @@ export interface CoffeeShopApiResponse {
 }
 
 export interface CatFood {
-  catFoodId: number;
-  catFoodName: string;
-  catFoodPrice: number;
+  foodCatId: number;
+  foodCatName: string;
+  imageFoodForCat: string;
+  shopId: number;
+  foodPrice: number;
+  status?: boolean;
+  bookingDetails?: any[];
+  shop?: any;
 }
 
 export interface Cat {
   catId: string;
   catTypeId: string;
-  areaId: string;
   shopId: string;
   catName: string;
+  imageCat: string;
 }
 
 export interface Slot {
