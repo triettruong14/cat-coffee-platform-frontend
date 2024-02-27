@@ -4,6 +4,7 @@ import {
   Booking,
   Cat,
   CatFood,
+  CatType,
   CoffeeShopApiResponse,
   Drink,
   Slot,
