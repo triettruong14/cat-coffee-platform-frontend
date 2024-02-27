@@ -32,8 +32,10 @@ import {
   selectIsLoadingBooking,
   selectLoadingGetCatFood,
   selectLoadingGetCats,
+  selectLoadingGetDrinks,
   selectSelectedCoffeeShopCatFood,
   selectSelectedCoffeeShopCats,
+  selectSelectedCoffeeShopDrinks,
   selectSelectedCoffeeShopTables,
   selectSignInStatus,
   selectUser,
@@ -137,6 +139,8 @@ export const CoffeeShopDetail = () => {
   const isLoadingGetCatFood = useAppSelector(selectLoadingGetCatFood);
   const cats = useAppSelector(selectSelectedCoffeeShopCats);
   const isLoadingGetCats = useAppSelector(selectLoadingGetCats);
+  const drinks = useAppSelector(selectSelectedCoffeeShopDrinks);
+  const isLoadingGetDrinks = useAppSelector(selectLoadingGetDrinks);
   const isSignedIn = useAppSelector(selectSignInStatus);
   const account = useAppSelector(selectUser);
   const isLoadingBooking = useAppSelector(selectIsLoadingBooking);
@@ -156,23 +160,26 @@ export const CoffeeShopDetail = () => {
     (key: 'drinks' | 'cats' | 'cat-food') => {
       switch (key) {
         case 'drinks':
-          setMenuItems([
-            <Item justify="space-between" key={0}>
-              <Flex gap={20}>
-                <img
-                  src={stockSmoothie}
-                  style={{
-                    width: '60px',
-                    height: '60px',
-                  }}
-                />
-                <MenuItemLabel>Chocolate Chip Cookie Smoothie</MenuItemLabel>
-              </Flex>
-              <PriceLabel>
-                45,000<CurrencyLabel>đ</CurrencyLabel>
-              </PriceLabel>
-            </Item>,
-          ]);
+          setMenuItems(
+            drinks?.map((drink) => (
+              <Item justify="space-between" key={0}>
+                <Flex gap={20}>
+                  <img
+                    src={drink.imageDrink}
+                    style={{
+                      width: '60px',
+                      height: '60px',
+                    }}
+                  />
+                  <MenuItemLabel>{drink.drinkName}</MenuItemLabel>
+                </Flex>
+                <PriceLabel>
+                  {drink.price}
+                  <CurrencyLabel>đ</CurrencyLabel>
+                </PriceLabel>
+              </Item>
+            )),
+          );
           break;
         case 'cats':
           setMenuItems(
