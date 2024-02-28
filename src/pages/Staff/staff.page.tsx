@@ -1,5 +1,19 @@
-import Icon, { DeleteOutlined, GithubOutlined } from '@ant-design/icons';
-import { GetProps, Layout, Menu, MenuProps, Table } from 'antd';
+import Icon, {
+  DeleteOutlined,
+  EditOutlined,
+  GithubOutlined,
+} from '@ant-design/icons';
+import {
+  Button,
+  Drawer,
+  Flex,
+  GetProps,
+  Layout,
+  Menu,
+  MenuProps,
+  Space,
+  Table,
+} from 'antd';
 import { Content } from 'antd/es/layout/layout';
 import Sider from 'antd/es/layout/Sider';
 import { ColumnType, TableProps } from 'antd/es/table';
@@ -110,11 +124,36 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
+export const mockCats: Cat[] = [
+  {
+    catId: '1',
+    catName: 'Tom',
+    catTypeId: '1',
+    shopId: '1',
+    imageCat: 'https://via.placeholder.com/150',
+  },
+  {
+    catId: '2',
+    catName: 'Jerry',
+    catTypeId: '2',
+    shopId: '1',
+    imageCat: 'https://via.placeholder.com/150',
+  },
+  {
+    catId: '3',
+    catName: 'Spike',
+    catTypeId: '3',
+    shopId: '1',
+    imageCat: 'https://via.placeholder.com/150',
+  },
+];
+
 export const Staff = () => {
   const dispatch = useAppDispatch();
 
   const [collapsed, setCollapsed] = useState(false);
   const [selectedContent, setSelectedContent] = useState<React.ReactNode>();
+  const [isCatsDrawerVisible, setCatsDrawerVisibility] = useState(false);
 
   const cats = useAppSelector(selectSelectedCoffeeShopCats);
   const catFood = useAppSelector(selectSelectedCoffeeShopCatFood);
@@ -134,66 +173,93 @@ export const Staff = () => {
 
   const CatsTable = () => (
     <>
-      <h2>Cats</h2>
+      <Space>
+        <h2>Cats</h2>
+        <Button
+          type="primary"
+          onClick={() => {
+            setCatsDrawerVisibility(true);
+          }}
+        >
+          Add New Cat
+        </Button>
+      </Space>
       <Table
         bordered
         dataSource={cats}
         loading={isLoadingGetCats || isLoadingCatTypes}
         columns={catsColumn}
       />
+      <Drawer
+        title="Create a new cat"
+        placement="right"
+        open={isCatsDrawerVisible}
+        closable={true}
+        onClose={() => {
+          () => {
+            setCatsDrawerVisibility(false);
+          };
+        }}
+        key="right"
+        getContainer={false}
+      />
     </>
   );
 
-  const catsColumn: TableProps<Cat>['columns'] = useMemo(
-    () => [
-      {
-        title: 'Image',
-        dataIndex: 'imageCat',
-        key: 'imageCat',
-        render: (text, record) => (
-          <img
-            src={record.imageCat}
-            style={{
-              width: '60px',
-              height: '60px',
-            }}
-          />
-        ),
-      },
-      {
-        title: 'Cat Name',
-        dataIndex: 'catName',
-        key: 'name',
-      },
-      {
-        title: 'Cat Type',
-        dataIndex: 'catType',
-        key: 'catType',
-        render: (text, record) => (
-          <span>
-            {
-              catTypes.find(
-                (type) =>
-                  record.catTypeId == (type.catTypeId as unknown as string),
-              )?.catTypeName
-            }
-          </span>
-        ),
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
+  const catsColumn: TableProps<Cat>['columns'] = [
+    {
+      title: 'Image',
+      dataIndex: 'imageCat',
+      key: 'imageCat',
+      render: (text, record) => (
+        <img
+          src={record.imageCat}
+          style={{
+            width: '60px',
+            height: '60px',
+          }}
+        />
+      ),
+    },
+    {
+      title: 'Cat Name',
+      dataIndex: 'catName',
+      key: 'name',
+    },
+    {
+      title: 'Cat Type',
+      dataIndex: 'catType',
+      key: 'catType',
+      render: (text, record) => (
+        <span>
+          {
+            catTypes.find(
+              (type) =>
+                record.catTypeId == (type.catTypeId as unknown as string),
+            )?.catTypeName
+          }
+        </span>
+      ),
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      width: '77px',
+      render: (text, record) => (
+        <Flex justify="end">
+          <a>
+            <EditOutlined onClick={() => setCatsDrawerVisibility(true)} />
+          </a>
           <a>
             <DeleteOutlined
               onClick={() => dispatch(deleteCatById(record.catId))}
+              style={{ marginLeft: '1rem' }}
             />
           </a>
-        ),
-      },
-    ],
-    [catTypes.length],
-  );
+        </Flex>
+      ),
+    },
+  ];
 
   const DrinksTable = () => (
     <>
@@ -207,44 +273,42 @@ export const Staff = () => {
     </>
   );
 
-  const drinksColumn: TableProps<Drink>['columns'] = useMemo(
-    () => [
-      {
-        title: 'Image',
-        dataIndex: 'imageDrink',
-        key: 'imageDrink',
-        render: (text, record) => (
-          <img
-            src={record.imageDrink}
-            style={{
-              width: '60px',
-              height: '60px',
-            }}
-          />
-        ),
-      },
-      {
-        title: 'Drink Name',
-        dataIndex: 'drinkName',
-        key: 'name',
-      },
-      {
-        title: 'Price',
-        dataIndex: 'price',
-        key: 'price',
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
-          <a>
-            <DeleteOutlined />
-          </a>
-        ),
-      },
-    ],
-    [drinks],
-  );
+  const drinksColumn: TableProps<Drink>['columns'] = [
+    {
+      title: 'Image',
+      dataIndex: 'imageDrink',
+      key: 'imageDrink',
+      render: (text, record) => (
+        <img
+          src={record.imageDrink}
+          style={{
+            width: '60px',
+            height: '60px',
+          }}
+        />
+      ),
+    },
+    {
+      title: 'Drink Name',
+      dataIndex: 'drinkName',
+      key: 'name',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'price',
+      key: 'price',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <a>
+          <DeleteOutlined />
+          <EditOutlined />
+        </a>
+      ),
+    },
+  ];
 
   const CatFoodTable = () => (
     <>
@@ -258,61 +322,56 @@ export const Staff = () => {
     </>
   );
 
-  const catFoodColumn: TableProps<CatFood>['columns'] = useMemo(
-    () => [
-      {
-        title: 'Image',
-        dataIndex: 'imageDrink',
-        key: 'imageDrink',
-        render: (text, record) => (
-          <img
-            src={record.imageFoodForCat}
-            style={{
-              width: '60px',
-              height: '60px',
-            }}
-          />
-        ),
-      },
-      {
-        title: 'Cat Food Name',
-        dataIndex: 'foodCatName',
-        key: 'foodCatName',
-      },
-      {
-        title: 'Price',
-        dataIndex: 'foodPrice',
-        key: 'foodPrice',
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        render: (text, record) => (
-          <a>
-            <DeleteOutlined />
-          </a>
-        ),
-      },
-    ],
-    [catFood],
-  );
-
-  const renderSelectedContent = useCallback(
-    (key: 'drinks' | 'cats' | 'cat-food') => {
-      switch (key) {
-        case 'cats':
-          setSelectedContent(<CatsTable />);
-          break;
-        case 'drinks':
-          setSelectedContent(<DrinksTable />);
-          break;
-        case 'cat-food':
-          setSelectedContent(<CatFoodTable />);
-          break;
-      }
+  const catFoodColumn: TableProps<CatFood>['columns'] = [
+    {
+      title: 'Image',
+      dataIndex: 'imageDrink',
+      key: 'imageDrink',
+      render: (text, record) => (
+        <img
+          src={record.imageFoodForCat}
+          style={{
+            width: '60px',
+            height: '60px',
+          }}
+        />
+      ),
     },
-    [CatsTable, DrinksTable, CatFoodTable],
-  );
+    {
+      title: 'Cat Food Name',
+      dataIndex: 'foodCatName',
+      key: 'foodCatName',
+    },
+    {
+      title: 'Price',
+      dataIndex: 'foodPrice',
+      key: 'foodPrice',
+    },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (text, record) => (
+        <a>
+          <DeleteOutlined />
+          <EditOutlined />
+        </a>
+      ),
+    },
+  ];
+
+  const renderSelectedContent = (key: 'drinks' | 'cats' | 'cat-food') => {
+    switch (key) {
+      case 'cats':
+        setSelectedContent(<CatsTable />);
+        break;
+      case 'drinks':
+        setSelectedContent(<DrinksTable />);
+        break;
+      case 'cat-food':
+        setSelectedContent(<CatFoodTable />);
+        break;
+    }
+  };
 
   useEffect(() => {
     renderSelectedContent('cats');

@@ -5,9 +5,16 @@ import { useAppSelector } from '../../redux/hooks';
 interface BookingFormProps {
   form: FormInstance;
   handleOnSubmit: () => void;
+  drinksOptions: { label: string; value: string }[];
+  catFoodOptions: { label: string; value: string }[];
 }
 
-export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
+export const BookingForm = ({
+  form,
+  handleOnSubmit,
+  drinksOptions,
+  catFoodOptions,
+}: BookingFormProps) => {
   const slots = useAppSelector(selectSlots);
   const tables = useAppSelector(selectSelectedCoffeeShopTables);
 
@@ -60,6 +67,26 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
         </Col>
         <Col flex="auto">
           <Form.Item name="slotId">
+            <Select options={slotOptions} placeholder="Select your time slot" />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={6}>
+          <label style={{ textAlign: 'right' }}>Select drinks: </label>
+        </Col>
+        <Col flex="auto">
+          <Form.Item name="drinks">
+            <Select options={slotOptions} placeholder="Select your time slot" />
+          </Form.Item>
+        </Col>
+      </Row>
+      <Row>
+        <Col span={6}>
+          <label style={{ textAlign: 'right' }}>Select Cat food: </label>
+        </Col>
+        <Col flex="auto">
+          <Form.Item name="catFood">
             <Select options={slotOptions} placeholder="Select your time slot" />
           </Form.Item>
         </Col>

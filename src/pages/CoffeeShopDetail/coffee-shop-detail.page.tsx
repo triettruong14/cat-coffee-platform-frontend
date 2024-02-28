@@ -150,12 +150,6 @@ export const CoffeeShopDetail = () => {
     renderMenuItem(key as 'drinks' | 'cats' | 'cat-food');
   };
 
-  useEffect(() => {
-    if (coffeeShops?.length !== 0) {
-      setSelectedCoffeeShop(coffeeShops?.find((shop) => shop.shopId == id));
-    }
-  }, [coffeeShops]);
-
   const renderMenuItem = useCallback(
     (key: 'drinks' | 'cats' | 'cat-food') => {
       switch (key) {
@@ -236,6 +230,22 @@ export const CoffeeShopDetail = () => {
     [catFoods, cats, isLoadingGetCatFood, isLoadingGetCats, coffeeShops],
   );
 
+  const catFoodOptions = catFoods?.map((catFood) => ({
+    label: catFood.foodCatName,
+    value: catFood.foodCatId.toString(),
+  }));
+
+  const drinksOptions = drinks?.map((drink) => ({
+    label: drink.drinkName,
+    value: drink.drinkId.toString(),
+  }));
+
+  useEffect(() => {
+    if (coffeeShops?.length !== 0) {
+      setSelectedCoffeeShop(coffeeShops?.find((shop) => shop.shopId == id));
+    }
+  }, [coffeeShops]);
+
   useEffect(() => {
     renderMenuItem('drinks');
     if (selectedCoffeeShop) {
@@ -313,7 +323,12 @@ export const CoffeeShopDetail = () => {
                     onOk={handleOnSubmit}
                     confirmLoading={isLoadingBooking}
                   >
-                    <BookingForm form={form} handleOnSubmit={handleOnSubmit} />
+                    <BookingForm
+                      form={form}
+                      drinksOptions={drinksOptions || []}
+                      catFoodOptions={catFoodOptions || []}
+                      handleOnSubmit={handleOnSubmit}
+                    />
                   </Modal>
                 </>
               )}

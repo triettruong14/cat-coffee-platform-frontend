@@ -101,6 +101,7 @@ export interface CoffeeShopState {
   selectedCoffeeShopDrinks?: Drink[];
   bookingHistory?: Booking[];
   slots: Slot[];
+  deleteCatId?: string;
   error?: string;
 }
 
@@ -385,8 +386,15 @@ const coffeeShopSlice = createSlice({
     // <--------- DELETE --------->
 
     builder
-      .addCase(deleteCatById.pending, (state) => {})
+      .addCase(deleteCatById.pending, (state, action) => {
+        const { payload } = action;
+        state.deleteCatId = payload;
+      })
       .addCase(deleteCatById.fulfilled, (state) => {
+        const cats = state.selectedCoffeeShopCats;
+        const newCats = cats?.filter((cat) => cat.catId !== state.deleteCatId);
+        state.selectedCoffeeShopCats = newCats;
+
         toast.success('Delete cat successful');
       })
       .addCase(deleteCatById.rejected, (state, action) => {
