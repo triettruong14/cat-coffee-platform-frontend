@@ -131,7 +131,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
           <label style={{ textAlign: 'right' }}>Select Cat food: </label>
         </Col>
         <Col flex="auto">
-          <Form.Item name="catFood">
+          <Form.Item name="catFoods">
             <Select
               mode="multiple"
               options={catFoodOptions}
@@ -145,3 +145,4 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
     </Form>
   );
 };
+
