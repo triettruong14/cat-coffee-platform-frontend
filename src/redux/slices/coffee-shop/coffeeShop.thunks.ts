@@ -99,6 +99,8 @@ interface BookingRequest {
   accountId: string;
   shopId: string;
   tableId: string;
+  drinks: string[];
+  catFoods: string[];
   slotId: string;
 }
 
@@ -108,6 +110,8 @@ export const bookTableThunk = createAsyncThunk(
     total,
     accountId,
     shopId,
+    drinks,
+    catFoods,
     tableId,
     slotId,
     bookingDate,
@@ -120,6 +124,8 @@ export const bookTableThunk = createAsyncThunk(
         accountId,
         shopId: parseInt(shopId),
         tableId,
+        drinks,
+        catFoods,
         slotId,
       },
     );
