@@ -140,7 +140,6 @@ export const CoffeeShopDetail = () => {
   const cats = useAppSelector(selectSelectedCoffeeShopCats);
   const isLoadingGetCats = useAppSelector(selectLoadingGetCats);
   const drinks = useAppSelector(selectSelectedCoffeeShopDrinks);
-  const isLoadingGetDrinks = useAppSelector(selectLoadingGetDrinks);
   const isSignedIn = useAppSelector(selectSignInStatus);
   const account = useAppSelector(selectUser);
   const isLoadingBooking = useAppSelector(selectIsLoadingBooking);
@@ -230,16 +229,6 @@ export const CoffeeShopDetail = () => {
     [catFoods, cats, isLoadingGetCatFood, isLoadingGetCats, coffeeShops],
   );
 
-  const catFoodOptions = catFoods?.map((catFood) => ({
-    label: catFood.foodCatName,
-    value: catFood.foodCatId.toString(),
-  }));
-
-  const drinksOptions = drinks?.map((drink) => ({
-    label: drink.drinkName,
-    value: drink.drinkId.toString(),
-  }));
-
   useEffect(() => {
     if (coffeeShops?.length !== 0) {
       setSelectedCoffeeShop(coffeeShops?.find((shop) => shop.shopId == id));
@@ -323,12 +312,7 @@ export const CoffeeShopDetail = () => {
                     onOk={handleOnSubmit}
                     confirmLoading={isLoadingBooking}
                   >
-                    <BookingForm
-                      form={form}
-                      drinksOptions={drinksOptions || []}
-                      catFoodOptions={catFoodOptions || []}
-                      handleOnSubmit={handleOnSubmit}
-                    />
+                    <BookingForm form={form} handleOnSubmit={handleOnSubmit} />
                   </Modal>
                 </>
               )}

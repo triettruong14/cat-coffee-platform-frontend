@@ -1,22 +1,43 @@
 import { Col, DatePicker, Form, FormInstance, Input, Row, Select } from 'antd';
-import { useMemo } from 'react';
-import { selectSelectedCoffeeShopTables, selectSlots } from '../../redux';
+import { useMemo, useState } from 'react';
+import {
+  selectSelectedCoffeeShopCatFood,
+  selectSelectedCoffeeShopDrinks,
+  selectSelectedCoffeeShopTables,
+  selectSlots,
+} from '../../redux';
 import { useAppSelector } from '../../redux/hooks';
 interface BookingFormProps {
   form: FormInstance;
   handleOnSubmit: () => void;
-  drinksOptions: { label: string; value: string }[];
-  catFoodOptions: { label: string; value: string }[];
 }
 
-export const BookingForm = ({
-  form,
-  handleOnSubmit,
-  drinksOptions,
-  catFoodOptions,
-}: BookingFormProps) => {
+export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
   const slots = useAppSelector(selectSlots);
   const tables = useAppSelector(selectSelectedCoffeeShopTables);
+  const drinks = useAppSelector(selectSelectedCoffeeShopDrinks);
+  const catFood = useAppSelector(selectSelectedCoffeeShopCatFood);
+
+  const [drinksTotal, setDrinksTotal] = useState(0);
+  const [catFoodTotal, setCatFoodTotal] = useState(0);
+
+  const drinksOptions = useMemo(
+    () =>
+      drinks?.map((drink) => ({
+        label: drink.drinkName,
+        value: drink.drinkId.toString(),
+      })),
+    [],
+  );
+
+  const catFoodOptions = useMemo(
+    () =>
+      catFood?.map((catFood) => ({
+        label: catFood.foodCatName,
+        value: catFood.foodCatId.toString(),
+      })),
+    [],
+  );
 
   const slotOptions = useMemo(() => {
     return slots.map((slot) => ({
@@ -33,6 +54,24 @@ export const BookingForm = ({
       })),
     [tables],
   );
+
+  const handleOnSelectDrinks = (value: string) => {
+    const drinkIds = value.split(',');
+    const total = drinkIds.reduce((acc, curr) => {
+      const drink = drinks?.find((drink) => drink.drinkId === +curr);
+      return acc + (drink?.price || 0);
+    }, 0);
+    setDrinksTotal(total);
+  };
+
+  const handleOnselectCatFood = (value: string) => {
+    const catFoodIds = value.split(',');
+    const total = catFoodIds.reduce((acc, curr) => {
+      const food = catFood?.find((food) => food.foodCatId === +curr);
+      return acc + (food?.foodPrice || 0);
+    }, 0);
+    setCatFoodTotal(total);
+  };
 
   return (
     <Form
@@ -77,8 +116,14 @@ export const BookingForm = ({
         </Col>
         <Col flex="auto">
           <Form.Item name="drinks">
-            <Select options={slotOptions} placeholder="Select your time slot" />
+            <Select
+              mode="multiple"
+              options={drinksOptions}
+              placeholder="Select your time slot"
+              onSelect={handleOnSelectDrinks}
+            />
           </Form.Item>
+          <span>{drinksTotal}</span>
         </Col>
       </Row>
       <Row>
@@ -87,8 +132,14 @@ export const BookingForm = ({
         </Col>
         <Col flex="auto">
           <Form.Item name="catFood">
-            <Select options={slotOptions} placeholder="Select your time slot" />
+            <Select
+              mode="multiple"
+              options={catFoodOptions}
+              placeholder="Select your time slot"
+              onSelect={handleOnselectCatFood}
+            />
           </Form.Item>
+          <span>{catFoodTotal}</span>
         </Col>
       </Row>
     </Form>
