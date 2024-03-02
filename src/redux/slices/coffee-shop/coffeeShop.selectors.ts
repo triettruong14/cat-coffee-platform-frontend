@@ -38,6 +38,9 @@ export const selectLoadingGetDrinks = (state: RootState) =>
 export const selectIsLoadingBooking = (state: RootState) =>
   state.coffeeShop.isLoadingBooking;
 
+export const selectBookingSuccess = (state: RootState) =>
+  state.coffeeShop.bookingSuccess;
+
 export const selectBookingHistory = (state: RootState) =>
   state.coffeeShop.bookingHistory;
 

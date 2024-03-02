@@ -99,6 +99,7 @@ export interface CoffeeShopState {
   selectedCoffeeShopCats?: Cat[];
   selectedCoffeeShopTables?: Table[];
   selectedCoffeeShopDrinks?: Drink[];
+  bookingSuccess?: boolean;
   bookingHistory?: Booking[];
   slots: Slot[];
   deleteCatId?: string;
@@ -327,15 +328,18 @@ const coffeeShopSlice = createSlice({
     builder
       .addCase(bookTableThunk.pending, (state) => {
         state.isLoadingBooking = true;
+        state.bookingSuccess = false;
       })
       .addCase(bookTableThunk.fulfilled, (state) => {
         toast.success('Booking successful');
         state.isLoadingBooking = false;
+        state.bookingSuccess = false;
       })
       .addCase(bookTableThunk.rejected, (state, action) => {
         const { error } = action;
         toast.error(error.message);
         state.isLoadingBooking = false;
+        state.bookingSuccess = false;
       });
 
     builder

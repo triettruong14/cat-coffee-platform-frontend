@@ -28,6 +28,7 @@ import {
   getCoffeeShopCatsThunk,
   getCoffeeShopDrinksThunk,
   getTableByShopIdThunk,
+  selectBookingSuccess,
   selectCoffeeShops,
   selectIsLoadingBooking,
   selectLoadingGetCatFood,
@@ -142,7 +143,7 @@ export const CoffeeShopDetail = () => {
   const drinks = useAppSelector(selectSelectedCoffeeShopDrinks);
   const isSignedIn = useAppSelector(selectSignInStatus);
   const account = useAppSelector(selectUser);
-  const isLoadingBooking = useAppSelector(selectIsLoadingBooking);
+  const isBookingSuccess = useAppSelector(selectBookingSuccess);
 
   const onClick: MenuProps['onClick'] = (e) => {
     const { key } = e;
@@ -253,6 +254,13 @@ export const CoffeeShopDetail = () => {
       dispatch(getTableByShopIdThunk(id));
     }
   }, []);
+
+  useEffect(() => {
+    if (isBookingSuccess) {
+      setIsModalOpen(false);
+      form.resetFields();
+    }
+  }, [isBookingSuccess]);
 
   const handleOnSubmit = () => {
     form.validateFields();
