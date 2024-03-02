@@ -1,6 +1,7 @@
 import { Col, DatePicker, Form, FormInstance, Input, Row, Select } from 'antd';
 import { useMemo, useState } from 'react';
 import {
+  Drink,
   selectSelectedCoffeeShopCatFood,
   selectSelectedCoffeeShopDrinks,
   selectSelectedCoffeeShopTables,
@@ -58,8 +59,13 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
   const handleOnSelectDrinks = (value: string) => {
     const drinkIds = value.split(',');
     const total = drinkIds.reduce((acc, curr) => {
-      const drink = drinks?.find((drink) => drink.drinkId === +curr);
-      return acc + (drink?.price || 0);
+      const drink: Drink | undefined = drinks?.find(
+        (drink) => drink.drinkId == +curr,
+      );
+      if (drink?.price) {
+        return acc + drink?.price;
+      }
+      return acc;
     }, 0);
     setDrinksTotal(total);
   };
@@ -68,7 +74,10 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
     const catFoodIds = value.split(',');
     const total = catFoodIds.reduce((acc, curr) => {
       const food = catFood?.find((food) => food.foodCatId === +curr);
-      return acc + (food?.foodPrice || 0);
+      if (food?.foodPrice) {
+        return acc + food?.foodPrice;
+      }
+      return acc;
     }, 0);
     setCatFoodTotal(total);
   };
@@ -145,4 +154,3 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
     </Form>
   );
 };
-
