@@ -32,6 +32,9 @@ export const selectSelectedCoffeeShopTables = (state: RootState) =>
 export const selectSelectedCoffeeShopDrinks = (state: RootState) =>
   state.coffeeShop.selectedCoffeeShopDrinks;
 
+export const selectGetDrinkStatus = (state: RootState) =>
+  state.coffeeShop.getDrinksSuccess;
+
 export const selectLoadingGetDrinks = (state: RootState) =>
   state.coffeeShop.isLoadingGetDrinks;
 

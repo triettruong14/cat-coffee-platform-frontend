@@ -270,6 +270,12 @@ export const CoffeeShopDetail = () => {
     }
   }, [isBookingSuccess]);
 
+  useEffect(() => {
+    if (isGetDrinksSuccess) {
+      renderMenuItem('drinks');
+    }
+  }, [isGetDrinksSuccess]);
+
   const handleOnSubmit = () => {
     form
       .validateFields()

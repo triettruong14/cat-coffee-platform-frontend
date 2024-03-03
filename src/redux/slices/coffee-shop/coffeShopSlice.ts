@@ -95,6 +95,7 @@ export interface CoffeeShopState {
   isLoadingBooking: boolean;
   isLoadingBookingHistory: boolean;
   isLoadingGetDrinks: boolean;
+  getDrinksSuccess?: boolean;
   selectedCoffeeShopCatFood?: CatFood[];
   selectedCoffeeShopCats?: Cat[];
   selectedCoffeeShopTables?: Table[];
@@ -285,17 +286,20 @@ const coffeeShopSlice = createSlice({
     builder
       .addCase(getCoffeeShopDrinksThunk.pending, (state, action) => {
         state.selectedCoffeeShopDrinks = [];
+        state.getDrinksSuccess = false;
         state.isLoadingGetDrinks = true;
       })
       .addCase(getCoffeeShopDrinksThunk.fulfilled, (state, action) => {
         const { payload } = action;
         const drinks: Drink[] = payload;
         state.selectedCoffeeShopDrinks = drinks;
+        state.getDrinksSuccess = true;
         state.isLoadingGetDrinks = false;
       })
       .addCase(getCoffeeShopDrinksThunk.rejected, (state, action) => {
         const { error } = action;
         toast.error(error.message);
+        state.getDrinksSuccess = false;
         state.isLoadingGetDrinks = false;
       });
 
