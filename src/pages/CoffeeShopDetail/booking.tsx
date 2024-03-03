@@ -130,7 +130,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
 
   const [drinksOptions, setDrinksOptions] = useState(
     drinks?.map((drink) => ({
-      label: drink.drinkName,
+      label: `${drink.drinkName} - ${drink.price}`,
       value: drink.drinkId.toString(),
     })) || [],
   );
@@ -196,7 +196,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
   const calculateDrinksTotal = useCallback(() => {
     let total = 0;
     selectedDrinks.forEach((selectedDrink) => {
-      const drink: Drink | undefined = mockDrinks?.find(
+      const drink: Drink | undefined = drinks?.find(
         (drink) => drink.drinkId == +selectedDrink.value,
       );
       if (drink?.price) {
