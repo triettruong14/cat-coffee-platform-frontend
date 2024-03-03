@@ -157,24 +157,26 @@ export const CoffeeShopDetail = () => {
       switch (key) {
         case 'drinks':
           setMenuItems(
-            drinks?.map((drink) => (
-              <Item justify="space-between" key={0}>
-                <Flex gap={20}>
-                  <img
-                    src={drink.imageDrink}
-                    style={{
-                      width: '60px',
-                      height: '60px',
-                    }}
-                  />
-                  <MenuItemLabel>{drink.drinkName}</MenuItemLabel>
-                </Flex>
-                <PriceLabel>
-                  {drink.price}
-                  <CurrencyLabel>đ</CurrencyLabel>
-                </PriceLabel>
-              </Item>
-            )),
+            <Flex>
+              {drinks?.map((drink) => (
+                <Item justify="space-between" key={0}>
+                  <Flex gap={20}>
+                    <img
+                      src={drink.imageDrink}
+                      style={{
+                        width: '60px',
+                        height: '60px',
+                      }}
+                    />
+                    <MenuItemLabel>{drink.drinkName}</MenuItemLabel>
+                  </Flex>
+                  <PriceLabel>
+                    {drink.price}
+                    <CurrencyLabel>đ</CurrencyLabel>
+                  </PriceLabel>
+                </Item>
+              ))}
+            </Flex>,
           );
           break;
         case 'cats':
@@ -182,20 +184,22 @@ export const CoffeeShopDetail = () => {
             isLoadingGetCats ? (
               <Spin />
             ) : (
-              cats?.map((cat) => (
-                <Item justify="space-between" key={0}>
-                  <Flex gap={20} key={cat.catId}>
-                    <img
-                      src={stockCat}
-                      style={{
-                        width: '60px',
-                        height: '60px',
-                      }}
-                    />
-                    <MenuItemLabel>{cat.catName}</MenuItemLabel>
-                  </Flex>
-                </Item>
-              ))
+              <Flex>
+                {cats?.map((cat) => (
+                  <Item justify="space-between" key={0}>
+                    <Flex gap={20} key={cat.catId}>
+                      <img
+                        src={stockCat}
+                        style={{
+                          width: '60px',
+                          height: '60px',
+                        }}
+                      />
+                      <MenuItemLabel>{cat.catName}</MenuItemLabel>
+                    </Flex>
+                  </Item>
+                ))}
+              </Flex>
             ),
           );
           break;
@@ -204,24 +208,26 @@ export const CoffeeShopDetail = () => {
             isLoadingGetCatFood ? (
               <Spin />
             ) : (
-              catFoods?.map((catFood) => (
-                <Item justify="space-between" key={catFood.foodCatId}>
-                  <Flex gap={20}>
-                    <img
-                      src={stockCatFood}
-                      style={{
-                        width: '60px',
-                        height: '60px',
-                      }}
-                    />
-                    <MenuItemLabel>{catFood.foodCatName}</MenuItemLabel>
-                  </Flex>
-                  <PriceLabel>
-                    {catFood.foodPrice}
-                    <CurrencyLabel>đ</CurrencyLabel>
-                  </PriceLabel>
-                </Item>
-              ))
+              <Flex>
+                {catFoods?.map((catFood) => (
+                  <Item justify="space-between" key={catFood.foodCatId}>
+                    <Flex gap={20}>
+                      <img
+                        src={stockCatFood}
+                        style={{
+                          width: '60px',
+                          height: '60px',
+                        }}
+                      />
+                      <MenuItemLabel>{catFood.foodCatName}</MenuItemLabel>
+                    </Flex>
+                    <PriceLabel>
+                      {catFood.foodPrice}
+                      <CurrencyLabel>đ</CurrencyLabel>
+                    </PriceLabel>
+                  </Item>
+                ))}
+              </Flex>
             ),
           );
           break;
@@ -229,14 +235,7 @@ export const CoffeeShopDetail = () => {
           return null;
       }
     },
-    [
-      catFoods,
-      cats,
-      drinks,
-      isLoadingGetCatFood,
-      isLoadingGetCats,
-      coffeeShops,
-    ],
+    [catFoods, cats, isLoadingGetCatFood, isLoadingGetCats, coffeeShops],
   );
 
   useEffect(() => {
@@ -275,7 +274,6 @@ export const CoffeeShopDetail = () => {
     form
       .validateFields()
       .then((values) => {
-        console.log('values', values);
         dispatch(
           bookTableThunk({
             ...values,
@@ -331,7 +329,6 @@ export const CoffeeShopDetail = () => {
                   <Modal
                     open={isModalOpen}
                     title={`Booking for ${selectedCoffeeShop?.shopName}`}
-                    style={{ minWidth: '50%' }}
                     onCancel={() => setIsModalOpen(false)}
                     onOk={handleOnSubmit}
                     confirmLoading={isLoadingBooking}
