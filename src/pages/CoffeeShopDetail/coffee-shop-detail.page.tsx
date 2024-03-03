@@ -142,6 +142,7 @@ export const CoffeeShopDetail = () => {
   const cats = useAppSelector(selectSelectedCoffeeShopCats);
   const isLoadingGetCats = useAppSelector(selectLoadingGetCats);
   const drinks = useAppSelector(selectSelectedCoffeeShopDrinks);
+  const isGetDrinksSuccess = useAppSelector(selectGetDrinkStatus);
   const isSignedIn = useAppSelector(selectSignInStatus);
   const account = useAppSelector(selectUser);
   const isLoadingBooking = useAppSelector(selectIsLoadingBooking);
