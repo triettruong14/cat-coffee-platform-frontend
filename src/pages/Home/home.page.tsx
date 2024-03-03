@@ -127,6 +127,9 @@ export const Home = () => {
                         <img src={stockCoffeeShop} width={100} height={120} />
                       }
                       size="small"
+                      onClick={() => {
+                        navigate(`coffee-shop/${shop.shopId}`);
+                      }}
                     >
                       <Card.Meta description={shop.shopName} />
                       <p>{shop.address}</p>

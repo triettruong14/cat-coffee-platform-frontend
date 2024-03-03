@@ -71,7 +71,7 @@ export const AppHeader = ({}: HeaderProps) => {
         <Space>
           {loggedIn ? (
             <Space>
-              <p>Welcome back, {account && account.username}!</p>
+              <p>Welcome {account && account.username}!</p>
               <BookingHistoryButton type="link">
                 <Link to="/booking-history">Booking History</Link>
               </BookingHistoryButton>
