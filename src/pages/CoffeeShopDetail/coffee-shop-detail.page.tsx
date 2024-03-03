@@ -30,6 +30,7 @@ import {
   getTableByShopIdThunk,
   selectBookingSuccess,
   selectCoffeeShops,
+  selectGetDrinkStatus,
   selectIsLoadingBooking,
   selectLoadingGetCatFood,
   selectLoadingGetCats,
@@ -246,7 +247,6 @@ export const CoffeeShopDetail = () => {
   }, [coffeeShops]);
 
   useEffect(() => {
-    renderMenuItem('drinks');
     if (selectedCoffeeShop) {
       dispatch(getCoffeeShopCatFoodThunk(selectedCoffeeShop.shopId || ''));
       dispatch(getCoffeeShopCatsThunk(selectedCoffeeShop.shopId || ''));
