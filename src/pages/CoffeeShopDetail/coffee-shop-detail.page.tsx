@@ -44,6 +44,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { CoffeeShop } from '../../domain/models';
 import { BookingForm } from './booking';
+import { toast } from 'react-toastify';
 
 const BackgroundWrapper = styled(Flex)`
   background: #f2f2f2;
@@ -143,6 +144,7 @@ export const CoffeeShopDetail = () => {
   const drinks = useAppSelector(selectSelectedCoffeeShopDrinks);
   const isSignedIn = useAppSelector(selectSignInStatus);
   const account = useAppSelector(selectUser);
+  const isLoadingBooking = useAppSelector(selectIsLoadingBooking);
   const isBookingSuccess = useAppSelector(selectBookingSuccess);
 
   const onClick: MenuProps['onClick'] = (e) => {
@@ -227,7 +229,14 @@ export const CoffeeShopDetail = () => {
           return null;
       }
     },
-    [catFoods, cats, isLoadingGetCatFood, isLoadingGetCats, coffeeShops],
+    [
+      catFoods,
+      cats,
+      drinks,
+      isLoadingGetCatFood,
+      isLoadingGetCats,
+      coffeeShops,
+    ],
   );
 
   useEffect(() => {
@@ -263,16 +272,22 @@ export const CoffeeShopDetail = () => {
   }, [isBookingSuccess]);
 
   const handleOnSubmit = () => {
-    form.validateFields();
-    const values = form.getFieldsValue();
-    dispatch(
-      bookTableThunk({
-        ...values,
-        accountId: account?.id,
-        shopId: id,
-        total: 0,
-      }),
-    );
+    form
+      .validateFields()
+      .then((values) => {
+        console.log('values', values);
+        dispatch(
+          bookTableThunk({
+            ...values,
+            accountId: account?.id,
+            shopId: id,
+            total: 0,
+          }),
+        );
+      })
+      .catch((err) => {
+        toast.error(err);
+      });
   };
 
   return (
@@ -316,6 +331,7 @@ export const CoffeeShopDetail = () => {
                   <Modal
                     open={isModalOpen}
                     title={`Booking for ${selectedCoffeeShop?.shopName}`}
+                    style={{ minWidth: '50%' }}
                     onCancel={() => setIsModalOpen(false)}
                     onOk={handleOnSubmit}
                     confirmLoading={isLoadingBooking}

@@ -28,8 +28,8 @@ export interface CoffeeShopApiResponse {
 export interface CatFood {
   foodCatId: number;
   foodCatName: string;
-  imageFoodForCat: string;
-  shopId: number;
+  imageFoodForCat?: string;
+  shopId?: number;
   foodPrice: number;
   status?: boolean;
   bookingDetails?: any[];
@@ -71,8 +71,8 @@ export interface Booking {
 export interface Drink {
   drinkId: number;
   drinkName: string;
-  shopId: number;
-  imageDrink: string;
+  shopId?: number;
+  imageDrink?: string;
   price: number;
 }
 
