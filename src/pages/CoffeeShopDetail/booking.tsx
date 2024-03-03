@@ -132,7 +132,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
     drinks?.map((drink) => ({
       label: drink.drinkName,
       value: drink.drinkId.toString(),
-    })),
+    })) || [],
   );
   const [selectedDrinks, setSelectedDrinks] = useState<
     { label: string; value: string }[]
