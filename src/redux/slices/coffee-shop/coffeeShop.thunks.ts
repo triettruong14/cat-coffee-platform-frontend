@@ -101,6 +101,8 @@ interface BookingRequest {
   tableId: string;
   drinks: string[];
   catFoods: string[];
+  drinksTotal: number;
+  catFoodsTotal: number;
   slotId: string;
 }
 
@@ -115,6 +117,8 @@ export const bookTableThunk = createAsyncThunk(
     tableId,
     slotId,
     bookingDate,
+    catFoodsTotal,
+    drinksTotal,
   }: BookingRequest) => {
     const response = await axios.post(
       `http://localhost:5193/api/Booking/CreateBooking`,
@@ -127,6 +131,8 @@ export const bookTableThunk = createAsyncThunk(
         drinks,
         catFoods,
         slotId,
+        catFoodsTotal,
+        drinksTotal,
       },
     );
     return response.data;

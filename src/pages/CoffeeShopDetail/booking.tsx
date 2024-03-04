@@ -240,12 +240,13 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
       }
     });
     setDrinksTotal(total);
+    form.setFieldsValue({ drinksTotal: total });
   }, [selectedDrinks, form, disabledEditDrink]);
 
   const calculateCatFoodTotal = useCallback(() => {
     let total = 0;
     selectedCatFoods.forEach((selectedCatFood) => {
-      const catFood: CatFood | undefined = catFoods?.find(
+      const catFood: CatFood | undefined = mockCatFoods?.find(
         (catFood) => catFood.foodCatId == +selectedCatFood.value,
       );
       if (catFood?.foodPrice) {
@@ -260,6 +261,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
       }
     });
     setCatFoodTotal(total);
+    form.setFieldsValue({ catFoodsTotal: total });
   }, [selectedCatFoods, form, disabledEditCatFood]);
 
   useEffect(() => {
@@ -470,6 +472,11 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
               </>
             )}
           </Form.List>
+          <Form.Item name="drinksTotal" style={{ display: 'none' }}></Form.Item>
+          <Form.Item
+            name="catFoodsTotal"
+            style={{ display: 'none' }}
+          ></Form.Item>
         </Col>
       </Row>
     </Form>

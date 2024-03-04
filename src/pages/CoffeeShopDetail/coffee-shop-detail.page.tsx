@@ -354,9 +354,42 @@ export const CoffeeShopDetail = () => {
     form
       .validateFields()
       .then((values) => {
+        const { catFoods, drinks, drinksTotal, catFoodsTotal, ...rest } =
+          values;
+        const catFoodObject = catFoods.map(
+          (catFood: {
+            foodCatId: { key: string; label: string; value: string };
+            quantity: number;
+          }) => {
+            const { foodCatId, quantity } = catFood;
+            return {
+              foodCatId: foodCatId.value,
+              quantity,
+            };
+          },
+        );
+
+        const drinkObject = drinks.map(
+          (drink: {
+            drinkId: { key: string; label: string; value: string };
+            quantity: number;
+          }) => {
+            const { drinkId, quantity } = drink;
+            return {
+              drinkId: drinkId.value,
+              quantity,
+            };
+          },
+        );
+
+        console.log('values', values);
         dispatch(
           bookTableThunk({
-            ...values,
+            ...rest,
+            catFoods: catFoodObject,
+            drinks: drinkObject,
+            drinksTotal,
+            catFoodsTotal,
             accountId: account?.id,
             shopId: id,
             total: 0,
