@@ -123,7 +123,7 @@ export const bookTableThunk = createAsyncThunk(
     let formattedDate = null;
 
     if (bookingDate) {
-      formattedDate = bookingDate.split('T')[0];
+      formattedDate = dayjs(bookingDate).format('DD-MM-YYYY');
     }
 
     const response = await axios.post(
