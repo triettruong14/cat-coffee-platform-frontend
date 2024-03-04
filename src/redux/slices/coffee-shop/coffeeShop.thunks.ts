@@ -11,6 +11,7 @@ import {
   Table,
 } from './coffeShopSlice';
 import moment from 'moment';
+import dayjs from 'dayjs';
 
 export const searchCoffeeShopByNameThunk = createAsyncThunk(
   'coffeeShop/searchShopByName',
