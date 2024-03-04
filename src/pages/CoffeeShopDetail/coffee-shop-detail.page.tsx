@@ -23,6 +23,9 @@ import {
 } from '@ant-design/icons';
 import {
   bookTableThunk,
+  Cat,
+  CatFood,
+  Drink,
   getAllCoffeeShopsThunk,
   getCoffeeShopCatFoodThunk,
   getCoffeeShopCatsThunk,
@@ -127,6 +130,69 @@ const CurrencyLabel = styled.span`
   right: 0;
 `;
 
+const mockCatFood: CatFood[] = [
+  {
+    foodCatId: 1,
+    foodCatName: 'Cat Food 1',
+    foodPrice: 10000,
+  },
+  {
+    foodCatId: 2,
+    foodCatName: 'Cat Food 2',
+    foodPrice: 20000,
+  },
+  {
+    foodCatId: 3,
+    foodCatName: 'Cat Food 3',
+    foodPrice: 30000,
+  },
+];
+
+const mockCats: Cat[] = [
+  {
+    catId: '1',
+    catName: 'Cat 1',
+    shopId: '1',
+    catTypeId: '1',
+    imageCat: '',
+  },
+  {
+    catId: '2',
+    catName: 'Cat 2',
+    shopId: '1',
+    catTypeId: '1',
+    imageCat: '',
+  },
+  {
+    catId: '3',
+    catName: 'Cat 3',
+    shopId: '1',
+    catTypeId: '1',
+    imageCat: '',
+  },
+];
+
+const mockDrinks: Drink[] = [
+  {
+    drinkId: 1,
+    drinkName: 'Cappuccino',
+    price: 30000,
+    imageDrink: stockSmoothie,
+  },
+  {
+    drinkId: 2,
+    drinkName: 'Latte',
+    price: 35000,
+    imageDrink: stockSmoothie,
+  },
+  {
+    drinkId: 3,
+    drinkName: 'Mocha',
+    price: 40000,
+    imageDrink: stockSmoothie,
+  },
+];
+
 export const CoffeeShopDetail = () => {
   const { id } = useParams();
   const navigate = useNavigate();
@@ -159,9 +225,9 @@ export const CoffeeShopDetail = () => {
       switch (key) {
         case 'drinks':
           setMenuItems(
-            <Flex>
+            <Flex vertical>
               {drinks?.map((drink) => (
-                <Item justify="space-between" key={0}>
+                <Item justify="space-between" key={drink.drinkId}>
                   <Flex gap={20}>
                     <img
                       src={drink.imageDrink}
@@ -186,9 +252,9 @@ export const CoffeeShopDetail = () => {
             isLoadingGetCats ? (
               <Spin />
             ) : (
-              <Flex>
+              <Flex vertical>
                 {cats?.map((cat) => (
-                  <Item justify="space-between" key={0}>
+                  <Item justify="space-between" key={cat.catId}>
                     <Flex gap={20} key={cat.catId}>
                       <img
                         src={stockCat}
@@ -210,7 +276,7 @@ export const CoffeeShopDetail = () => {
             isLoadingGetCatFood ? (
               <Spin />
             ) : (
-              <Flex>
+              <Flex vertical>
                 {catFoods?.map((catFood) => (
                   <Item justify="space-between" key={catFood.foodCatId}>
                     <Flex gap={20}>
