@@ -207,7 +207,7 @@ export const CoffeeShopDetail = () => {
 
   const coffeeShops = useAppSelector(selectCoffeeShops);
   const [selectedCoffeeShop, setSelectedCoffeeShop] = useState<CoffeeShop>();
-  const [menuItems, setMenuItems] = useState<React.ReactNode>([]);
+  const [menuItems, setMenuItems] = useState<React.ReactNode>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
 
@@ -382,7 +382,6 @@ export const CoffeeShopDetail = () => {
           },
         );
 
-        console.log('values', values);
         dispatch(
           bookTableThunk({
             ...rest,
@@ -462,7 +461,7 @@ export const CoffeeShopDetail = () => {
             items={shopCategories}
             onClick={onClick}
           />
-          <ShopMenu>{menuItems}</ShopMenu>
+          <ShopMenu>{menuItems || <Spin />}</ShopMenu>
         </Flex>
       </BackgroundWrapper>
     </>
