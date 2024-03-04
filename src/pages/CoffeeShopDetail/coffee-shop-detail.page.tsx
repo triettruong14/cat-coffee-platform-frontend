@@ -130,6 +130,13 @@ const CurrencyLabel = styled.span`
   right: 0;
 `;
 
+const BookingModal = styled(Modal)`
+  width: 700px !important;
+  .ant-model-content {
+    width: 700px !important;
+  }
+`;
+
 const mockCatFood: CatFood[] = [
   {
     foodCatId: 1,
@@ -399,7 +406,7 @@ export const CoffeeShopDetail = () => {
                   <Button type="primary" onClick={() => setIsModalOpen(true)}>
                     Start Booking <CalendarOutlined />
                   </Button>
-                  <Modal
+                  <BookingModal
                     open={isModalOpen}
                     title={`Booking for ${selectedCoffeeShop?.shopName}`}
                     onCancel={() => setIsModalOpen(false)}
@@ -407,7 +414,7 @@ export const CoffeeShopDetail = () => {
                     confirmLoading={isLoadingBooking}
                   >
                     <BookingForm form={form} handleOnSubmit={handleOnSubmit} />
-                  </Modal>
+                  </BookingModal>
                 </>
               )}
             </div>

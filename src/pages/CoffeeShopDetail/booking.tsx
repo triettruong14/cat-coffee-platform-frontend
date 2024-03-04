@@ -83,22 +83,22 @@ const mockTables: Table[] = [
 
 const mockDrinks: Drink[] = [
   {
-    drinkId: 1,
+    drinkId: 0,
     drinkName: 'Coffee',
     price: 3.5,
   },
   {
-    drinkId: 2,
+    drinkId: 1,
     drinkName: 'Tea',
     price: 3,
   },
   {
-    drinkId: 3,
+    drinkId: 2,
     drinkName: 'Smoothie',
     price: 4,
   },
   {
-    drinkId: 4,
+    drinkId: 3,
     drinkName: 'Water',
     price: 2,
   },
@@ -106,17 +106,17 @@ const mockDrinks: Drink[] = [
 
 const mockCatFood: CatFood[] = [
   {
-    foodCatId: 1,
+    foodCatId: 0,
     foodCatName: 'Dry Food',
     foodPrice: 5,
   },
   {
-    foodCatId: 2,
+    foodCatId: 1,
     foodCatName: 'Wet Food',
     foodPrice: 6,
   },
   {
-    foodCatId: 3,
+    foodCatId: 2,
     foodCatName: 'Treats',
     foodPrice: 3,
   },
@@ -126,7 +126,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
   const slots = useAppSelector(selectSlots);
   const tables = useAppSelector(selectSelectedCoffeeShopTables);
   const drinks = useAppSelector(selectSelectedCoffeeShopDrinks);
-  const catFood = useAppSelector(selectSelectedCoffeeShopCatFood);
+  const catFoods = useAppSelector(selectSelectedCoffeeShopCatFood);
 
   const [drinksOptions, setDrinksOptions] = useState(
     drinks?.map((drink) => ({
@@ -139,16 +139,18 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
   >([]);
   const [disabledEditDrink, setDisabledEditDrink] = useState<boolean[]>([]);
   const [drinksTotal, setDrinksTotal] = useState(0);
-  const [catFoodTotal, setCatFoodTotal] = useState(0);
 
-  const catFoodOptions = useMemo(
-    () =>
-      catFood?.map((catFood) => ({
-        label: catFood.foodCatName,
-        value: catFood.foodCatId.toString(),
-      })),
-    [],
+  const [catFoodOptions, setCatFoodOptions] = useState(
+    catFoods?.map((catFood) => ({
+      label: `${catFood.foodCatName} - ${catFood.foodPrice}`,
+      value: catFood.foodCatId.toString(),
+    })) || [],
   );
+  const [selectedCatFoods, setSelectedCatFoods] = useState<
+    { label: string; value: string }[]
+  >([]);
+  const [disabledEditCatFood, setDisabledEditCatFood] = useState<boolean[]>([]);
+  const [catFoodTotal, setCatFoodTotal] = useState(0);
 
   const slotOptions = useMemo(() => {
     return slots.map((slot) => ({
@@ -193,6 +195,33 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
     }
   };
 
+  const handleOnSelectCatFood = (values: { value: string; label: string }) => {
+    const { value, label } = values;
+    setCatFoodOptions((prev) => {
+      return [...prev?.filter((d) => d.value != value)];
+    });
+    setSelectedCatFoods((prev) => {
+      return [...prev, { label: label, value: value }];
+    });
+    setDisabledEditCatFood((prev) => [...prev, true]);
+  };
+
+  const handleOnRemoveCatFood = (index: number) => {
+    const catFood = selectedCatFoods[index];
+    if (catFood) {
+      setSelectedCatFoods((prev) => prev.filter((d, i) => i !== index));
+      setCatFoodOptions((prev) => [
+        ...prev,
+        { label: catFood.label, value: catFood.value },
+      ]);
+      setDisabledEditCatFood((prev) => {
+        const newDisabledEditCatFood = [...prev];
+        newDisabledEditCatFood[index] = false;
+        return newDisabledEditCatFood;
+      });
+    }
+  };
+
   const calculateDrinksTotal = useCallback(() => {
     let total = 0;
     selectedDrinks.forEach((selectedDrink) => {
@@ -213,21 +242,33 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
     setDrinksTotal(total);
   }, [selectedDrinks, form, disabledEditDrink]);
 
-  const handleOnselectCatFood = (value: string) => {
-    const catFoodIds = value.split(',');
-    const total = catFoodIds.reduce((acc, curr) => {
-      const food = mockCatFood?.find((food) => food.foodCatId === +curr);
-      if (food?.foodPrice) {
-        return acc + food?.foodPrice;
+  const calculateCatFoodTotal = useCallback(() => {
+    let total = 0;
+    selectedCatFoods.forEach((selectedCatFood) => {
+      const catFood: CatFood | undefined = catFoods?.find(
+        (catFood) => catFood.foodCatId == +selectedCatFood.value,
+      );
+      if (catFood?.foodPrice) {
+        const quantity = form.getFieldValue([
+          'catFoods',
+          selectedCatFoods.findIndex(
+            (catFood) => catFood.value === selectedCatFood.value,
+          ),
+          'quantity',
+        ]);
+        total += catFood.foodPrice * (quantity || 0);
       }
-      return acc;
-    }, 0);
+    });
     setCatFoodTotal(total);
-  };
+  }, [selectedCatFoods, form, disabledEditCatFood]);
 
   useEffect(() => {
     calculateDrinksTotal();
   }, [selectedDrinks, form]);
+
+  useEffect(() => {
+    calculateCatFoodTotal();
+  }, [selectedCatFoods, form]);
 
   return (
     <Form
@@ -363,14 +404,72 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
           <label style={{ textAlign: 'right' }}>Select Cat food: </label>
         </Col>
         <Col flex="auto">
-          <Form.Item name="catFoods">
-            <Select
-              mode="multiple"
-              options={catFoodOptions}
-              placeholder="Select your time slot"
-              onSelect={handleOnselectCatFood}
-            />
-          </Form.Item>
+          <Row>
+            <Col>
+              <Statistic title="Cat Food Total" value={catFoodTotal} />
+            </Col>
+          </Row>
+          <Form.List name="catFoods">
+            {(fields, { add, remove }, { errors }) => (
+              <>
+                {fields.map((field, index) => (
+                  <>
+                    <Row style={{ width: '100%' }} gutter={8}>
+                      <Col span={18}>
+                        <Form.Item
+                          {...field}
+                          name={[field.name, 'foodCatId']}
+                          style={{ width: '100%' }}
+                        >
+                          <Select
+                            onSelect={handleOnSelectCatFood}
+                            options={catFoodOptions}
+                            labelInValue
+                            disabled={disabledEditCatFood[index]}
+                          />
+                        </Form.Item>
+                      </Col>
+                      <Col flex="auto">
+                        <Form.Item
+                          name={[field.name, 'quantity']}
+                          style={{ width: '100%' }}
+                          noStyle
+                        >
+                          <InputNumber
+                            defaultValue={0}
+                            min={0}
+                            placeholder="Quantity"
+                            onChange={calculateCatFoodTotal}
+                          />
+                        </Form.Item>
+                      </Col>
+                      {index === fields.length - 1 ? (
+                        <Col span={1}>
+                          <MinusCircleOutlined
+                            className="dynamic-delete-button"
+                            onClick={() => {
+                              handleOnRemoveCatFood(index);
+                              remove(field.name);
+                            }}
+                            style={{ fontSize: '20px', marginTop: '6px' }}
+                          />
+                        </Col>
+                      ) : null}
+                    </Row>
+                  </>
+                ))}
+                <Form.Item>
+                  <Button
+                    type="dashed"
+                    onClick={() => add()}
+                    icon={<PlusOutlined />}
+                  >
+                    Add field
+                  </Button>
+                </Form.Item>
+              </>
+            )}
+          </Form.List>
         </Col>
       </Row>
     </Form>
