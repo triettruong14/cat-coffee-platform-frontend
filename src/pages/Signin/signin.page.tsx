@@ -57,6 +57,9 @@ export const SignIn = () => {
   };
 
   useEffect(() => {
+    if (!account) {
+      return;
+    }
     if (isSignInSuccess) {
       if (account?.roleId === AccountRole.STAFF) {
         navigate('/staff');
@@ -64,7 +67,7 @@ export const SignIn = () => {
         navigate('/');
       }
     }
-  }, [isSignInSuccess]);
+  }, [isSignInSuccess, account]);
 
   return (
     <>
