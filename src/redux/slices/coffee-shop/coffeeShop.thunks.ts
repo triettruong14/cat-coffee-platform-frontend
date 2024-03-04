@@ -120,10 +120,16 @@ export const bookTableThunk = createAsyncThunk(
     catFoodsTotal,
     drinksTotal,
   }: BookingRequest) => {
+    let formattedDate = null;
+
+    if (bookingDate) {
+      formattedDate = bookingDate.split('T')[0];
+    }
+
     const response = await axios.post(
       `http://localhost:5193/api/Booking/CreateBooking`,
       {
-        bookingDate: bookingDate,
+        bookingDate: formattedDate,
         total,
         accountId,
         shopId: parseInt(shopId),
