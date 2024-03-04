@@ -246,7 +246,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
   const calculateCatFoodTotal = useCallback(() => {
     let total = 0;
     selectedCatFoods.forEach((selectedCatFood) => {
-      const catFood: CatFood | undefined = mockCatFoods?.find(
+      const catFood: CatFood | undefined = catFoods?.find(
         (catFood) => catFood.foodCatId == +selectedCatFood.value,
       );
       if (catFood?.foodPrice) {
