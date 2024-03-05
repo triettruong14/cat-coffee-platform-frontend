@@ -22,6 +22,7 @@ import {
   LoginOutlined,
 } from '@ant-design/icons';
 import {
+  BookingRequest,
   bookTableThunk,
   Cat,
   CatFood,
@@ -356,18 +357,20 @@ export const CoffeeShopDetail = () => {
       .then((values) => {
         const { catFoods, drinks, drinksTotal, catFoodsTotal, ...rest } =
           values;
-        const catFoodObject = catFoods.map(
-          (catFood: {
-            foodCatId: { key: string; label: string; value: string };
-            quantity: number;
-          }) => {
-            const { foodCatId, quantity } = catFood;
-            return {
-              foodCatId: foodCatId.value,
-              quantity,
-            };
-          },
-        );
+
+        const catFoodObject: { drinkId: string; quantity: number }[] =
+          catFoods.map(
+            (catFood: {
+              foodCatId: { key: string; label: string; value: string };
+              quantity: number;
+            }) => {
+              const { foodCatId, quantity } = catFood;
+              return {
+                foodCatId: parseInt(foodCatId.value),
+                quantity,
+              };
+            },
+          );
 
         const drinkObject = drinks.map(
           (drink: {
@@ -376,24 +379,23 @@ export const CoffeeShopDetail = () => {
           }) => {
             const { drinkId, quantity } = drink;
             return {
-              drinkId: drinkId.value,
+              drinkId: parseInt(drinkId.value),
               quantity,
             };
           },
         );
 
-        dispatch(
-          bookTableThunk({
-            ...rest,
-            catFoods: catFoodObject,
-            drinks: drinkObject,
-            drinksTotal,
-            catFoodsTotal,
-            accountId: account?.id,
-            shopId: id,
-            total: 0,
-          }),
-        );
+        const payload: BookingRequest = {
+          ...rest,
+          catFoods: catFoodObject,
+          drinks: drinkObject,
+          drinksTotal,
+          catFoodsTotal,
+          accountId: account?.id,
+          shopId: id,
+          total: 0,
+        };
+        dispatch(bookTableThunk(payload));
       })
       .catch((err) => {
         toast.error(err);

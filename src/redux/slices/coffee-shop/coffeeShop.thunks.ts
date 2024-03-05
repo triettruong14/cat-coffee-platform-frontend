@@ -94,14 +94,14 @@ export const getTableByShopIdThunk = createAsyncThunk(
   },
 );
 
-interface BookingRequest {
+export interface BookingRequest {
   bookingDate: string;
   total: number;
   accountId: string;
   shopId: string;
   tableId: string;
-  drinks: { drinkId: string; quantity: number }[];
-  catFoods: { foodCatId: string; quantity: number }[];
+  drinks: { drinkId: number; quantity: number }[];
+  catFoods: { foodCatId: number; quantity: number }[];
   drinksTotal: number;
   catFoodsTotal: number;
   slotId: string;
