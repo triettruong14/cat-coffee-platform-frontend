@@ -130,7 +130,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
 
   const [drinksOptions, setDrinksOptions] = useState(
     drinks?.map((drink) => ({
-      label: `${drink.drinkName} - ${drink.price}`,
+      label: `${drink.drinkName} - ${drink.price}đ`,
       value: drink.drinkId.toString(),
     })) || [],
   );
@@ -142,7 +142,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
 
   const [catFoodOptions, setCatFoodOptions] = useState(
     catFoods?.map((catFood) => ({
-      label: `${catFood.foodCatName} - ${catFood.foodPrice}`,
+      label: `${catFood.foodCatName} - ${catFood.foodPrice}đ`,
       value: catFood.foodCatId.toString(),
     })) || [],
   );
@@ -197,6 +197,7 @@ export const BookingForm = ({ form, handleOnSubmit }: BookingFormProps) => {
 
   const handleOnSelectCatFood = (values: { value: string; label: string }) => {
     const { value, label } = values;
+    console.log('values', values);
     setCatFoodOptions((prev) => {
       return [...prev?.filter((d) => d.value != value)];
     });

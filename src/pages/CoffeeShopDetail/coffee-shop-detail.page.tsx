@@ -345,10 +345,10 @@ export const CoffeeShopDetail = () => {
   }, [isBookingSuccess]);
 
   useEffect(() => {
-    if (isGetDrinksSuccess) {
+    if (isGetDrinksSuccess && drinks) {
       renderMenuItem('drinks');
     }
-  }, [isGetDrinksSuccess]);
+  }, [isGetDrinksSuccess, drinks]);
 
   const handleOnSubmit = () => {
     form
