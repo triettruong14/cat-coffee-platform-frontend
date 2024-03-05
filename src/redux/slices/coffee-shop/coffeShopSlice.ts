@@ -336,7 +336,7 @@ const coffeeShopSlice = createSlice({
       })
       .addCase(bookTableThunk.fulfilled, (state) => {
         state.isLoadingBooking = false;
-        state.bookingSuccess = false;
+        state.bookingSuccess = true;
         toast.success('Booking successful');
       })
       .addCase(bookTableThunk.rejected, (state, action) => {
