@@ -356,6 +356,8 @@ export const CoffeeShopDetail = () => {
       .then((values) => {
         const { catFoods, drinks, drinksTotal, catFoodsTotal, ...rest } =
           values;
+        console.log('catFoods', catFoods);
+        console.log('drinks', drinks);
         const catFoodObject = catFoods.map(
           (catFood: {
             foodCatId: { key: string; label: string; value: string };
