@@ -100,8 +100,8 @@ interface BookingRequest {
   accountId: string;
   shopId: string;
   tableId: string;
-  drinks: string[];
-  catFoods: string[];
+  drinks: { drinkId: string; quantity: number }[];
+  catFoods: { foodCatId: string; quantity: number }[];
   drinksTotal: number;
   catFoodsTotal: number;
   slotId: string;
