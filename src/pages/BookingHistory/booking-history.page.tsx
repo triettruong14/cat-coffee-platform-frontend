@@ -136,7 +136,7 @@ export const BookingHistory = () => {
   const user = useAppSelector(selectUser);
   const slots = useAppSelector(selectSlots);
 
-  const [data, setData] = useState<Booking[] | undefined>(mockData);
+  const [data, setData] = useState<Booking[] | undefined>(bookings);
   const [startDate, setStartDate] = useState<string | null>(null);
   const [endDate, setEndDate] = useState<string | null>(null);
 
