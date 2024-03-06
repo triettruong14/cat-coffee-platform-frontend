@@ -15,6 +15,7 @@ import { SignInSuccess } from './components/SignInSuccess';
 import { Protected } from './components/ProtectedRoute';
 import { BookingHistory } from './pages/BookingHistory/booking-history.page';
 import { Staff } from './pages/Staff/staff.page';
+import { BookingDetail } from './pages/BookingDetail/booking-detail.page';
 
 const router = createBrowserRouter([
   {
@@ -65,6 +66,16 @@ const router = createBrowserRouter([
       <Protected>
         <AppLayout header={<AppHeader />}>
           <BookingHistory />
+        </AppLayout>
+      </Protected>
+    ),
+  },
+  {
+    path: '/booking-history/detail/:id',
+    element: (
+      <Protected>
+        <AppLayout header={<AppHeader />}>
+          <BookingDetail />
         </AppLayout>
       </Protected>
     ),

@@ -51,86 +51,74 @@ const TableWrapper = styled.div`
 
 const mockData: Booking[] = [
   {
+    bookingId: 1,
     shopName: 'Starbucks',
     bookingDate: '01/01/2021',
-    total: 100,
-    tableName: 'shop1',
+    total: 165000,
+    tableName: 'Ban 1',
     slotId: 1,
   },
   {
+    bookingId: 2,
     shopName: 'Starbucks',
     bookingDate: '01/01/2021',
-    total: 100,
-    tableName: 'shop1',
+    total: 165000,
+    tableName: 'Ban 1',
     slotId: 1,
   },
   {
+    bookingId: 3,
     shopName: 'Starbucks',
     bookingDate: '01/01/2021',
-    total: 100,
-    tableName: 'shop1',
+    total: 165000,
+    tableName: 'Ban 1',
     slotId: 1,
   },
   {
+    bookingId: 4,
     shopName: 'Starbucks',
     bookingDate: '01/01/2021',
-    total: 100,
-    tableName: 'shop1',
+    total: 165000,
+    tableName: 'Ban 1',
     slotId: 1,
   },
   {
+    bookingId: 5,
     shopName: 'Starbucks',
     bookingDate: '01/01/2021',
-    total: 100,
-    tableName: 'shop1',
+    total: 165000,
+    tableName: 'Ban 1',
     slotId: 1,
   },
   {
+    bookingId: 6,
     shopName: 'Starbucks',
     bookingDate: '01/01/2021',
-    total: 100,
-    tableName: 'shop1',
+    total: 165000,
+    tableName: 'Ban 1',
     slotId: 1,
   },
   {
+    bookingId: 7,
     shopName: 'Starbucks',
     bookingDate: '01/01/2021',
-    total: 100,
-    tableName: 'shop1',
+    total: 165000,
+    tableName: 'Ban 1',
     slotId: 1,
   },
   {
+    bookingId: 8,
     shopName: 'Starbucks',
     bookingDate: '01/01/2021',
-    total: 100,
-    tableName: 'shop1',
-    slotId: 1,
-  },
-  {
-    shopName: 'Starbucks',
-    bookingDate: '01/01/2021',
-    total: 100,
-    tableName: 'shop1',
-    slotId: 1,
-  },
-  {
-    shopName: 'Starbucks',
-    bookingDate: '01/01/2021',
-    total: 100,
-    tableName: 'shop1',
-    slotId: 1,
-  },
-  {
-    shopName: 'Starbucks',
-    bookingDate: '01/01/2021',
-    total: 100,
-    tableName: 'shop1',
+    total: 165000,
+    tableName: 'Ban 1',
     slotId: 1,
   },
 ];
 
 export const BookingHistory = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const bookings = useAppSelector(selectBookingHistory);
   const user = useAppSelector(selectUser);
@@ -257,6 +245,24 @@ export const BookingHistory = () => {
               <Col span={24}>
                 <TableWrapper>
                   <Table
+                    onRow={(record, rowIndex) => {
+                      return {
+                        onClick: (event) => {
+                          console.log('row clicked', record, rowIndex);
+                          if (record.bookingId) {
+                            navigate(`detail/${record.bookingId}`, {
+                              state: {
+                                shopName: record.shopName,
+                                bookingDate: record.bookingDate,
+                                total: record.total,
+                                tableName: record.tableName,
+                                slotId: record.slotId,
+                              },
+                            });
+                          }
+                        },
+                      };
+                    }}
                     columns={columns}
                     dataSource={data}
                     style={{ height: '100%' }}

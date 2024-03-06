@@ -138,7 +138,7 @@ const BookingModal = styled(Modal)`
   }
 `;
 
-const mockCatFood: CatFood[] = [
+export const mockCatFood: CatFood[] = [
   {
     foodCatId: 1,
     foodCatName: 'Cat Food 1',
@@ -156,7 +156,7 @@ const mockCatFood: CatFood[] = [
   },
 ];
 
-const mockCats: Cat[] = [
+export const mockCats: Cat[] = [
   {
     catId: '1',
     catName: 'Cat 1',
@@ -180,7 +180,7 @@ const mockCats: Cat[] = [
   },
 ];
 
-const mockDrinks: Drink[] = [
+export const mockDrinks: Drink[] = [
   {
     drinkId: 1,
     drinkName: 'Cappuccino',
