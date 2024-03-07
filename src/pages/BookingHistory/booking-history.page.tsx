@@ -142,11 +142,21 @@ export const BookingHistory = () => {
     if (startDate && endDate) {
       filteredData = filteredData?.filter((record) => {
         const recordDate = moment(record.bookingDate, 'DD/MM/YYYY');
-        return recordDate.isBetween(startDate, endDate, 'day', '[]');
-      });
-    }
+        const momentStartDate = moment(startDate, 'DD/MM/YYYY');
+        const momentEndDate = moment(endDate, 'DD/MM/YYYY');
 
-    setData(filteredData);
+        console.log('recordDate', recordDate);
+        console.log('startDate', startDate);
+        console.log('endDate', endDate);
+        return recordDate.isBetween(
+          momentStartDate,
+          momentEndDate,
+          'day',
+          '[]',
+        );
+      });
+      setData(filteredData);
+    }
   };
 
   const handleReset = () => {
@@ -180,7 +190,7 @@ export const BookingHistory = () => {
         key: 'bookingDate',
         render: (bookingDate) => {
           //format bookingDate from YYYY-MM-DD to DD/MM/YYYY
-          return moment(bookingDate, 'YYYY-MM-DD').format('DD/MM/YYYY');
+          return moment(bookingDate, 'DD-MM-YYYY').format('DD/MM/YYYY');
         },
       },
       {
