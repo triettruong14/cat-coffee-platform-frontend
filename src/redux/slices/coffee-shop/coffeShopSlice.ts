@@ -49,6 +49,7 @@ export interface Cat {
   shopId: string;
   catName: string;
   imageCat: string;
+  catInfor: string;
 }
 
 export interface Slot {
