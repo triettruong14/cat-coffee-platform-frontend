@@ -17,6 +17,12 @@ import {
   searchCoffeeShopByNameThunk,
 } from './coffeeShop.thunks';
 
+export enum BookingStatus {
+  DONE = 1,
+  CANCEL = 2,
+  PENDING = 3,
+}
+
 export interface CoffeeShopApiResponse {
   shopId: string;
   accountId: string;
@@ -65,7 +71,7 @@ export interface Booking {
   accountId?: number;
   tableName: string;
   slotId: number;
-  status?: boolean;
+  status?: BookingStatus;
 }
 
 export interface Drink {
@@ -183,6 +189,41 @@ const coffeeShopSlice = createSlice({
         },
       ];
       state.slots = mockSlots;
+    },
+    mockBookingHistory: (state) => {
+      const mockBookingHistory = [
+        {
+          bookingId: 1,
+          shopName: 'Shop 1',
+          bookingDate: '2021-09-01',
+          total: 100000,
+          accountId: 1,
+          tableName: 'Table 1',
+          slotId: 1,
+          status: BookingStatus.DONE,
+        },
+        {
+          bookingId: 2,
+          shopName: 'Shop 2',
+          bookingDate: '2021-09-02',
+          total: 200000,
+          accountId: 2,
+          tableName: 'Table 2',
+          slotId: 2,
+          status: BookingStatus.CANCEL,
+        },
+        {
+          bookingId: 3,
+          shopName: 'Shop 2',
+          bookingDate: '2021-09-02',
+          total: 200000,
+          accountId: 2,
+          tableName: 'Table 2',
+          slotId: 2,
+          status: BookingStatus.PENDING,
+        },
+      ];
+      state.bookingHistory = mockBookingHistory;
     },
   },
   extraReducers(builder) {
@@ -418,4 +459,5 @@ export const {
   mockSearchCoffeeShopByName,
   mockGetSlots,
   mockGetTables,
+  mockBookingHistory,
 } = coffeeShopSlice.actions;

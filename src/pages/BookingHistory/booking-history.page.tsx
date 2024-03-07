@@ -17,7 +17,9 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import {
   Booking,
+  BookingStatus,
   getBookingByAccountIdThunk,
+  mockBookingHistory,
   selectBookingHistory,
   selectSlots,
   selectUser,
@@ -48,6 +50,11 @@ const TableWrapper = styled.div`
   height: 450px;
   width: 100%;
   overflow-y: scroll;
+`;
+
+const StatusTag = styled.span`
+  color: #fff;
+  background: ${(props) => props.color};
 `;
 
 const mockData: Booking[] = [
@@ -154,6 +161,18 @@ export const BookingHistory = () => {
         title: 'Shop',
         dataIndex: 'shopName',
         key: 'shopName',
+        render: (shopName, booking) => (
+          <Button
+            type="link"
+            onClick={() => {
+              navigate(`detail/${booking.bookingId}`, {
+                state: { ...booking },
+              });
+            }}
+          >
+            {shopName}
+          </Button>
+        ),
       },
       {
         title: 'Booking Date',
@@ -185,6 +204,56 @@ export const BookingHistory = () => {
             <span>
               {foundSlot?.startTime} - {foundSlot?.endTime}
             </span>
+          );
+        },
+      },
+      {
+        title: 'Status',
+        dataIndex: 'status',
+        key: 'status',
+        render: (status) => {
+          switch (status) {
+            case BookingStatus.DONE:
+              return (
+                <StatusTag style={{ color: 'green' }}>Confirmed</StatusTag>
+              );
+            case BookingStatus.CANCEL:
+              return <StatusTag style={{ color: 'red' }}>Cancelled</StatusTag>;
+            case BookingStatus.PENDING:
+              return <StatusTag style={{ color: 'gray' }}>Pending</StatusTag>;
+            default:
+              return <StatusTag style={{ color: 'blue' }}>Pending</StatusTag>;
+          }
+        },
+      },
+      {
+        title: 'Action',
+        key: 'action',
+        render: (text, booking) => {
+          return (
+            <Space.Compact>
+              <Button
+                type="default"
+                style={{ zIndex: '10', display: 'relative' }}
+                onClick={() => {
+                  navigate(`detail/${booking.bookingId}`, {
+                    state: { ...booking },
+                  });
+                }}
+              >
+                Detail
+              </Button>
+              {booking.status === BookingStatus.CANCEL ||
+              booking.status === BookingStatus.DONE ? (
+                <Button type="primary" disabled>
+                  Cancel
+                </Button>
+              ) : (
+                <Button type="link" style={{ color: 'red' }}>
+                  Cancel
+                </Button>
+              )}
+            </Space.Compact>
           );
         },
       },
@@ -246,27 +315,6 @@ export const BookingHistory = () => {
               <Col span={24}>
                 <TableWrapper>
                   <Table
-                    onRow={(record, rowIndex) => {
-                      return {
-                        onClick: (event) => {
-                          console.log('row clicked', record, rowIndex);
-                          const selectedBooking = bookings?.at(
-                            rowIndex as number,
-                          );
-                          if (selectedBooking) {
-                            navigate(`detail/${selectedBooking?.bookingId}`, {
-                              state: {
-                                shopName: selectedBooking?.shopName,
-                                bookingDate: selectedBooking?.bookingDate,
-                                total: selectedBooking?.total,
-                                tableName: selectedBooking?.tableName,
-                                slotId: selectedBooking?.slotId,
-                              },
-                            });
-                          }
-                        },
-                      };
-                    }}
                     columns={columns}
                     dataSource={data}
                     style={{ height: '100%' }}
