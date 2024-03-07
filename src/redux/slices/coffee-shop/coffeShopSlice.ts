@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { CoffeeShop, CoffeeShopProps } from '../../../domain/models';
 import {
   bookTableThunk,
+  cancelBookingThunk,
   deleteCatById,
   getAllCoffeeShopsThunk,
   getBookingByAccountIdThunk,
@@ -110,6 +111,7 @@ export interface CoffeeShopState {
   bookingHistory?: Booking[];
   slots: Slot[];
   deleteCatId?: string;
+  cancelBookingId?: string;
   error?: string;
 }
 
@@ -195,7 +197,7 @@ const coffeeShopSlice = createSlice({
         {
           bookingId: 1,
           shopName: 'Shop 1',
-          bookingDate: '2021-09-01',
+          bookingDate: '07-03-2024',
           total: 100000,
           accountId: 1,
           tableName: 'Table 1',
@@ -205,7 +207,7 @@ const coffeeShopSlice = createSlice({
         {
           bookingId: 2,
           shopName: 'Shop 2',
-          bookingDate: '2021-09-02',
+          bookingDate: '09-03-2024',
           total: 200000,
           accountId: 2,
           tableName: 'Table 2',
@@ -215,7 +217,7 @@ const coffeeShopSlice = createSlice({
         {
           bookingId: 3,
           shopName: 'Shop 2',
-          bookingDate: '2021-09-02',
+          bookingDate: '08-03-2024',
           total: 200000,
           accountId: 2,
           tableName: 'Table 2',
@@ -447,6 +449,27 @@ const coffeeShopSlice = createSlice({
         toast.success('Delete cat successful');
       })
       .addCase(deleteCatById.rejected, (state, action) => {
+        const { error } = action;
+        toast.error(error.message);
+      });
+
+    builder
+      .addCase(cancelBookingThunk.pending, (state, action) => {
+        const { payload } = action;
+        state.cancelBookingId = payload;
+      })
+      .addCase(cancelBookingThunk.fulfilled, (state) => {
+        const bookings = state.bookingHistory;
+        const newBookings = bookings?.map((booking) => {
+          if (booking.bookingId === state.cancelBookingId) {
+            booking.status = BookingStatus.CANCEL;
+          }
+          return booking;
+        });
+        state.bookingHistory = newBookings;
+        toast.success('Cancel booking successful');
+      })
+      .addCase(cancelBookingThunk.rejected, (state, action) => {
         const { error } = action;
         toast.error(error.message);
       });

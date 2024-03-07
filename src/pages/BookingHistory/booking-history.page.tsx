@@ -18,6 +18,7 @@ import styled from 'styled-components';
 import {
   Booking,
   BookingStatus,
+  cancelBookingThunk,
   getBookingByAccountIdThunk,
   mockBookingHistory,
   selectBookingHistory,
@@ -259,7 +260,15 @@ export const BookingHistory = () => {
                   Cancel
                 </Button>
               ) : (
-                <Button type="link" style={{ color: 'red' }}>
+                <Button
+                  onClick={() => {
+                    if (booking.bookingId) {
+                      dispatch(cancelBookingThunk(booking.bookingId));
+                    }
+                  }}
+                  type="link"
+                  style={{ color: 'red' }}
+                >
                   Cancel
                 </Button>
               )}

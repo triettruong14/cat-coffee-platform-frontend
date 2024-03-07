@@ -188,6 +188,18 @@ export const deleteCatById = createAsyncThunk(
     const response = await axios.delete(
       `http://localhost:5193/api/Cat/DeleteCat/${id}`,
     );
+    return id;
+  },
+);
+
+export const cancelBookingThunk = createAsyncThunk(
+  'coffeeShop/cancelBooking',
+  async (bookingId: number) => {
+    const params = new URLSearchParams({ bookingId: bookingId.toString() });
+    const response = await axios.delete(
+      `http://localhost:5193/api/Booking/CancelBooking`,
+      { params },
+    );
     return response.data;
   },
 );
