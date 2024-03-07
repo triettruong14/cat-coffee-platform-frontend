@@ -163,6 +163,7 @@ export const mockCats: Cat[] = [
     shopId: '1',
     catTypeId: '1',
     imageCat: '',
+    catInfor: 'Tom is a cat',
   },
   {
     catId: '2',
@@ -170,6 +171,7 @@ export const mockCats: Cat[] = [
     shopId: '1',
     catTypeId: '1',
     imageCat: '',
+    catInfor: 'Tom is a cat',
   },
   {
     catId: '3',
@@ -177,6 +179,7 @@ export const mockCats: Cat[] = [
     shopId: '1',
     catTypeId: '1',
     imageCat: '',
+    catInfor: 'Tom is a cat',
   },
 ];
 
@@ -271,7 +274,12 @@ export const CoffeeShopDetail = () => {
                           height: '60px',
                         }}
                       />
-                      <MenuItemLabel>{cat.catName}</MenuItemLabel>
+                      <Flex vertical>
+                        <MenuItemLabel>{cat.catName}</MenuItemLabel>
+                        <MenuItemLabel style={{ display: 'block' }}>
+                          {cat.catInfor}
+                        </MenuItemLabel>
+                      </Flex>
                     </Flex>
                   </Item>
                 ))}
