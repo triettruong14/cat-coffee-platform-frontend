@@ -250,19 +250,20 @@ export const BookingHistory = () => {
                       return {
                         onClick: (event) => {
                           console.log('row clicked', record, rowIndex);
-                          const selectedBooking = bookings?.find(
-                            (booking) => booking.bookingId === record.bookingId,
+                          const selectedBooking = bookings?.at(
+                            rowIndex as number,
                           );
-
-                          navigate(`detail/${record.bookingId}`, {
-                            state: {
-                              shopName: selectedBooking?.shopName,
-                              bookingDate: selectedBooking?.bookingDate,
-                              total: selectedBooking?.total,
-                              tableName: selectedBooking?.tableName,
-                              slotId: selectedBooking?.slotId,
-                            },
-                          });
+                          if (selectedBooking) {
+                            navigate(`detail/${selectedBooking?.bookingId}`, {
+                              state: {
+                                shopName: selectedBooking?.shopName,
+                                bookingDate: selectedBooking?.bookingDate,
+                                total: selectedBooking?.total,
+                                tableName: selectedBooking?.tableName,
+                                slotId: selectedBooking?.slotId,
+                              },
+                            });
+                          }
                         },
                       };
                     }}
