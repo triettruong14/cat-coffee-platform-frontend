@@ -131,6 +131,7 @@ export const mockCats: Cat[] = [
     catTypeId: '1',
     shopId: '1',
     imageCat: 'https://via.placeholder.com/150',
+    catInfor: 'Tom is a cat',
   },
   {
     catId: '2',
@@ -138,6 +139,7 @@ export const mockCats: Cat[] = [
     catTypeId: '2',
     shopId: '1',
     imageCat: 'https://via.placeholder.com/150',
+    catInfor: 'Tom is a cat',
   },
   {
     catId: '3',
@@ -145,6 +147,7 @@ export const mockCats: Cat[] = [
     catTypeId: '3',
     shopId: '1',
     imageCat: 'https://via.placeholder.com/150',
+    catInfor: 'Tom is a cat',
   },
 ];
 
