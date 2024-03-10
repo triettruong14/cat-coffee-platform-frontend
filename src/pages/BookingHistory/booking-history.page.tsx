@@ -287,6 +287,7 @@ export const BookingHistory = () => {
   }, []);
 
   useEffect(() => {
+    console.log('bookings', bookings);
     setData(bookings);
   }, [bookings]);
 
