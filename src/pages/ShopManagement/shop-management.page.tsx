@@ -110,7 +110,7 @@ export const ShopManagement = () => {
       </BannerContainer>
       <InfoSection align="middle" justify="center">
         <Col span={18} style={{ height: '100%' }}>
-          <Form form={form}>
+          <Form form={form} initialValues={selectedCoffeeShop}>
             <InfoWrapper>
               <Row gutter={24} justify="center">
                 <Col span={24}>
