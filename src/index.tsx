@@ -83,9 +83,17 @@ const router = createBrowserRouter([
   {
     path: '/staff',
     element: (
-      // <Protected>
-      <Staff />
-      // </Protected>
+      <Protected>
+        <Staff />
+      </Protected>
+    ),
+  },
+  {
+    path: '/shop-management',
+    element: (
+      <Protected>
+        <h1>Shop Management</h1>
+      </Protected>
     ),
   },
 ]);

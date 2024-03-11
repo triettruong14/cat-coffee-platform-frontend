@@ -63,6 +63,8 @@ export const SignIn = () => {
     if (isSignInSuccess) {
       if (account?.roleId === AccountRole.STAFF) {
         navigate('/staff');
+      } else if (account?.roleId === AccountRole.SHOP_MANAGER) {
+        navigate('/shop-management');
       } else {
         navigate('/');
       }

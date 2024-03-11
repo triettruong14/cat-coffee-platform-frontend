@@ -119,9 +119,9 @@ export const BookingDetail = () => {
   const [activeKey, setActiveKey] = useState<string[]>(['1']);
 
   const catFoods = useAppSelector(selectSelectedCoffeeShopCatFood);
-  const dirnks = useAppSelector(selectSelectedCoffeeShopDrinks);
+  const drinks = useAppSelector(selectSelectedCoffeeShopDrinks);
 
-  const CatFoodDescriptions = mockCatFood?.map((catFood) => {
+  const CatFoodDescriptions = catFoods?.map((catFood) => {
     const catFoodDescriptionItems = getCatFoodItems(catFood);
 
     return (
@@ -136,7 +136,7 @@ export const BookingDetail = () => {
     );
   });
 
-  const DrinksDescriptions = mockDrinks?.map((drink) => {
+  const DrinksDescriptions = drinks?.map((drink) => {
     const drinkDescriptionItems = getDrinkItems(drink);
 
     return (
