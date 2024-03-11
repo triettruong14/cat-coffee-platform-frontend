@@ -16,6 +16,7 @@ import { Protected } from './components/ProtectedRoute';
 import { BookingHistory } from './pages/BookingHistory/booking-history.page';
 import { Staff } from './pages/Staff/staff.page';
 import { BookingDetail } from './pages/BookingDetail/booking-detail.page';
+import { ShopManagement } from './pages/ShopManagement/shop-management.page';
 
 const router = createBrowserRouter([
   {
@@ -91,9 +92,11 @@ const router = createBrowserRouter([
   {
     path: '/shop-management',
     element: (
-      <Protected>
-        <h1>Shop Management</h1>
-      </Protected>
+      // <Protected>
+      <AppLayout header={<AppHeader />}>
+        <ShopManagement />
+      </AppLayout>
+      // </Protected>
     ),
   },
 ]);

@@ -139,7 +139,23 @@ const coffeeShopSlice = createSlice({
   name: 'coffeeShop',
   initialState,
   reducers: {
-    mockGetAllCoffeeShops: (state) => {},
+    mockGetAllCoffeeShops: (state) => {
+      const mockCoffeeShops = [
+        new CoffeeShop({
+          shopId: '1',
+          shopName: 'Shop 1',
+          startDate: '8:00',
+          endDate: '23:00',
+        }),
+        new CoffeeShop({
+          shopId: '2',
+          shopName: 'Shop 2',
+          startDate: '8:00',
+          endDate: '23:00',
+        }),
+      ];
+      state.coffeeShops = mockCoffeeShops;
+    },
     mockSearchCoffeeShopByName: (state, action) => {
       const { payload } = action;
 
