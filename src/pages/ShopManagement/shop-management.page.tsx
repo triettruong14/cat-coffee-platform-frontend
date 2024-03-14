@@ -91,7 +91,7 @@ export const ShopManagement = () => {
 
   const [selectedCoffeeShop, setSelectedCoffeeShop] = useState<
     CoffeeShop | undefined
-  >(mockShopData);
+  >();
   const [isFieldsTouched, setIsFormTouched] = useState(false);
 
   const handleOnChange = () => {
