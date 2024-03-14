@@ -108,6 +108,14 @@ export const ShopManagement = () => {
   }, [user]);
 
   useEffect(() => {
+    if (currentShopId) {
+      setSelectedCoffeeShop(
+        coffeeShops?.find((shop) => shop.shopId == String(currentShopId)),
+      );
+    }
+  }, [currentShopId]);
+
+  useEffect(() => {
     if (!coffeeShops) {
       dispatch(getAllCoffeeShopsThunk());
       // dispatch(mockGetAllCoffeeShops());
