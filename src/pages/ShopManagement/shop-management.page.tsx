@@ -10,6 +10,7 @@ import {
   selectCoffeeShops,
   selectCurrentShopId,
   selectUser,
+  updateShopProfile,
 } from '../../redux';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
@@ -97,6 +98,10 @@ export const ShopManagement = () => {
     setIsFormTouched(true);
   };
 
+  const handleOnSubmit = () => {
+    dispatch(updateShopProfile({ ...form.getFieldsValue() }));
+  };
+
   useEffect(() => {
     if (!state.state) return;
 
@@ -127,7 +132,12 @@ export const ShopManagement = () => {
       </BannerContainer>
       <InfoSection align="middle" justify="center">
         <Col span={18} style={{ height: '100%' }}>
-          <Form form={form} initialValues={selectedCoffeeShop}>
+          <Form
+            form={form}
+            initialValues={selectedCoffeeShop?.toJSON()}
+            onChange={handleOnChange}
+            onFinish={handleOnSubmit}
+          >
             <InfoWrapper>
               <Row gutter={24} justify="center">
                 <Col span={24}>

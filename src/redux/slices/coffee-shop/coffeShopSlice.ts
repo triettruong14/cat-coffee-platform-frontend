@@ -16,6 +16,7 @@ import {
   getSlotsThunk,
   getTableByShopIdThunk,
   searchCoffeeShopByNameThunk,
+  updateShopProfile,
 } from './coffeeShop.thunks';
 
 export enum BookingStatus {
@@ -25,8 +26,8 @@ export enum BookingStatus {
 }
 
 export interface CoffeeShopApiResponse {
-  shopId: string;
-  accountId: string;
+  shopId: number;
+  accountId: number;
   shopName: string;
   startTime: string;
   endTime: string;
@@ -110,6 +111,7 @@ export interface CoffeeShopState {
   selectedCoffeeShopDrinks?: Drink[];
   bookingSuccess?: boolean;
   bookingHistory?: Booking[];
+  updatedShop?: CoffeeShopApiResponse;
   slots: Slot[];
   deleteCatId?: string;
   cancelBookingId?: string;
@@ -259,8 +261,8 @@ const coffeeShopSlice = createSlice({
           const { shopId, accountId, shopName, startTime, endTime } = shop;
 
           const coffeeShop = new CoffeeShop({
-            shopId,
-            accountId,
+            shopId: String(shopId),
+            accountId: String(accountId),
             shopName,
             startDate: startTime,
             endDate: endTime,
@@ -290,8 +292,8 @@ const coffeeShopSlice = createSlice({
           const { shopId, accountId, shopName, startTime, endTime } = shop;
 
           const coffeeShop = new CoffeeShop({
-            shopId,
-            accountId,
+            shopId: String(shopId),
+            accountId: String(accountId),
             shopName,
             startDate: startTime,
             endDate: endTime,
@@ -488,6 +490,36 @@ const coffeeShopSlice = createSlice({
       })
       .addCase(cancelBookingThunk.rejected, (state, action) => {
         const { error } = action;
+        toast.error(error.message);
+      });
+
+    builder
+      .addCase(updateShopProfile.pending, (state, action) => {
+        const { payload } = action;
+
+        state.error = undefined;
+        state.updatedShop = payload;
+      })
+      .addCase(updateShopProfile.fulfilled, (state) => {
+        toast.success('Update shop profile successful');
+        const updatedCoffeeShops = state.coffeeShops?.map((shop) => {
+          if (shop.shopId === state.updatedShop?.shopId) {
+            return new CoffeeShop({
+              shopId: state.updatedShop?.shopId,
+              accountId: String(state.updatedShop?.accountId),
+              shopName: state.updatedShop?.shopName,
+              startDate: dayjs(state.updatedShop?.startTime).format('HH:mm'),
+              endDate: dayjs(state.updatedShop?.endTime).format('HH:mm'),
+            });
+          }
+          return shop;
+        });
+
+        state.coffeeShops = updatedCoffeeShops;
+      })
+      .addCase(updateShopProfile.rejected, (state, action) => {
+        const { error } = action;
+        state.error = error.message;
         toast.error(error.message);
       });
   },

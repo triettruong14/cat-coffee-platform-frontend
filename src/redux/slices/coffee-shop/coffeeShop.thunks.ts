@@ -203,3 +203,16 @@ export const cancelBookingThunk = createAsyncThunk(
     return response.data;
   },
 );
+
+// SHOP MANAGEMENT
+
+export const updateShopProfile = createAsyncThunk(
+  'coffeeShop/updateShopProfile',
+  async (shop: CoffeeShopApiResponse) => {
+    const response = await axios.put(
+      `http://localhost:5193/api/ShopCoffeeCat/UpdateShop`,
+      shop,
+    );
+    return response.data;
+  },
+);
