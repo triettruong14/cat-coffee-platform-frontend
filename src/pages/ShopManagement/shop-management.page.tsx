@@ -81,7 +81,6 @@ const mockShopData: CoffeeShop = new CoffeeShop({
 
 export const ShopManagement = () => {
   const dispatch = useAppDispatch();
-  const state = useLocation();
   const [form] = Form.useForm();
 
   const currentShopId = useAppSelector(selectCurrentShopId);
@@ -103,9 +102,6 @@ export const ShopManagement = () => {
   };
 
   useEffect(() => {
-    if (!state.state) return;
-
-    const { user } = state.state;
     if (user) {
       dispatch(getShopIdByAccountEmailThunk(user?.email as string));
     }
@@ -117,6 +113,14 @@ export const ShopManagement = () => {
       // dispatch(mockGetAllCoffeeShops());
     }
   }, []);
+
+  useEffect(() => {
+    if (coffeeShops?.length !== 0) {
+      setSelectedCoffeeShop(
+        coffeeShops?.find((shop) => shop.shopId == currentShopId),
+      );
+    }
+  }, [coffeeShops]);
 
   useEffect(() => {
     // if form is dirty enable button
