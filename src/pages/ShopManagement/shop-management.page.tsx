@@ -70,6 +70,14 @@ const FormLabel = styled.p`
   margin-bottom: 0.5rem;
 `;
 
+const mockShopData: CoffeeShop = new CoffeeShop({
+  shopId: '1',
+  shopName: 'Coffee Shop 1',
+  address: '123 Nguyen Van Linh, District 7, HCMC',
+  startDate: '2021-01-01',
+  endDate: '2021-12-31',
+});
+
 export const ShopManagement = () => {
   const dispatch = useAppDispatch();
   const state = useLocation();
@@ -79,28 +87,37 @@ export const ShopManagement = () => {
   const user = useAppSelector(selectUser);
   const coffeeShops = useAppSelector(selectCoffeeShops);
   // const shop = useAppSelector()
-  //
-  const [selectedCoffeeShop, setSelectedCoffeeShop] = useState<CoffeeShop>();
+
+  const [selectedCoffeeShop, setSelectedCoffeeShop] = useState<
+    CoffeeShop | undefined
+  >(mockShopData);
+  const [isFieldsTouched, setIsFormTouched] = useState(false);
+
+  const handleOnChange = () => {
+    setIsFormTouched(true);
+  };
+
+  useEffect(() => {
+    if (!state.state) return;
+
+    const { user } = state.state;
+    if (user) {
+      dispatch(getShopIdByAccountEmailThunk(user?.email as string));
+    }
+  }, [user]);
 
   useEffect(() => {
     if (!coffeeShops) {
       dispatch(getAllCoffeeShopsThunk());
       // dispatch(mockGetAllCoffeeShops());
     }
-
-    if (!state.state) return;
-
-    const { user } = state.state;
-    dispatch(getShopIdByAccountEmailThunk(user?.email as string));
   }, []);
 
   useEffect(() => {
-    if (coffeeShops?.length !== 0) {
-      setSelectedCoffeeShop(
-        coffeeShops?.find((shop) => shop.shopId == currentShopId),
-      );
-    }
-  }, [coffeeShops]);
+    // if form is dirty enable button
+    const isFormDirty = form.isFieldsTouched(true);
+    setIsFormTouched(isFormDirty);
+  }, [form]);
 
   return (
     <FlexContainer>
@@ -143,7 +160,9 @@ export const ShopManagement = () => {
               <Row>
                 <Col span={12} offset={12}>
                   <Flex justify="end">
-                    <Button type="primary">Save</Button>
+                    <Button type="primary" disabled={!isFieldsTouched}>
+                      Save
+                    </Button>
                   </Flex>
                 </Col>
               </Row>
