@@ -8,6 +8,7 @@ import {
   getShopIdByAccountEmailThunk,
   mockGetAllCoffeeShops,
   selectCoffeeShops,
+  selectCurrentShop,
   selectCurrentShopId,
   selectUser,
   updateShopProfile,
@@ -83,14 +84,11 @@ export const ShopManagement = () => {
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
 
-  const currentShopId = useAppSelector(selectCurrentShopId);
+  const currentShop = useAppSelector(selectCurrentShop);
   const user = useAppSelector(selectUser);
   const coffeeShops = useAppSelector(selectCoffeeShops);
   // const shop = useAppSelector()
 
-  const [selectedCoffeeShop, setSelectedCoffeeShop] = useState<
-    CoffeeShop | undefined
-  >();
   const [isFieldsTouched, setIsFormTouched] = useState(false);
 
   const handleOnChange = () => {
@@ -108,27 +106,11 @@ export const ShopManagement = () => {
   }, [user]);
 
   useEffect(() => {
-    if (currentShopId) {
-      setSelectedCoffeeShop(
-        coffeeShops?.find((shop) => shop.shopId == String(currentShopId)),
-      );
-    }
-  }, [currentShopId]);
-
-  useEffect(() => {
     if (!coffeeShops) {
       dispatch(getAllCoffeeShopsThunk());
       // dispatch(mockGetAllCoffeeShops());
     }
   }, []);
-
-  useEffect(() => {
-    if (coffeeShops?.length !== 0) {
-      setSelectedCoffeeShop(
-        coffeeShops?.find((shop) => shop.shopId == currentShopId),
-      );
-    }
-  }, [coffeeShops]);
 
   useEffect(() => {
     // if form is dirty enable button
@@ -146,7 +128,7 @@ export const ShopManagement = () => {
         <Col span={18} style={{ height: '100%' }}>
           <Form
             form={form}
-            initialValues={selectedCoffeeShop?.toJSON()}
+            initialValues={currentShop}
             onChange={handleOnChange}
             onFinish={handleOnSubmit}
           >

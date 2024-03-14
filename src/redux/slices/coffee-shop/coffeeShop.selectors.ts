@@ -9,6 +9,9 @@ export const selectIsLoadingSearch = (state: RootState) =>
 export const selectCoffeeShops = (state: RootState) =>
   state.coffeeShop.coffeeShops;
 
+export const selectCurrentShop = (state: RootState) =>
+  state.coffeeShop.currentShop;
+
 export const selectIsLoadingGetAll = (state: RootState) =>
   state.coffeeShop.isLoadingGetAll;
 

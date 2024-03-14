@@ -94,6 +94,7 @@ export interface CatType {
 export interface CoffeeShopState {
   currentShopId?: number;
   coffeeShops?: CoffeeShop[];
+  currentShop?: CoffeeShopApiResponse;
   searchResults?: CoffeeShop[];
   catTypes: CatType[];
   isLoadingCatTypes: boolean;
@@ -431,6 +432,7 @@ const coffeeShopSlice = createSlice({
       .addCase(getShopIdByAccountEmailThunk.fulfilled, (state, action) => {
         const { payload } = action;
         state.currentShopId = payload.shopId as any;
+        state.currentShop = payload;
       })
       .addCase(getShopIdByAccountEmailThunk.rejected, (state, action) => {
         const { error } = action;
