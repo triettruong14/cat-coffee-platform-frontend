@@ -38,4 +38,10 @@ export class CoffeeShop {
   get status(): string | undefined {
     return this.props.status;
   }
+
+  public toJSON() {
+    return {
+      ...this.props,
+    };
+  }
 }
