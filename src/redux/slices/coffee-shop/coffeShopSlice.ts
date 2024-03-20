@@ -95,6 +95,7 @@ export interface CoffeeShopState {
   currentShopId?: number;
   coffeeShops?: CoffeeShop[];
   currentShop?: CoffeeShopApiResponse;
+  updatedShop?: CoffeeShopApiResponse;
   searchResults?: CoffeeShop[];
   catTypes: CatType[];
   isLoadingCatTypes: boolean;
@@ -112,7 +113,6 @@ export interface CoffeeShopState {
   selectedCoffeeShopDrinks?: Drink[];
   bookingSuccess?: boolean;
   bookingHistory?: Booking[];
-  updatedShop?: CoffeeShopApiResponse;
   slots: Slot[];
   deleteCatId?: string;
   cancelBookingId?: string;
@@ -504,20 +504,10 @@ const coffeeShopSlice = createSlice({
       })
       .addCase(updateShopProfile.fulfilled, (state) => {
         toast.success('Update shop profile successful');
-        const updatedCoffeeShops = state.coffeeShops?.map((shop) => {
-          if (shop.shopId === state.updatedShop?.shopId) {
-            return new CoffeeShop({
-              shopId: state.updatedShop?.shopId,
-              accountId: String(state.updatedShop?.accountId),
-              shopName: state.updatedShop?.shopName,
-              startDate: dayjs(state.updatedShop?.startTime).format('HH:mm'),
-              endDate: dayjs(state.updatedShop?.endTime).format('HH:mm'),
-            });
-          }
-          return shop;
-        });
+        const updatedShop = { ...state.updatedShop } as CoffeeShopApiResponse;
 
-        state.coffeeShops = updatedCoffeeShops;
+        state.currentShop = updatedShop;
+        toast.success('Updated shop successfully');
       })
       .addCase(updateShopProfile.rejected, (state, action) => {
         const { error } = action;
