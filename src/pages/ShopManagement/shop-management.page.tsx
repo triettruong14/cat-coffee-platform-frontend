@@ -1,15 +1,9 @@
-import { Button, Col, DatePicker, Flex, Form, Input, Row } from 'antd';
-import { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { Button, Col, Flex, Form, Input, Row } from 'antd';
+import { useEffect } from 'react';
 import styled from 'styled-components';
-import background from '../../assets/saigon_background.jpeg';
 import {
-  getAllCoffeeShopsThunk,
   getShopIdByAccountEmailThunk,
-  mockGetAllCoffeeShops,
-  selectCoffeeShops,
   selectCurrentShop,
-  selectCurrentShopId,
   selectUser,
   updateShopProfile,
 } from '../../redux';
@@ -88,7 +82,9 @@ export const ShopManagement = () => {
   const user = useAppSelector(selectUser);
 
   const handleOnSubmit = () => {
-    dispatch(updateShopProfile({ ...form.getFieldsValue() }));
+    dispatch(
+      updateShopProfile({ ...form.getFieldsValue(), accountId: user?.id }),
+    );
   };
 
   useEffect(() => {
@@ -126,13 +122,13 @@ export const ShopManagement = () => {
                   <Row style={{ width: '100%' }} gutter={8}>
                     <Col span={12}>
                       <FormLabel>Start Date</FormLabel>
-                      <Form.Item name="startDate">
+                      <Form.Item name="startTime">
                         <Input />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
                       <FormLabel>End Date</FormLabel>
-                      <Form.Item name="endDate">
+                      <Form.Item name="endTime">
                         <Input />
                       </Form.Item>
                     </Col>

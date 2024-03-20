@@ -208,10 +208,14 @@ export const cancelBookingThunk = createAsyncThunk(
 
 export const updateShopProfile = createAsyncThunk(
   'coffeeShop/updateShopProfile',
-  async (shop: CoffeeShopApiResponse) => {
+  async (payload: { shop: CoffeeShopApiResponse; accountId: string }) => {
+    const { shop, accountId } = payload;
     const response = await axios.put(
       `http://localhost:5193/api/ShopCoffeeCat/UpdateShop`,
-      shop,
+      {
+        ...shop,
+        accountId,
+      },
     );
     return response.data;
   },
