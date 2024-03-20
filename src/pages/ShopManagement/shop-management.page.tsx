@@ -127,13 +127,13 @@ export const ShopManagement = () => {
                     <Col span={12}>
                       <FormLabel>Start Date</FormLabel>
                       <Form.Item name="startDate">
-                        <DatePicker />
+                        <Input />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
                       <FormLabel>End Date</FormLabel>
                       <Form.Item name="endDate">
-                        <DatePicker />
+                        <Input />
                       </Form.Item>
                     </Col>
                   </Row>
