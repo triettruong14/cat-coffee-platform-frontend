@@ -84,7 +84,7 @@ export const ShopManagement = () => {
   const handleOnSubmit = () => {
     dispatch(
       updateShopProfile({
-        shop: { ...form.getFieldsValue() },
+        shop: { ...form.getFieldsValue(), shopId: currentShop?.shopId },
         accountId: user?.id as string,
       }),
     );
