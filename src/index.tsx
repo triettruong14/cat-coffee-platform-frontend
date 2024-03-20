@@ -92,11 +92,11 @@ const router = createBrowserRouter([
   {
     path: '/shop-management',
     element: (
-      // <Protected>
-      <AppLayout header={<AppHeader />}>
-        <ShopManagement />
-      </AppLayout>
-      // </Protected>
+      <Protected>
+        <AppLayout header={<AppHeader />}>
+          <ShopManagement />
+        </AppLayout>
+      </Protected>
     ),
   },
 ]);

@@ -146,9 +146,6 @@ export const BookingHistory = () => {
         const momentStartDate = moment(startDate, 'DD/MM/YYYY');
         const momentEndDate = moment(endDate, 'DD/MM/YYYY');
 
-        console.log('recordDate', recordDate);
-        console.log('startDate', startDate);
-        console.log('endDate', endDate);
         return recordDate.isBetween(
           momentStartDate,
           momentEndDate,
@@ -287,7 +284,6 @@ export const BookingHistory = () => {
   }, []);
 
   useEffect(() => {
-    console.log('bookings', bookings);
     setData(bookings);
   }, [bookings]);
 

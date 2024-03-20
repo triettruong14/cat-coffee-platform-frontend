@@ -1,4 +1,4 @@
-import { Button, Col, Flex, Form, Input, Row } from 'antd';
+import { Button, Col, DatePicker, Flex, Form, Input, Row } from 'antd';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
@@ -86,14 +86,6 @@ export const ShopManagement = () => {
 
   const currentShop = useAppSelector(selectCurrentShop);
   const user = useAppSelector(selectUser);
-  const coffeeShops = useAppSelector(selectCoffeeShops);
-  // const shop = useAppSelector()
-
-  const [isFieldsTouched, setIsFormTouched] = useState(false);
-
-  const handleOnChange = () => {
-    setIsFormTouched(true);
-  };
 
   const handleOnSubmit = () => {
     dispatch(updateShopProfile({ ...form.getFieldsValue() }));
@@ -104,19 +96,6 @@ export const ShopManagement = () => {
       dispatch(getShopIdByAccountEmailThunk(user?.email as string));
     }
   }, [user]);
-
-  useEffect(() => {
-    if (!coffeeShops) {
-      dispatch(getAllCoffeeShopsThunk());
-      // dispatch(mockGetAllCoffeeShops());
-    }
-  }, []);
-
-  useEffect(() => {
-    // if form is dirty enable button
-    const isFormDirty = form.isFieldsTouched(true);
-    setIsFormTouched(isFormDirty);
-  }, [form]);
 
   return (
     <FlexContainer>
@@ -129,7 +108,6 @@ export const ShopManagement = () => {
           <Form
             form={form}
             initialValues={currentShop}
-            onChange={handleOnChange}
             onFinish={handleOnSubmit}
           >
             <InfoWrapper>
@@ -149,13 +127,13 @@ export const ShopManagement = () => {
                     <Col span={12}>
                       <FormLabel>Start Date</FormLabel>
                       <Form.Item name="startDate">
-                        <Input />
+                        <DatePicker />
                       </Form.Item>
                     </Col>
                     <Col span={12}>
                       <FormLabel>End Date</FormLabel>
                       <Form.Item name="endDate">
-                        <Input />
+                        <DatePicker />
                       </Form.Item>
                     </Col>
                   </Row>
@@ -164,7 +142,7 @@ export const ShopManagement = () => {
               <Row>
                 <Col span={12} offset={12}>
                   <Flex justify="end">
-                    <Button type="primary" disabled={!isFieldsTouched}>
+                    <Button type="primary" htmlType="submit">
                       Save
                     </Button>
                   </Flex>
