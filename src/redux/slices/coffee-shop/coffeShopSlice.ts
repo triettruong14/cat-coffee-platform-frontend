@@ -31,7 +31,7 @@ export interface CoffeeShopApiResponse {
   shopName: string;
   startTime: string;
   endTime: string;
-  image?: string;
+  imageShop?: string;
 }
 
 export interface CatFood {
@@ -294,7 +294,8 @@ const coffeeShopSlice = createSlice({
 
         const coffeeShops: CoffeeShop[] = [];
         payload.forEach((shop: CoffeeShopApiResponse) => {
-          const { shopId, accountId, shopName, startTime, endTime } = shop;
+          const { shopId, accountId, shopName, startTime, endTime, imageShop } =
+            shop;
 
           const coffeeShop = new CoffeeShop({
             shopId: String(shopId),
@@ -302,6 +303,7 @@ const coffeeShopSlice = createSlice({
             shopName,
             startDate: startTime,
             endDate: endTime,
+            image: imageShop,
           });
           coffeeShops.push(coffeeShop);
         });
