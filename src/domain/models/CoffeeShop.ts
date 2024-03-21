@@ -3,6 +3,7 @@ export interface CoffeeShopProps {
   accountId?: string;
   shopName?: string;
   startDate?: string;
+  image?: string;
   endDate?: string;
   address?: string;
   status?: string;
@@ -10,6 +11,10 @@ export interface CoffeeShopProps {
 
 export class CoffeeShop {
   constructor(private readonly props: CoffeeShopProps) {}
+
+  get image(): string {
+    return this.props.image || '';
+  }
 
   get shopId(): string | undefined {
     return this.props.shopId;

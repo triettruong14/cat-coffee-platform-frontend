@@ -2,7 +2,7 @@ import { Flex, Form, Input } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import background from '../../assets/saigon_background.jpeg';
-import { registerShopThunk, selectUser } from '../../redux';
+import { selectUser } from '../../redux';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 
 const FlexContainer = styled(Flex)`
@@ -35,7 +35,7 @@ export const RegisterShop = () => {
   const user = useAppSelector(selectUser);
 
   const handleOnFinish = (values: any) => {
-    dispatch(registerShopThunk({ accountId: user?.id, ...values }));
+    // dispatch(registerShopThunk({ accountId: user?.id, ...values }));
     navigate('/shop-management', {
       state: {
         user,

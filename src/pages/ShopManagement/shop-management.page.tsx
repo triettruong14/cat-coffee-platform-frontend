@@ -35,7 +35,6 @@ import {
   updateShopProfile,
 } from '../../redux';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
 import { CoffeeShop } from '../../domain/models';
 import Title from 'antd/es/typography/Title';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
@@ -128,7 +127,7 @@ export const ShopManagement = () => {
   const isLoadingGetCatFood = useAppSelector(selectLoadingGetCatFood);
   const isLoadingGetDrinks = useAppSelector(selectLoadingGetDrinks);
   const isLoadingCatTypes = useAppSelector(selectIsLoadingGetCatTypes);
-  const shopNotFound = useAppSelector(selectIsShopNotFound);
+  // const shopNotFound = useAppSelector(selectIsShopNotFound);
 
   const handleOnSubmit = () => {
     dispatch(
@@ -304,13 +303,13 @@ export const ShopManagement = () => {
       dispatch(getShopIdByAccountEmailThunk(user?.email as string));
     }
   }, [user]);
-
-  useEffect(() => {
-    if (shopNotFound) {
-      navigate('/register-shop');
-    }
-  }, [shopNotFound]);
-
+  //
+  // useEffect(() => {
+  //   if (shopNotFound) {
+  //     navigate('/register-shop');
+  //   }
+  // }, [shopNotFound]);
+  //
   useEffect(() => {
     if (currentShop) {
       dispatch(getCoffeeShopCatsThunk(currentShop.shopId.toString()));
@@ -322,7 +321,7 @@ export const ShopManagement = () => {
   return (
     <FlexContainer vertical>
       <BannerContainer align="center" justify="center">
-        <StyledBackground src={stockCoffeeShop} />
+        <StyledBackground src={currentShop?.image} />
         <Header>Shop Management</Header>
       </BannerContainer>
       <InfoSection align="middle" justify="center">

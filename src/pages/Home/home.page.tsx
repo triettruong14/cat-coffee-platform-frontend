@@ -2,7 +2,6 @@ import { Button, Card, Col, Flex, Row, Skeleton, Space, Spin, Tag } from 'antd';
 import Search from 'antd/es/input/Search';
 import Title from 'antd/es/typography/Title';
 import { styled } from 'styled-components';
-import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
 import background from '../../assets/saigon_background.jpeg';
 import { useDebounce } from '../../hooks';
 import { useNavigate } from 'react-router-dom';
@@ -123,9 +122,7 @@ export const Home = () => {
                   coffeeShops?.map((shop) => (
                     <Card
                       key={shop.shopId}
-                      cover={
-                        <img src={stockCoffeeShop} width={100} height={120} />
-                      }
+                      cover={<img src={shop.image} width={100} height={120} />}
                       size="small"
                       onClick={() => {
                         navigate(`coffee-shop/${shop.shopId}`);

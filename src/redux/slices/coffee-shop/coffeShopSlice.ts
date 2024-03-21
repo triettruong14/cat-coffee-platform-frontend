@@ -15,7 +15,6 @@ import {
   getShopIdByAccountEmailThunk,
   getSlotsThunk,
   getTableByShopIdThunk,
-  registerShopThunk,
   searchCoffeeShopByNameThunk,
   updateShopProfile,
 } from './coffeeShop.thunks';
@@ -32,6 +31,7 @@ export interface CoffeeShopApiResponse {
   shopName: string;
   startTime: string;
   endTime: string;
+  image?: string;
 }
 
 export interface CatFood {
@@ -76,6 +76,7 @@ export interface Booking {
   tableName: string;
   slotId: number;
   status?: BookingStatus;
+  image?: string;
 }
 
 export interface Drink {
@@ -462,17 +463,17 @@ const coffeeShopSlice = createSlice({
         toast.error(error.message);
       });
 
-    builder
-      .addCase(registerShopThunk.pending, (state, action) => {
-        const { payload } = action;
-        state.currentShop = payload;
-      })
-      .addCase(registerShopThunk.fulfilled, (state, action) => {
-        toast.success('Create shop successfully');
-      })
-      .addCase(registerShopThunk.pending, (state, action) => {
-        toast.error('Create shop failed');
-      });
+    // builder
+    //   .addCase(registerShopThunk.pending, (state, action) => {
+    //     const { payload } = action;
+    //     state.currentShop = payload;
+    //   })
+    //   .addCase(registerShopThunk.fulfilled, (state, action) => {
+    //     toast.success('Create shop successfully');
+    //   })
+    //   .addCase(registerShopThunk.pending, (state, action) => {
+    //     toast.error('Create shop failed');
+    //   });
 
     // <--------- DELETE --------->
 

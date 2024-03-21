@@ -100,10 +100,10 @@ const router = createBrowserRouter([
       </Protected>
     ),
   },
-  {
-    path: '/register-shop',
-    element: <RegisterShop />,
-  },
+  // {
+  //   path: '/register-shop',
+  //   element: <RegisterShop />,
+  // },
 ]);
 
 const root = ReactDOM.createRoot(

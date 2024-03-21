@@ -12,10 +12,6 @@ import {
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
-import stockSmoothie from '../../assets/stock_chocolate_chip_smoothie.jpeg';
-import stockCat from '../../assets/stock_scottish_cat.jpeg';
-import stockCatFood from '../../assets/stock_cat_food.png';
 import {
   ArrowLeftOutlined,
   CalendarOutlined,
@@ -178,30 +174,31 @@ export const mockCats: Cat[] = [
     catName: 'Cat 3',
     shopId: '1',
     catTypeId: '1',
-    imageCat: '',
+    imageCat:
+      'https://static.vecteezy.com/system/resources/previews/002/098/203/non_2x/silver-tabby-cat-sitting-on-green-background-free-photo.jpg',
     catInfor: 'Tom is a cat',
   },
 ];
 
 export const mockDrinks: Drink[] = [
-  {
-    drinkId: 1,
-    drinkName: 'Cappuccino',
-    price: 30000,
-    imageDrink: stockSmoothie,
-  },
-  {
-    drinkId: 2,
-    drinkName: 'Latte',
-    price: 35000,
-    imageDrink: stockSmoothie,
-  },
-  {
-    drinkId: 3,
-    drinkName: 'Mocha',
-    price: 40000,
-    imageDrink: stockSmoothie,
-  },
+  // {
+  //   drinkId: 1,
+  //   drinkName: 'Cappuccino',
+  //   price: 30000,
+  //   imageDrink: stockSmoothie,
+  // },
+  // {
+  //   drinkId: 2,
+  //   drinkName: 'Latte',
+  //   price: 35000,
+  //   imageDrink: stockSmoothie,
+  // },
+  // {
+  //   drinkId: 3,
+  //   drinkName: 'Mocha',
+  //   price: 40000,
+  //   imageDrink: stockSmoothie,
+  // },
 ];
 
 export const CoffeeShopDetail = () => {
@@ -268,7 +265,7 @@ export const CoffeeShopDetail = () => {
                   <Item justify="space-between" key={cat.catId}>
                     <Flex gap={20} key={cat.catId}>
                       <img
-                        src={stockCat}
+                        src={cat?.imageCat}
                         style={{
                           width: '60px',
                           height: '60px',
@@ -297,7 +294,7 @@ export const CoffeeShopDetail = () => {
                   <Item justify="space-between" key={catFood.foodCatId}>
                     <Flex gap={20}>
                       <img
-                        src={stockCatFood}
+                        src={catFood.imageFoodForCat}
                         style={{
                           width: '60px',
                           height: '60px',
@@ -426,7 +423,7 @@ export const CoffeeShopDetail = () => {
             </Button>
           </Space>
           <img
-            src={stockCoffeeShop}
+            src={selectedCoffeeShop?.image}
             style={{ width: '480px', height: '300px' }}
           />
           <ShopInfo>

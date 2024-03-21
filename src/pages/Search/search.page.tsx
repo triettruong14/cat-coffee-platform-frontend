@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
 import background from '../../assets/saigon_background.jpeg';
-import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
 import { useDebounce } from '../../hooks';
 import {
   mockSearchCoffeeShopByName,
@@ -188,9 +187,7 @@ export const Search = () => {
                 {results?.map((shop) => (
                   <Flex key={shop.shopId}>
                     <Card
-                      cover={
-                        <img src={stockCoffeeShop} width={50} height={25} />
-                      }
+                      cover={<img src={shop.image} width={50} height={25} />}
                     >
                       <Link
                         to={`/coffee-shop/${shop.shopId}`}

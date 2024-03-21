@@ -1,6 +1,5 @@
 import Icon, {
   CalendarOutlined,
-  MoneyCollectOutlined,
   ShopOutlined,
   TableOutlined,
 } from '@ant-design/icons';
@@ -9,7 +8,6 @@ import {
   Collapse,
   CollapseProps,
   Descriptions,
-  DescriptionsProps,
   Divider,
   Flex,
   GetProps,
@@ -19,9 +17,6 @@ import {
 import Title from 'antd/es/typography/Title';
 import { useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
-import stockCatFood from '../../assets/stock_cat_food.png';
-import stockDrink from '../../assets/stock_chocolate_chip_smoothie.jpeg';
 import {
   CatFood,
   Drink,
@@ -29,7 +24,6 @@ import {
   selectSelectedCoffeeShopDrinks,
 } from '../../redux';
 import { useAppSelector } from '../../redux/hooks';
-import { mockCatFood, mockDrinks } from '../CoffeeShopDetail';
 import { useState } from 'react';
 
 const moneySvg = () => (
@@ -85,7 +79,9 @@ const getCatFoodItems = (catFood: CatFood) => {
     {
       key: '1',
       label: 'Image',
-      children: <Image src={stockCatFood} width={100} height={100} />,
+      children: (
+        <Image src={catFood?.imageFoodForCat} width={100} height={100} />
+      ),
     },
     {
       key: '2',
@@ -100,7 +96,7 @@ const getDrinkItems = (drink: Drink) => {
     {
       key: '1',
       label: 'Image',
-      children: <Image src={stockDrink} width={100} height={100} />,
+      children: <Image src={drink?.imageDrink} width={100} height={100} />,
     },
     {
       key: '2',
@@ -114,7 +110,7 @@ export interface BookingDetailProps {}
 
 export const BookingDetail = () => {
   const { state } = useLocation();
-  const { shopName, bookingDate, total, tableName, slotId } = state;
+  const { shopName, bookingDate, total, tableName, slotId, image } = state;
 
   const [activeKey, setActiveKey] = useState<string[]>(['1']);
 
@@ -186,7 +182,7 @@ export const BookingDetail = () => {
           <Row style={{ width: '80%', paddingInline: '1rem' }} gutter={16}>
             <Col flex="auto">
               <Flex gap={16}>
-                <Image src={stockCoffeeShop} />
+                <Image src={image} />
                 <div>
                   <ShopTitle level={3}>
                     <ShopOutlined

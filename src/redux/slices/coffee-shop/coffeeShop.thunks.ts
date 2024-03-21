@@ -196,28 +196,28 @@ interface CreateShopPayload {
   address: string;
 }
 
-export const registerShopThunk = createAsyncThunk(
-  'coffeeShop/registerShop',
-  async ({
-    accountId,
-    shopName,
-    startTime,
-    endTime,
-    address,
-  }: CreateShopPayload) => {
-    const response = await axios.post(
-      `http://localhost:5193/api/ShopCoffeeCat/CreateShop`,
-      {
-        accountId,
-        shopName,
-        startTime,
-        endTime,
-        address,
-      },
-    );
-    return response.data;
-  },
-);
+// export const registerShopThunk = createAsyncThunk(
+//   'coffeeShop/registerShop',
+//   async ({
+//     accountId,
+//     shopName,
+//     startTime,
+//     endTime,
+//     address,
+//   }: CreateShopPayload) => {
+//     const response = await axios.post(
+//       `http://localhost:5193/api/ShopCoffeeCat/CreateShop`,
+//       {
+//         accountId,
+//         shopName,
+//         startTime,
+//         endTime,
+//         address,
+//       },
+//     );
+//     return response.data;
+//   },
+// );
 
 // DELETE
 
