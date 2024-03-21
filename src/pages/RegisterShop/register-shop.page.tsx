@@ -48,16 +48,16 @@ export const RegisterShop = () => {
       <RegisterContainer>
         <Form form={form} onFinish={handleOnFinish}>
           <p>You do not have a shop yet! Create one</p>
-          <Form.Item name="shopName">
+          <Form.Item name="shopName" label="Enter your shop name">
             <Input />
           </Form.Item>
-          <Form.Item name="startTime">
+          <Form.Item name="startTime" label="Enter shop start time">
             <Input />
           </Form.Item>
-          <Form.Item name="endTime">
+          <Form.Item name="endTime" label="Enter shop end time">
             <Input />
           </Form.Item>
-          <Form.Item name="address">
+          <Form.Item name="address" label="Enter shop address">
             <Input />
           </Form.Item>
         </Form>
