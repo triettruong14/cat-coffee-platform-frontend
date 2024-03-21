@@ -181,24 +181,21 @@ export const mockCats: Cat[] = [
 ];
 
 export const mockDrinks: Drink[] = [
-  // {
-  //   drinkId: 1,
-  //   drinkName: 'Cappuccino',
-  //   price: 30000,
-  //   imageDrink: stockSmoothie,
-  // },
-  // {
-  //   drinkId: 2,
-  //   drinkName: 'Latte',
-  //   price: 35000,
-  //   imageDrink: stockSmoothie,
-  // },
-  // {
-  //   drinkId: 3,
-  //   drinkName: 'Mocha',
-  //   price: 40000,
-  //   imageDrink: stockSmoothie,
-  // },
+  {
+    drinkId: 1,
+    drinkName: 'Cappuccino',
+    price: 30000,
+  },
+  {
+    drinkId: 2,
+    drinkName: 'Latte',
+    price: 35000,
+  },
+  {
+    drinkId: 3,
+    drinkName: 'Mocha',
+    price: 40000,
+  },
 ];
 
 export const CoffeeShopDetail = () => {
@@ -217,6 +214,7 @@ export const CoffeeShopDetail = () => {
   const cats = useAppSelector(selectSelectedCoffeeShopCats);
   const isLoadingGetCats = useAppSelector(selectLoadingGetCats);
   const drinks = useAppSelector(selectSelectedCoffeeShopDrinks);
+  const isLoadingGetDrinks = useAppSelector(selectSelectedCoffeeShopDrinks);
   const isGetDrinksSuccess = useAppSelector(selectGetDrinkStatus);
   const isSignedIn = useAppSelector(selectSignInStatus);
   const account = useAppSelector(selectUser);
@@ -233,26 +231,30 @@ export const CoffeeShopDetail = () => {
       switch (key) {
         case 'drinks':
           setMenuItems(
-            <Flex vertical>
-              {drinks?.map((drink) => (
-                <Item justify="space-between" key={drink.drinkId}>
-                  <Flex gap={20}>
-                    <img
-                      src={drink.imageDrink}
-                      style={{
-                        width: '60px',
-                        height: '60px',
-                      }}
-                    />
-                    <MenuItemLabel>{drink.drinkName}</MenuItemLabel>
-                  </Flex>
-                  <PriceLabel>
-                    {drink.price}
-                    <CurrencyLabel>đ</CurrencyLabel>
-                  </PriceLabel>
-                </Item>
-              ))}
-            </Flex>,
+            isLoadingGetDrinks ? (
+              <Spin />
+            ) : (
+              <Flex vertical>
+                {drinks?.map((drink) => (
+                  <Item justify="space-between" key={drink.drinkId}>
+                    <Flex gap={20}>
+                      <img
+                        src={drink.imageDrink}
+                        style={{
+                          width: '60px',
+                          height: '60px',
+                        }}
+                      />
+                      <MenuItemLabel>{drink.drinkName}</MenuItemLabel>
+                    </Flex>
+                    <PriceLabel>
+                      {drink.price}
+                      <CurrencyLabel>đ</CurrencyLabel>
+                    </PriceLabel>
+                  </Item>
+                ))}
+              </Flex>
+            ),
           );
           break;
         case 'cats':
@@ -334,6 +336,7 @@ export const CoffeeShopDetail = () => {
   }, [selectedCoffeeShop]);
 
   useEffect(() => {
+    renderMenuItem('drinks');
     if (!coffeeShops) {
       dispatch(getAllCoffeeShopsThunk());
     }
@@ -349,12 +352,6 @@ export const CoffeeShopDetail = () => {
       form.resetFields();
     }
   }, [isBookingSuccess]);
-
-  useEffect(() => {
-    if (isGetDrinksSuccess && drinks) {
-      renderMenuItem('drinks');
-    }
-  }, [isGetDrinksSuccess, drinks]);
 
   const handleOnSubmit = () => {
     form
@@ -468,7 +465,7 @@ export const CoffeeShopDetail = () => {
             items={shopCategories}
             onClick={onClick}
           />
-          <ShopMenu>{menuItems || <Spin />}</ShopMenu>
+          <ShopMenu>{menuItems}</ShopMenu>
         </Flex>
       </BackgroundWrapper>
     </>
