@@ -74,7 +74,16 @@ export const Register = () => {
             >
               <Input placeholder="Username" />
             </Form.Item>
-            <Form.Item label="Phone Number" name="phone">
+            <Form.Item
+              label="Phone Number"
+              name="phone"
+              rules={[
+                {
+                  pattern: /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/,
+                  message: 'Please enter a valid phone number',
+                },
+              ]}
+            >
               <Input placeholder="Phone Number" />
             </Form.Item>
             <Form.Item name="address" label="Address">
