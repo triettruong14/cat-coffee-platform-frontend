@@ -36,6 +36,11 @@ export const RegisterShop = () => {
 
   const handleOnFinish = (values: any) => {
     dispatch(registerShopThunk({ accountId: user?.id, ...values }));
+    navigate('/shop-management', {
+      state: {
+        user,
+      },
+    });
   };
 
   return (
