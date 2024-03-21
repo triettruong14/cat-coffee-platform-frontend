@@ -55,3 +55,6 @@ export const selectIsLoadingBookingHistory = (state: RootState) =>
 
 export const selectCurrentShopId = (state: RootState) =>
   state.coffeeShop.currentShopId;
+
+export const selectIsShopNotFound = (state: RootState) =>
+  state.coffeeShop.shopNotFound;

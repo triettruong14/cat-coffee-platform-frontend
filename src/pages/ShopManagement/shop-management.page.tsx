@@ -24,6 +24,7 @@ import {
   selectCurrentShop,
   selectGetDrinkStatus,
   selectIsLoadingGetCatTypes,
+  selectIsShopNotFound,
   selectLoadingGetCatFood,
   selectLoadingGetCats,
   selectLoadingGetDrinks,
@@ -38,6 +39,7 @@ import stockCoffeeShop from '../../assets/stock_coffee_shop.jpeg';
 import { CoffeeShop } from '../../domain/models';
 import Title from 'antd/es/typography/Title';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import { useNavigate } from 'react-router-dom';
 
 const FlexContainer = styled(Flex)`
   width: 100vw;
@@ -112,6 +114,7 @@ const mockShopData: CoffeeShop = new CoffeeShop({
 export const ShopManagement = () => {
   const dispatch = useAppDispatch();
   const [form] = Form.useForm();
+  const navigate = useNavigate();
 
   const currentShop = useAppSelector(selectCurrentShop);
   const user = useAppSelector(selectUser);
@@ -125,6 +128,7 @@ export const ShopManagement = () => {
   const isLoadingGetCatFood = useAppSelector(selectLoadingGetCatFood);
   const isLoadingGetDrinks = useAppSelector(selectLoadingGetDrinks);
   const isLoadingCatTypes = useAppSelector(selectIsLoadingGetCatTypes);
+  const shopNotFound = useAppSelector(selectIsShopNotFound);
 
   const handleOnSubmit = () => {
     dispatch(
@@ -300,6 +304,12 @@ export const ShopManagement = () => {
       dispatch(getShopIdByAccountEmailThunk(user?.email as string));
     }
   }, [user]);
+
+  useEffect(() => {
+    if (shopNotFound) {
+      navigate('/register-shop');
+    }
+  }, [shopNotFound]);
 
   useEffect(() => {
     if (currentShop) {

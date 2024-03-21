@@ -17,6 +17,7 @@ import { BookingHistory } from './pages/BookingHistory/booking-history.page';
 import { Staff } from './pages/Staff/staff.page';
 import { BookingDetail } from './pages/BookingDetail/booking-detail.page';
 import { ShopManagement } from './pages/ShopManagement/shop-management.page';
+import { RegisterShop } from './pages/RegisterShop/register-shop.page';
 
 const router = createBrowserRouter([
   {
@@ -98,6 +99,10 @@ const router = createBrowserRouter([
         </AppLayout>
       </Protected>
     ),
+  },
+  {
+    path: '/register-shop',
+    element: <RegisterShop />,
   },
 ]);
 

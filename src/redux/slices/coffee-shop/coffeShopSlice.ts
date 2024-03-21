@@ -15,6 +15,7 @@ import {
   getShopIdByAccountEmailThunk,
   getSlotsThunk,
   getTableByShopIdThunk,
+  registerShopThunk,
   searchCoffeeShopByNameThunk,
   updateShopProfile,
 } from './coffeeShop.thunks';
@@ -116,6 +117,7 @@ export interface CoffeeShopState {
   slots: Slot[];
   deleteCatId?: string;
   cancelBookingId?: string;
+  shopNotFound?: boolean;
   error?: string;
 }
 
@@ -136,6 +138,7 @@ const initialState: CoffeeShopState = {
   isLoadingBooking: false,
   isLoadingBookingHistory: false,
   isLoadingCatTypes: false,
+  shopNotFound: false,
 };
 
 const coffeeShopSlice = createSlice({
@@ -436,7 +439,11 @@ const coffeeShopSlice = createSlice({
       })
       .addCase(getShopIdByAccountEmailThunk.rejected, (state, action) => {
         const { error } = action;
-        toast.error(error.message);
+        if (error.message === 'Shop not found') {
+          state.shopNotFound = true;
+        } else {
+          toast.error(error.message);
+        }
       });
 
     builder
@@ -453,6 +460,18 @@ const coffeeShopSlice = createSlice({
         const { error } = action;
         state.isLoadingCatTypes = false;
         toast.error(error.message);
+      });
+
+    builder
+      .addCase(registerShopThunk.pending, (state, action) => {
+        const { payload } = action;
+        state.currentShop = payload;
+      })
+      .addCase(registerShopThunk.fulfilled, (state, action) => {
+        toast.success('Create shop successfully');
+      })
+      .addCase(registerShopThunk.pending, (state, action) => {
+        toast.error('Create shop failed');
       });
 
     // <--------- DELETE --------->

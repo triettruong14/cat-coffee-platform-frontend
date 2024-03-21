@@ -171,6 +171,7 @@ export const BookingHistory = () => {
         key: 'shopName',
         render: (shopName, booking) => (
           <Button
+            key={shopName}
             type="link"
             onClick={() => {
               navigate(`detail/${booking.bookingId}`, {
@@ -209,7 +210,7 @@ export const BookingHistory = () => {
           const foundSlot = slots.find((slot) => slot.slotId === slotId);
 
           return (
-            <span>
+            <span key={foundSlot?.slotId}>
               {foundSlot?.startTime} - {foundSlot?.endTime}
             </span>
           );
@@ -239,7 +240,7 @@ export const BookingHistory = () => {
         key: 'action',
         render: (text, booking) => {
           return (
-            <Space.Compact>
+            <Space.Compact key={text}>
               <Button
                 type="default"
                 style={{ zIndex: '10', display: 'relative' }}

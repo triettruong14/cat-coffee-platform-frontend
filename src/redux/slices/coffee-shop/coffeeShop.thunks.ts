@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import {
   Booking,
   Cat,
@@ -12,6 +12,7 @@ import {
 } from './coffeShopSlice';
 import moment from 'moment';
 import dayjs from 'dayjs';
+import { toast } from 'react-toastify';
 
 export const searchCoffeeShopByNameThunk = createAsyncThunk(
   'coffeeShop/searchShopByName',
@@ -159,14 +160,21 @@ export const getBookingByAccountIdThunk = createAsyncThunk(
 export const getShopIdByAccountEmailThunk = createAsyncThunk(
   'coffeeShop/getShopIdByAccountEmail',
   async (email: string) => {
-    const params = new URLSearchParams({ email });
-    const response = await axios.get<any>(
-      `http://localhost:5193/api/ShopCoffeeCat/getShopByEmail`,
-      {
-        params,
-      },
-    );
-    return response.data;
+    try {
+      const params = new URLSearchParams({ email });
+      const response = await axios.get<any>(
+        `http://localhost:5193/api/ShopCoffeeCat/getShopByEmail`,
+        {
+          params,
+        },
+      );
+      return response.data;
+    } catch (error: any) {
+      if ((error.response.status = 404)) {
+        throw new Error('Shop not found');
+      }
+      throw error;
+    }
   },
 );
 
@@ -175,6 +183,37 @@ export const getCatTypeById = createAsyncThunk(
   async (id: string) => {
     const response = await axios.get<CatType>(
       `http://localhost:5193/api/CatType/${id}`,
+    );
+    return response.data;
+  },
+);
+
+interface CreateShopPayload {
+  accountId: number;
+  shopName: string;
+  startTime: string;
+  endTime: string;
+  address: string;
+}
+
+export const registerShopThunk = createAsyncThunk(
+  'coffeeShop/registerShop',
+  async ({
+    accountId,
+    shopName,
+    startTime,
+    endTime,
+    address,
+  }: CreateShopPayload) => {
+    const response = await axios.post(
+      `http://localhost:5193/api/ShopCoffeeCat/CreateShop`,
+      {
+        accountId,
+        shopName,
+        startTime,
+        endTime,
+        address,
+      },
     );
     return response.data;
   },
