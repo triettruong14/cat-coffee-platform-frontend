@@ -321,7 +321,7 @@ export const ShopManagement = () => {
   return (
     <FlexContainer vertical>
       <BannerContainer align="center" justify="center">
-        <StyledBackground src={currentShop?.image} />
+        <StyledBackground src={currentShop?.imageShop} />
         <Header>Shop Management</Header>
       </BannerContainer>
       <InfoSection align="middle" justify="center">
